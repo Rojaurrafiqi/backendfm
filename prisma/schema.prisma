@@ -1,0 +1,124 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model rekam_medis_pasien {
+  id                     Int          @id @default(autoincrement())
+  no_rm                  Int?
+  kitas                  String?
+  no_kitas               String?
+  nama_lengkap           String?
+  tempat_lahir           String?
+  tanggal_lahir          String?
+  kelamin                String?
+  kontak_pasien          String?
+  golongan_darah         String?
+  agama                  String?
+  status_kawin           String?
+  pendidikan             String?
+  pekerjaan              String?
+  id_pekerjaan           Int?
+  alamat_pasien_provinsi String?
+  alamat_pasien_kota     String?
+  alamat_pasien_kec      String?
+  alamat_pasien_desa     String?
+  alamat_pasien_detail   String?
+  nama_penanggungjawab   String?
+  kontak_pj              String?
+  alamat_pj_provinsi     String?
+  alamat_pj_kota         String?
+  alamat_pj_kec          String?
+  alamat_pj_desa         String?
+  alamat_pj_detail       String?
+  published              Boolean?     @default(false)
+  createdAt              DateTime?    @default(now())
+  updatedAt              DateTime?    @updatedAt
+  pasien_igd             pasien_igd[]
+}
+
+model pekerjaan {
+  id             Int     @id @default(autoincrement())
+  nama_pekerjaan String?
+}
+
+model agama {
+  id         Int     @id @default(autoincrement())
+  list_agama String?
+}
+
+model status_kawin {
+  id                Int     @id @default(autoincrement())
+  list_status_kawin String?
+}
+
+model pendidikan {
+  id              Int     @id @default(autoincrement())
+  list_pendidikan String?
+}
+
+model golongan_darah {
+  id                  Int     @id @default(autoincrement())
+  list_golongan_darah String?
+}
+
+model pasien_igd {
+  id                 Int                 @id @default(autoincrement())
+  pasien_rm          rekam_medis_pasien? @relation(fields: [id_pasien_rm], references: [id])
+  id_pasien_rm       Int?
+  tgl_masuk          String?
+  jam_masuk          String?
+  cara_masuk         String?
+  asal_rujukan       String?
+  alasan_rujukan     String?
+  dokter_merujuk     String?
+  kondisi_keluar_igd String?
+  tanggal_keluar_igd String?
+  jam_keluar_igd     String?
+  pembayaran_igd     String?
+  published          Boolean?            @default(false)
+  createdAt          DateTime?           @default(now())
+  updatedAt          DateTime?           @updatedAt
+  tindakan_igd       tindakan_igd[]
+  obat_pasien_igd    obat_pasien_igd[]
+}
+
+model tindakan_igd {
+  id            Int        @id @default(autoincrement())
+  pasien_igd    pasien_igd @relation(fields: [id_pasien_igd], references: [id], onDelete: Cascade)
+  id_pasien_igd Int
+  tindakan      String?
+  jam_tindakan  String?
+  catatan       String?
+  createdAt     DateTime?  @default(now())
+  updatedAt     DateTime?  @updatedAt
+}
+
+model list_tindakan_igd {
+  id        Int       @id @default(autoincrement())
+  tindakan  String?
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
+}
+
+model obat_pasien_igd {
+  id            Int        @id @default(autoincrement())
+  pasien_igd    pasien_igd @relation(fields: [id_pasien_igd], references: [id], onDelete: Cascade)
+  id_pasien_igd Int
+  obat          String?
+  quantity      String?
+  catatan       String?
+  createdAt     DateTime?  @default(now())
+  updatedAt     DateTime?  @updatedAt
+}
+
+model list_obat_pasien_igd {
+  id        Int       @id @default(autoincrement())
+  list_obat String?
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
+}

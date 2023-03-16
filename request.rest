@@ -1,0 +1,181 @@
+
+###
+GET http://localhost:5000/rm
+###
+GET http://localhost:5000/igd/pasien/data/4
+
+
+###
+GET http://localhost:5000/search?query=1
+###
+GET http://localhost:5000/igd/pasien?search=r&page=&limit=5
+
+###
+GET http://localhost:5000/rm
+
+###
+POST http://localhost:5000/rm
+Content-Type: application/json
+
+{
+               "kitas": "KTP",
+                "no_kitas":"12009029102901",
+                "nama_lengkap":"Bolb",
+                "tempat_lahir":"Aceh",
+                "tanggal_lahir":"12-12-2012",
+                "kontak_pasien":"081212898021",
+                "kelamin":"Laki-laki",
+                "golongan_darah":"O+",
+                "agama":"Islam",
+                "status_kawin":"belum menikah",
+                "pendidikan":"S1",
+                "pekerjaan":"entrepeuneur",
+                "alamat_pasien_provinsi":"Provinsi Aceh",
+                "alamat_pasien_kota":"Kabupaten Aceh Besar",
+                "alamat_pasien_kec":"Kecamatan Darul Imarah",
+                "alamat_pasien_desa":"Kecaamatan Darul Imarah",
+                "alamat_pasien_detail":"Kecaamatan Darul Imarah",
+                "nama_penanggungjawab":"rosalia",
+                "kontak_pj":"0909209120",
+                "alamat_pj_provinsi":"alamat_pj_provinsi",
+                "alamat_pj_kota":"alamat_pj_kota",
+                "alamat_pj_kec":"alamat_pj_kec",
+                "alamat_pj_desa":"alamat_pj_desa",
+                "alamat_pj_detail":"alamat_pj_detail"
+
+}
+###
+POST http://localhost:5000/igd/pasien/register
+Content-Type: application/json
+
+{
+    "id_pasien_rm": 2,
+    "tgl_masuk": "12-12-2021",
+    "jam_masuk": "12:12",
+    "cara_masuk": "datang sendiri",
+    "asal_rujukan": "RSUD",
+    "alasan_rujukan": "sakit parah",
+    "dokter_merujuk": "dr.kem",
+    "pembayaran_igd": "BPJS"
+}
+
+
+###
+PATCH  http://localhost:5000/rm/77
+Content-Type: application/json
+
+{
+    "no_rm": 52,
+    "kitas": "johnbaru@email.com"
+
+}
+
+###
+DELETE http://localhost:5000/rm/4
+
+
+# create data tindakan pasien igd by id pasien igd
+###
+POST http://localhost:5000/igd/pasien/tindakan
+Content-Type: application/json
+
+{
+    "id_list_tindakan_igd":5 ,
+    "id_pasien_igd": 6,
+    "jam_tindakan": "12:12",
+    "catatan": "telah dilakukan"
+
+}
+
+# create list tindakan yang ada di igd
+###
+POST http://localhost:5000/igd/tindakan/list
+Content-Type: application/json
+
+{
+    "tindakan": "cuci hidung"
+
+}
+
+# cek tindakan apa saja yang diberika kepada pasien di igd by id
+###
+GET http://localhost:5000/igd/pasien/tindakan/6
+
+# hapus data tindakan pasien igd
+###
+DELETE http://localhost:5000/igd/pasien/tindakan/8
+
+# hapus data list tindakan pasien igd
+###
+DELETE http://localhost:5000/igd/tindakan/list/5
+
+
+# tambah pekerjaan ke tabel pekerjaan
+###
+POST http://localhost:5000/pekerjaan
+Content-Type: application/json
+
+{
+    "nama_pekerjaan": "TNI/Polri"
+
+}
+
+# tampilkan semua list pekerjaan
+###
+GET http://localhost:5000/pekerjaan
+
+# tambah pekerjaan ke tabel pekerjaan
+###
+POST http://localhost:5000/agama
+Content-Type: application/json
+
+{
+    "list_agama": "Budha"
+
+}
+
+# tampilkan semua list pekerjaan
+###
+GET http://localhost:5000/agama
+
+# tambah pekerjaan ke tabel pekerjaan
+###
+POST http://localhost:5000/golongandarah
+Content-Type: application/json
+
+{
+    "list_golongan_darah": "O+"
+
+}
+
+# tampilkan semua list pekerjaan
+###
+GET http://localhost:5000/golongandarah
+
+# tambah pekerjaan ke tabel pekerjaan
+###
+POST http://localhost:5000/pendidikan
+Content-Type: application/json
+
+{
+    "list_pendidikan": "S3"
+
+}
+
+# tampilkan semua list pekerjaan
+###
+GET http://localhost:5000/pendidikan
+
+# tambah pekerjaan ke tabel pekerjaan
+###
+POST http://localhost:5000/statuskawin
+Content-Type: application/json
+
+{
+    "list_status_kawin": "Cerai"
+
+}
+
+# tampilkan semua list pekerjaan
+###
+GET http://localhost:5000/statuskawin
