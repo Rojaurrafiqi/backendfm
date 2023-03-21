@@ -114,27 +114,6 @@ export const pendaftaran_igd = async (req, res) => {
     }
 }
 
-// tampilkan data pasien igd
-export const data_pasien_igd = async (req, res) => {
-  
-  const response = await prisma.pasien_igd.findMany({
-        select: { 
-            id: true,
-            tgl_masuk:true,
-            jam_masuk:true,
-            cara_masuk:true,
-        pasien_rm: {
-        select: {
-            id_pasien_rm:true,
-            no_rm: true,
-            nama_lengkap:true,
-        },
-        },
-    },
-  })
-  res.status(200).json(response)
-
-}
 
 export const data_pasien_igd_by_id = async (req, res) => {
     try {
@@ -261,6 +240,136 @@ export const hapus_list_tindakan_igd = async(req, res) => {
         res.status(400).json({msg: error.message});
     }
 }
+
+// tampilkan data pasien igd yang blm ditangani
+export const data_pasien_igd = async (req, res) => {
+    try {
+        const response = await prisma.pasien_igd.findUnique({
+        select: {
+            id: true,
+            tanggal_masuk: true,
+            jam_masuk:true,
+        
+        },
+    });
+        res.status(200).json(response);
+    }   catch (error) {
+        res.status(500).json({msg:error.message});
+    }
+}
+
+export const semua_pasien_igd = async (req, res) => {
+  try {
+    const data = await prisma.pasien_igd.findMany({
+         select: { 
+            id: true,
+            tgl_masuk:true,
+            jam_masuk:true,
+            cara_masuk:true,
+            asal_rujukan:true,
+            alasan_rujukan:true,
+            dokter_merujuk:true,
+            jam_masuk:true,
+                pasien_rm: {
+                    select: {
+                        id:true,
+                        no_rm:true,
+                        nama_lengkap:true,
+                        kelamin:true,
+        
+                        },
+                    },
+                
+            },
+    }); // retrieve all pasien_igd data
+
+    res.status(200).json(data); // send the data back to the client as a JSON response
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+export const pasien_igd_by_id  = async (req, res) => {
+  try {
+    const data = await prisma.pasien_igd.findUnique({
+         where: {
+               id: Number(req.params.id)
+            },
+         select: { 
+            id: true,
+            tgl_masuk:true,
+            jam_masuk:true,
+            cara_masuk:true,
+            asal_rujukan:true,
+            alasan_rujukan:true,
+            dokter_merujuk:true,
+            jam_masuk:true,
+                pasien_rm: {
+                    select: {
+                        id:true,
+                        no_rm:true,
+                        nama_lengkap:true,
+                        tanggal_lahir: true,
+                        no_kitas:true,
+                        kelamin:true,
+                        alamat_pasien_provinsi:true,
+                        alamat_pasien_kota:true,
+                        alamat_pasien_desa:true,
+                        alamat_pasien_detail:true,
+                        agama:true,
+                        kontak_pasien:true,
+                        
+        
+                        },
+                    },
+                
+            },
+    }); // retrieve all pasien_igd data
+
+    res.status(200).json(data); // send the data back to the client as a JSON response
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+export const pencarian_pasien = async (req, res) => {
+   
+  const response = await prisma.rekam_medis_pasien.findUnique({
+     where: {
+               id: Number(req.params.id)
+            },
+   
+      select: {
+            id: true,
+            no_rm: true,
+            nama_lengkap: true,
+            no_kitas:true,
+            kelamin: true,
+            tanggal_lahir: true,
+          
+        },
+  })
+  res.status(200).json(response)
+
+}
+
+export const deleteDataIgd = async(req, res) => {
+ 
+    try {
+        const data = await prisma.pasien_igd.delete({
+             where: {
+                id: parseInt(req.params.id)
+            }
+        });
+        res.status(200).json(data);
+    } catch (error) {
+        res.status(400).json({msg: error.message});
+    }
+}
+
+
 // tampilkan data obat
 // create data obat
 // create data list tambah list obat

@@ -2,7 +2,9 @@
 ###
 GET http://localhost:5000/rm
 ###
-GET http://localhost:5000/igd/pasien/data/4
+GET http://localhost:5000/igd/pasien/all
+###
+GET http://localhost:5000/igd/pasien/16
 
 
 ###
@@ -179,3 +181,74 @@ Content-Type: application/json
 # tampilkan semua list pekerjaan
 ###
 GET http://localhost:5000/statuskawin
+
+
+# tampilkan semua list pendaftaran igs
+###
+GET http://localhost:5000/igd/pasien/all
+
+
+# hapus data pasien terdaftar di igd
+###
+DELETE http://localhost:5000/igd/pasien/19
+
+
+# tampilkan triase pasien igd 
+###
+GET http://localhost:5000/igd/pasien/penanganan/triase/17
+
+# add triase pasien igd 
+###
+POST http://localhost:5000/igd/pasien/penanganan/triase
+Content-Type: application/json
+
+{
+    "id_pasien_igd": 17,
+    "keluhan_utama": "Darah manis"
+
+}
+
+# update triase pasien igd
+###
+PATCH  http://localhost:5000/igd/pasien/penanganan/triase/14
+Content-Type: application/json
+
+{
+    "keluhan_utama": "lapar"
+
+}
+
+
+# tampilkan triase tanda vital pasien igd 
+###
+GET http://localhost:5000/igd/pasien/penanganan/triase/tandavital/17
+
+# add triase tanda vital pasien igd 
+###
+POST http://localhost:5000/igd/pasien/penanganan/triase/tandavital
+Content-Type: application/json 
+
+{
+    "id_pasien_igd": 27,
+    "tekanan_darah": "Darah manis",
+    "frekuensi_nadi": "Darah manis",
+    "frekuensi_nafas": "Darah manis",
+    "suhu": "Darah manis",
+    "sat_o2": "Darah manis",
+    "riwayat_alergi_makanan": "Darah manis",
+    "riwayat_alergi_obat": "Darah manis",
+    "riwayat_alergi_lainya": "Darah manis",
+    "berat_badan": "Darah manis",
+    "tinggi_badan": "Darah manis"
+
+}
+
+# update triase tanda vital pasien igd
+###
+PATCH  http://localhost:5000/igd/pasien/penanganan/triase/tandavital/14
+Content-Type: application/json
+
+{
+    "keluhan_utama": "lapar"
+
+}
