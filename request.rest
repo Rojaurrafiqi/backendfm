@@ -221,7 +221,7 @@ Content-Type: application/json
 
 # tampilkan triase tanda vital pasien igd 
 ###
-GET http://localhost:5000/igd/pasien/penanganan/triase/tandavital/17
+GET http://localhost:5000/igd/pasien/penanganan/triase/tandavital/27
 
 # add triase tanda vital pasien igd 
 ###
@@ -245,10 +245,249 @@ Content-Type: application/json
 
 # update triase tanda vital pasien igd
 ###
-PATCH  http://localhost:5000/igd/pasien/penanganan/triase/tandavital/14
+PATCH  http://localhost:5000/igd/pasien/penanganan/triase/tandavital/1
 Content-Type: application/json
 
 {
-    "keluhan_utama": "lapar"
+    "id_pasien_igd": 27,
+    "tekanan_darah": "lknalkjnsdlkjn",
+    "frekuensi_nadi": "Darah lknalkjnsdlkjn",
+    "frekuensi_nafas": "Darah lknalkjnsdlkjn",
+    "suhu": "Darah lknalkjnsdlkjn",
+    "sat_o2": "Darah lknalkjnsdlkjn",
+    "riwayat_alergi_makanan": "Darah lknalkjnsdlkjn",
+    "riwayat_alergi_obat": "Darah lknalkjnsdlkjn",
+    "riwayat_alergi_lainya": "Darah lknalkjnsdlkjn",
+    "berat_badan": "Darah lknalkjnsdlkjn",
+    "tinggi_badan": "Darah lknalkjnsdlkjn"
 
 }
+
+# tampilkan triase anamnesa pasien igd 
+###
+GET http://localhost:5000/igd/pasien/penanganan/triase/anamnesa/27
+
+# add triase anamnesa pasien igd 
+###
+POST http://localhost:5000/igd/pasien/penanganan/triase/anamnesa/
+Content-Type: application/json 
+
+{
+    "id_pasien_igd": 27,
+    "keluhan_utama": "Darah manis",
+    "riwayat_perjalanan_penyakit": "Darah manis",
+    "riwayat_penyakit_terdahulu": "Darah manis",
+    "riwayat_pemakaian_obat": "Darah manis",
+    "riwayat_penyakit_keluarga": "Darah manis"
+
+}
+
+# update triase anamnesa pasien igd
+###
+PATCH  http://localhost:5000/igd/pasien/penanganan/triase/anamnesa/1
+Content-Type: application/json
+
+{
+    "id_pasien_igd": 27,
+    "keluhan_utama": "a manis",
+    "riwayat_perjalanan_penyakit": "Darah b",
+    "riwayat_penyakit_terdahulu": "c manis",
+    "riwayat_pemakaian_obat": "Darah d",
+    "riwayat_penyakit_keluarga": "f manis"
+
+}
+
+
+# tampilkan triase pemeriksaan fisik pasien igd 
+###
+GET http://localhost:5000/igd/pasien/penanganan/triase/pemeriksaanfisik/30
+
+# add triase pemeriksaan fisik pasien igd 
+###
+POST http://localhost:5000/igd/pasien/penanganan/triase/pemeriksaanfisik/
+Content-Type: application/json 
+
+{
+    "id_pasien_igd": 30,
+    "mata":"mata",
+    "telinga":"telinga",
+    "hidung":"hidung",
+    "mulut":"mulut",
+    "tenggorokan":"tenggorokan",
+    "leher":"leher",
+    "paru":"paru",
+    "jantung":"jantung",
+    "abdomen":"abdomen",
+    "kandungan":"kandungan",
+    "kemaluan":"kemaluan",
+    "exstremitas":"exstremitas",
+    "status_lokalis":"status_lokalis",
+    "pemeriksaan_gigi":"pemeriksaan_gigi"
+
+}
+
+# update triase pemeriksaan fisik pasien igd
+###
+PATCH  http://localhost:5000/igd/pasien/penanganan/triase/pemeriksaanfisik/1
+Content-Type: application/json
+
+{
+    "id_pasien_igd": 30,
+    "mata":"mata kan",
+    "telinga":"telinga kan",
+    "hidung":"hidung kan",
+    "mulut":"mulut kan",
+    "tenggorokan":"tenggorokan kan",
+    "leher":"lehe kanr",
+    "paru":"paru kan",
+    "jantung":"jantung kan",
+    "abdomen":"abdomen kan",
+    "kandungan":"kandungan kan",
+    "kemaluan":"kemaluan kan",
+    "exstremitas":"exstremita kans",
+    "status_lokalis":"status_lokal kanis",
+    "pemeriksaan_gigi":"pemeriksaan_gig kani"
+
+}
+
+
+
+# tampilkan triase pemeriksaan penunjang pasien igd 
+###
+GET http://localhost:5000/igd/pasien/penanganan/triase/pemeriksaanpenunjang/30
+
+# add triase pemeriksaan penunjang pasien igd 
+###
+POST http://localhost:5000/igd/pasien/penanganan/triase/pemeriksaanpenunjang/
+Content-Type: application/json 
+
+{
+    "id_pasien_igd": 30,
+    "jenis_pemeriksaan":"Laboratorium",
+    "diagnosa_sementara":"telinga",
+    "diagnosa_tambahan":"mata"
+
+}
+
+# update triase pemeriksaan penunjang pasien igd
+###
+PATCH  http://localhost:5000/igd/pasien/penanganan/triase/pemeriksaanpenunjang/13
+Content-Type: application/json
+
+{
+    "id_pasien_igd": 30,
+    "jenis_pemeriksaan":"Laboratorium",
+    "diagnosa_sementara":"teaaalinga",
+    "diagnosa_tambahan":"mataaaaa"
+
+
+}
+
+
+# tampilkan ATS pasien pada igd triase
+###
+GET http://localhost:5000/igd/pasien/penanganan/triase/ats/30
+
+
+# add triase ATS pasien igd 
+###
+POST http://localhost:5000/igd/pasien/penanganan/triase/ats/
+Content-Type: application/json 
+
+{
+    "id_pasien_igd": 30,
+    "jalan_nafas":"Laboratorium",
+    "pernafasan_dewasa":"telinga",
+    "pernafasan_anak":"mata"
+
+}
+
+# update triase ATS pasien igd
+###
+PATCH  http://localhost:5000/igd/pasien/penanganan/triase/ats/91
+Content-Type: application/json
+
+{
+    "id_pasien_igd": 30,
+    "jalan_nafas":"Laboratorium",
+    "pernafasan_dewasa":"telinga",
+    "pernafasan_anak":"mata"
+
+
+}
+
+# tampilkan planning dan permasalahan pasien pada igd triase
+###
+GET http://localhost:5000/igd/pasien/penanganan/triase/permasalahan/30
+
+# add planning dan permasalahan pasien pada igd triase
+###
+POST http://localhost:5000/igd/pasien/penanganan/triase/permasalahan/
+Content-Type: application/json 
+
+{
+    "id_pasien_igd": 30,
+    "permasalahan_yang_dikonsulkan":"Laboratorium"
+
+
+}
+
+# update planning dan permasalahan pasien pada igd triase
+###
+PATCH  http://localhost:5000/igd/pasien/penanganan/triase/permasalahan/1
+Content-Type: application/json
+
+{
+    "id_pasien_igd": 30,
+    "permasalahan_yang_dikonsulkan":"Laboratorium tambah update"
+
+
+}
+
+
+# tampilkan kondisi terakhir pasien igd triase
+###
+GET http://localhost:5000/igd/pasien/penanganan/triase/kondisiterakhir/30
+
+# add kondisi terakhir pasien igd triase
+###
+POST http://localhost:5000/igd/pasien/penanganan/triase/kondisiterakhir/
+Content-Type: application/json 
+
+{
+
+    "id_pasien_igd": 30,
+    "keadaan_umum":"Laboratorium",
+    "kesadaran":"Laboratorium",
+    "tekanan_darah":"Laboratorium",
+    "frekuensi_nadi":"Laboratorium",
+    "frekuensi_nafas":"Laboratorium",
+    "temperature":"Laboratorium",
+    "dokter_penanggung_jawab":"Laboratorium"
+
+
+
+}
+
+# update kondisi terakhir pasien igd triase
+###
+PATCH  http://localhost:5000/igd/pasien/penanganan/triase/kondisiterakhir/1
+Content-Type: application/json
+
+{
+    "id_pasien_igd": 30,
+    "keadaan_umum":"Laboratorium c",
+    "kesadaran":"Laboratorium v",
+    "tekanan_darah":"Laboratorium d",
+    "frekuensi_nadi":"Laboratorium v",
+    "frekuensi_nafas":"Laboratorium r",
+    "temperature":"Laboratorium w",
+    "dokter_penanggung_jawab":"Laboratorium l"
+
+
+}
+
+# tampilkan ATS pasien pada igd triase
+###
+GET http://localhost:5000/igd/pasien/list/penanganan
+

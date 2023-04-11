@@ -67,26 +67,33 @@ model golongan_darah {
 }
 
 model pasien_igd {
-  id                            Int                             @id @default(autoincrement())
-  pasien_rm                     rekam_medis_pasien?             @relation(fields: [id_pasien_rm], references: [id])
-  id_pasien_rm                  Int?
-  tgl_masuk                     String?
-  jam_masuk                     String?
-  cara_masuk                    String?
-  asal_rujukan                  String?
-  alasan_rujukan                String?
-  dokter_merujuk                String?
-  kondisi_keluar_igd            String?
-  tanggal_keluar_igd            String?
-  jam_keluar_igd                String?
-  pembayaran_igd                String?
-  published                     Boolean?                        @default(false)
-  createdAt                     DateTime?                       @default(now())
-  updatedAt                     DateTime?                       @updatedAt
-  tindakan_igd                  tindakan_igd[]
-  obat_pasien_igd               obat_pasien_igd[]
-  triase_pasien_igd             triase_pasien_igd[]
-  triase_tanda_vital_pasien_igd triase_tanda_vital_pasien_igd[]
+  id                                              Int                                               @id @default(autoincrement())
+  pasien_rm                                       rekam_medis_pasien?                               @relation(fields: [id_pasien_rm], references: [id])
+  id_pasien_rm                                    Int?
+  tgl_masuk                                       String?
+  jam_masuk                                       String?
+  cara_masuk                                      String?
+  asal_rujukan                                    String?
+  alasan_rujukan                                  String?
+  dokter_merujuk                                  String?
+  kondisi_keluar_igd                              String?
+  tanggal_keluar_igd                              String?
+  jam_keluar_igd                                  String?
+  pembayaran_igd                                  String?
+  published                                       Boolean?                                          @default(false)
+  createdAt                                       DateTime?                                         @default(now())
+  updatedAt                                       DateTime?
+  tindakan_igd                                    tindakan_igd[]
+  obat_pasien_igd                                 obat_pasien_igd[]
+  triase_pasien_igd                               triase_pasien_igd[]
+  triase_tanda_vital_pasien_igd                   triase_tanda_vital_pasien_igd[]
+  triase_anamnesa_pasien_igd                      triase_anamnesa_pasien_igd[]
+  triase_pemeriksaan_fisik_pasien_igd             triase_pemeriksaan_fisik_pasien_igd[]
+  triase_pemeriksaan_penunjang_pasien_igd         triase_pemeriksaan_penunjang_pasien_igd[]
+  triase_ats_pasien_igd                           triase_ats_pasien_igd[]
+  triase_planning_pasien_igd                      triase_planning_pasien_igd[]
+  triase_permasalahan_yang_dikonsulkan_pasien_igd triase_permasalahan_yang_dikonsulkan_pasien_igd[]
+  triase_kondisi_terakhir_pasien_igd              triase_kondisi_terakhir_pasien_igd[]
 }
 
 model tindakan_igd {
@@ -150,4 +157,100 @@ model triase_tanda_vital_pasien_igd {
   id_pasien_igd          Int
   createdAt              DateTime?  @default(now())
   updatedAt              DateTime?  @updatedAt
+}
+
+model triase_anamnesa_pasien_igd {
+  id                          Int        @id @default(autoincrement())
+  keluhan_utama               String?
+  riwayat_perjalanan_penyakit String?
+  riwayat_penyakit_terdahulu  String?
+  riwayat_pemakaian_obat      String?
+  riwayat_penyakit_keluarga   String?
+  pasien_igd                  pasien_igd @relation(fields: [id_pasien_igd], references: [id], onDelete: Cascade)
+  id_pasien_igd               Int
+  createdAt                   DateTime?  @default(now())
+  updatedAt                   DateTime?  @updatedAt
+}
+
+model triase_pemeriksaan_fisik_pasien_igd {
+  id               Int        @id @default(autoincrement())
+  mata             String?
+  telinga          String?
+  hidung           String?
+  mulut            String?
+  tenggorokan      String?
+  leher            String?
+  paru             String?
+  jantung          String?
+  abdomen          String?
+  kandungan        String?
+  kemaluan         String?
+  exstremitas      String?
+  status_lokalis   String?
+  pemeriksaan_gigi String?
+  pasien_igd       pasien_igd @relation(fields: [id_pasien_igd], references: [id], onDelete: Cascade)
+  id_pasien_igd    Int
+  createdAt        DateTime?  @default(now())
+  updatedAt        DateTime?  @updatedAt
+}
+
+model triase_pemeriksaan_penunjang_pasien_igd {
+  id                 Int        @id @default(autoincrement())
+  jenis_pemeriksaan  String?
+  diagnosa_sementara String?
+  diagnosa_tambahan  String?
+  pasien_igd         pasien_igd @relation(fields: [id_pasien_igd], references: [id], onDelete: Cascade)
+  id_pasien_igd      Int
+  createdAt          DateTime?  @default(now())
+  updatedAt          DateTime?  @updatedAt
+}
+
+model triase_ats_pasien_igd {
+  id                Int        @id @default(autoincrement())
+  jalan_nafas       String
+  pernafasan_dewasa String?
+  pernafasan_anak   String?
+  sirkulasi_dewasa  String?
+  sirkulasi_anak    String?
+  mental_status     String?
+  skor_nyeri        String?
+  assesment_triase  String?
+  plan              String?
+  pasien_igd        pasien_igd @relation(fields: [id_pasien_igd], references: [id], onDelete: Cascade)
+  id_pasien_igd     Int
+  createdAt         DateTime?  @default(now())
+  updatedAt         DateTime?  @updatedAt
+}
+
+model triase_planning_pasien_igd {
+  id            Int        @id @default(autoincrement())
+  planning      String?
+  pasien_igd    pasien_igd @relation(fields: [id_pasien_igd], references: [id], onDelete: Cascade)
+  id_pasien_igd Int
+  createdAt     DateTime?  @default(now())
+  updatedAt     DateTime?  @updatedAt
+}
+
+model triase_permasalahan_yang_dikonsulkan_pasien_igd {
+  id                            Int        @id @default(autoincrement())
+  permasalahan_yang_dikonsulkan String?
+  pasien_igd                    pasien_igd @relation(fields: [id_pasien_igd], references: [id], onDelete: Cascade)
+  id_pasien_igd                 Int
+  createdAt                     DateTime?  @default(now())
+  updatedAt                     DateTime?  @updatedAt
+}
+
+model triase_kondisi_terakhir_pasien_igd {
+  id                      Int        @id @default(autoincrement())
+  keadaan_umum            String?
+  kesadaran               String?
+  tekanan_darah           String?
+  frekuensi_nadi          String?
+  frekuensi_nafas         String?
+  temperature             String?
+  dokter_penanggung_jawab String?
+  pasien_igd              pasien_igd @relation(fields: [id_pasien_igd], references: [id], onDelete: Cascade)
+  id_pasien_igd           Int
+  createdAt               DateTime?  @default(now())
+  updatedAt               DateTime?  @updatedAt
 }

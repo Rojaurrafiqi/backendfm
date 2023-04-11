@@ -261,7 +261,15 @@ export const data_pasien_igd = async (req, res) => {
 export const semua_pasien_igd = async (req, res) => {
   try {
     const data = await prisma.pasien_igd.findMany({
-         select: { 
+        where: {
+            triase_ats_pasien_igd: {
+            none: {
+                plan: { not: null }
+            } // Menggunakan 'none' untuk memfilter data yang tidak memiliki relasi
+            }
+        }, 
+        
+        select: { 
             id: true,
             tgl_masuk:true,
             jam_masuk:true,
@@ -278,10 +286,16 @@ export const semua_pasien_igd = async (req, res) => {
                         kelamin:true,
         
                         },
-                    },
-                
-            },
-    }); // retrieve all pasien_igd data
+                    },  
+    
+           
+  
+    }
+
+        
+    });
+
+
 
     res.status(200).json(data); // send the data back to the client as a JSON response
   } catch (err) {
@@ -289,6 +303,57 @@ export const semua_pasien_igd = async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 };
+
+// menampilkan list pasien igd yang sedang dalam penanganan
+export const list_pasien_igd_penanganan = async (req, res) => {
+  try {
+    const data = await prisma.pasien_igd.findMany({
+   
+         select: { 
+            id: true,
+            tgl_masuk:true,
+            jam_masuk:true,
+            jam_masuk:true,
+                pasien_rm: {
+                    select: {
+                        id:true,
+                        no_rm:true,
+                        nama_lengkap:true,
+                        kelamin:true,
+        
+                        },
+                    },
+                   triase_ats_pasien_igd: {
+                    select: {
+                        id: true,
+                        plan: true,
+                    },
+                    where: {
+                         plan: {
+                            not: null,
+                        },
+                    }
+            }
+        },
+
+        where: {
+            triase_ats_pasien_igd: {
+                some: {
+                    plan: {
+                    not: null,
+                },
+            },
+        },
+      },
+        });
+
+    res.status(200).json(data); // send the data back to the client as a JSON response
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
 
 export const pasien_igd_by_id  = async (req, res) => {
   try {

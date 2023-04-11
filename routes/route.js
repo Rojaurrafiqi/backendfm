@@ -30,6 +30,7 @@ import {
     hapus_tindakan_pasien_igd,
     hapus_list_tindakan_igd,
     semua_pasien_igd,
+    list_pasien_igd_penanganan,
     pasien_by_id,
     pasien_igd_by_id,
     pencarian_pasien,
@@ -43,6 +44,28 @@ import {
     triase_tanda_vital_pasien_igd,
     add_triase_tanda_vital_pasien_igd,
     update_triase_tanda_vital_pasien_igd,
+    triase_anamnesa_pasien_igd,
+    add_triase_anamnesa_pasien_igd,
+    update_triase_anamnesa_pasien_igd,
+    triase_pemeriksaan_fisik_pasien_igd,
+    add_triase_pemeriksaan_fisik_pasien_igd,
+    update_triase_pemeriksaan_fisik_pasien_igd,
+    triase_pemeriksaan_penunjang_pasien_igd,
+    add_triase_pemeriksaan_penunjang_pasien_igd,
+    update_triase_pemeriksaan_penunjang_pasien_igd,
+    triase_ats_pasien_igd,
+    add_triase_ats_pasien_igd,
+    update_triase_ats_pasien_igd,
+    triase_planning_pasien_igd_pasien_igd,
+    add_triase_planning_pasien_igd,
+    update_triase_planning_pasien_igd,
+    triase_permasalahan_yang_dikonsulkan_pasien_igd,
+    add_triase_permasalahan_yang_dikonsulkan_pasien_igd,
+    update_triase_permasalahan_yang_dikonsulkan_pasien_igd,
+    triase_kondisi_terakhir_pasien_igd,
+    add_triase_kondisi_terakhir_pasien_igd,
+    update_triase_kondisi_terakhir_pasien_igd
+
 
 } from "../controller/igd/triase.js";
 
@@ -60,6 +83,7 @@ router.delete('/rm/:id', deleteData);
 
 // igd
 router.get('/igd/pasien/all', semua_pasien_igd);
+router.get('/igd/pasien/list/penanganan', list_pasien_igd_penanganan);
 router.get('/igd/pasien/search/:id', pencarian_pasien);
 router.get('/igd/pasien/:id', pasien_igd_by_id);
 router.get('/igd/pasien', search_data_pasien);
@@ -83,6 +107,40 @@ router.get('/igd/pasien/penanganan/triase/tandavital/:id', triase_tanda_vital_pa
 router.post('/igd/pasien/penanganan/triase/tandavital/', add_triase_tanda_vital_pasien_igd);
 router.patch('/igd/pasien/penanganan/triase/tandavital/:id', update_triase_tanda_vital_pasien_igd);
 
+// igd triase anamnesa pasien 
+router.get('/igd/pasien/penanganan/triase/anamnesa/:id', triase_anamnesa_pasien_igd);
+router.post('/igd/pasien/penanganan/triase/anamnesa/', add_triase_anamnesa_pasien_igd);
+router.patch('/igd/pasien/penanganan/triase/anamnesa/:id', update_triase_anamnesa_pasien_igd);
+
+// igd triase pemeriksaan fisik pasien 
+router.get('/igd/pasien/penanganan/triase/pemeriksaanfisik/:id', triase_pemeriksaan_fisik_pasien_igd);
+router.post('/igd/pasien/penanganan/triase/pemeriksaanfisik/', add_triase_pemeriksaan_fisik_pasien_igd);
+router.patch('/igd/pasien/penanganan/triase/pemeriksaanfisik/:id', update_triase_pemeriksaan_fisik_pasien_igd);
+
+// igd triase pemeriksaan penunjang pasien 
+router.get('/igd/pasien/penanganan/triase/pemeriksaanpenunjang/:id', triase_pemeriksaan_penunjang_pasien_igd);
+router.post('/igd/pasien/penanganan/triase/pemeriksaanpenunjang/', add_triase_pemeriksaan_penunjang_pasien_igd);
+router.patch('/igd/pasien/penanganan/triase/pemeriksaanpenunjang/:id', update_triase_pemeriksaan_penunjang_pasien_igd);
+
+// igd triase planning pasien 
+router.get('/igd/pasien/penanganan/triase/planning/:id', triase_planning_pasien_igd_pasien_igd);
+router.post('/igd/pasien/penanganan/triase/planning/', add_triase_planning_pasien_igd);
+router.patch('/igd/pasien/penanganan/triase/planning/:id', update_triase_planning_pasien_igd);
+
+// igd triase hasil konsul permasalahan pasien 
+router.get('/igd/pasien/penanganan/triase/permasalahan/:id', triase_permasalahan_yang_dikonsulkan_pasien_igd);
+router.post('/igd/pasien/penanganan/triase/permasalahan/', add_triase_permasalahan_yang_dikonsulkan_pasien_igd);
+router.patch('/igd/pasien/penanganan/triase/permasalahan/:id', update_triase_permasalahan_yang_dikonsulkan_pasien_igd);
+
+// igd triase ATS pasien 
+router.get('/igd/pasien/penanganan/triase/ats/:id', triase_ats_pasien_igd);
+router.post('/igd/pasien/penanganan/triase/ats/', add_triase_ats_pasien_igd);
+router.patch('/igd/pasien/penanganan/triase/ats/:id', update_triase_ats_pasien_igd);
+
+// igd triase kondisi terakhir pasien IGD 
+router.get('/igd/pasien/penanganan/triase/kondisiterakhir/:id', triase_kondisi_terakhir_pasien_igd);
+router.post('/igd/pasien/penanganan/triase/kondisiterakhir/', add_triase_kondisi_terakhir_pasien_igd);
+router.patch('/igd/pasien/penanganan/triase/kondisiterakhir/:id', update_triase_kondisi_terakhir_pasien_igd);
 
 // list nama pekerjaan
 router.get('/pekerjaan', listPekerjaan);
@@ -103,7 +161,5 @@ router.post('/golongandarah', createListGolonganDarah);
 // list pendidikan
 router.get('/pendidikan', listPendidikan);
 router.post('/pendidikan', createListPendidikan);
-
-
 
 export default router;
