@@ -94,6 +94,7 @@ model pasien_igd {
   triase_planning_pasien_igd                      triase_planning_pasien_igd[]
   triase_permasalahan_yang_dikonsulkan_pasien_igd triase_permasalahan_yang_dikonsulkan_pasien_igd[]
   triase_kondisi_terakhir_pasien_igd              triase_kondisi_terakhir_pasien_igd[]
+  asesmen_awal_pasien_igd                         asesmen_awal_pasien_igd[]
 }
 
 model tindakan_igd {
@@ -253,4 +254,47 @@ model triase_kondisi_terakhir_pasien_igd {
   id_pasien_igd           Int
   createdAt               DateTime?  @default(now())
   updatedAt               DateTime?  @updatedAt
+}
+
+model asesmen_awal_pasien_igd {
+  id                                                      Int        @id @default(autoincrement())
+  kegawatan_pernafasan                                    String?
+  kehilangan_tonus_otot                                   String?
+  nyeri                                                   String?
+  perlambatan_sirkulasi                                   String?
+  faktor_pembangkit_gejala_fisik                          String?
+  masalah_keperawatan_respon_pasien_terhadap_gejala       String?
+  pelayanan_spiritual                                     String?
+  perlu_didoakan                                          String?
+  bimbingan_rohani                                        String?
+  pendampingan_rohani                                     String?
+  nama_orang_yang_ingin_dihubungi                         String?
+  alamat_orang_yang_ingin_dihubungi                       String?
+  hubungan_dengan_pasien                                  String?
+  no_telpon_orang_yang_ingin_dihubungi                    String?
+  rencana_perawatan_lanjutan                              String?
+  ligkungan_disiapkan                                     String?
+  perawat_di_rumah                                        String?
+  fasilitasi_rs_homecare                                  String?
+  asesmen_informasi_reaksi_pasien                         String?
+  masalah_keperawatan_reaksi_pasien                       String?
+  asesmen_informasi_reaksi_keluarga                       String?
+  masalah_keperawatan_reaksi_keluarga                     String?
+  dukungan_pelayanan_bagi_pasien                          String?
+  kebutuhan_alternative                                   String?
+  asesmen_informasi_faktor_resiko_keluarga_ditinggalkan   String?
+  masalah_keperawatan_faktor_resiko_keluarga_ditinggalkan String?
+  nama_petugas                                            String?
+  ttd_petugas                                             String?
+  pasien_igd                                              pasien_igd @relation(fields: [id_pasien_igd], references: [id], onDelete: Cascade)
+  id_pasien_igd                                           Int
+  createdAt                                               DateTime?  @default(now())
+  updatedAt                                               DateTime?  @updatedAt
+}
+
+model form_default_igd {
+  id        Int       @id @default(autoincrement())
+  nama_form String?
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
 }

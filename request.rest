@@ -487,7 +487,45 @@ Content-Type: application/json
 
 }
 
-# tampilkan ATS pasien pada igd triase
-###
-GET http://localhost:5000/igd/pasien/list/penanganan
 
+# asesmen awal pasien igd
+
+###
+GET http://localhost:5000/igd/pasien/penanganan/asesmenawal/33
+
+# add kondisi terakhir pasien igd triase
+###
+POST http://localhost:5000/igd/pasien/penanganan/asesmenawal/
+Content-Type: application/json 
+
+{
+    "id_pasien_igd":33,
+    "kegawatan_pernafasan": "30"
+
+}
+
+# update kondisi terakhir pasien igd triase
+###
+PATCH  http://localhost:5000/igd/pasien/penanganan/asesmenawal/2
+Content-Type: application/json
+
+{
+    "id_pasien_igd":33,
+    "kegawatan_pernafasan": "berganti"
+
+
+}
+
+
+###
+GET http://localhost:5000/form/default/igd
+
+# update kondisi terakhir pasien igd triase
+###
+PATCH  http://localhost:5000/form/default/igd
+Content-Type: application/json
+
+{
+    "nama_form":"triase"
+
+}
