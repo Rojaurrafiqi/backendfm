@@ -2,9 +2,9 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 //   get data
-export const form_default_igd = async (req, res) => {
+export const form_default_ralan = async (req, res) => {
   try {
-    const response = await prisma.form_default_igd.findMany({
+    const response = await prisma.form_default_ralan.findMany({
       select: {
         nama_form: true,
       },
@@ -18,10 +18,10 @@ export const form_default_igd = async (req, res) => {
   }
 };
 
-export const form_default_post = async (req, res) => {
+export const form_default_post_ralan = async (req, res) => {
   const { nama_form } = req.body;
   try {
-    const rm_Data = await prisma.form_default_igd.create({
+    const rm_Data = await prisma.form_default_ralan.create({
       data: {
         nama_form: nama_form,
       },
@@ -32,9 +32,9 @@ export const form_default_post = async (req, res) => {
   }
 };
 
-export const delete_form_default_igd = async (req, res) => {
+export const delete_form_default_ralan = async (req, res) => {
   try {
-    const data = await prisma.form_default_igd.delete({
+    const data = await prisma.form_default_ralan.delete({
       where: {
         id: Number(req.params.id),
       },

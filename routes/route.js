@@ -73,9 +73,20 @@ import {
 } from "../controller/igd/asesmen_awal.js";
 
 import {
-  form_default,
+  delete_form_default_igd,
+  form_default_igd,
   form_default_post,
 } from "../controller/igd/form_default_igd.js";
+import {
+  delete_form_default_ralan,
+  form_default_post_ralan,
+  form_default_ralan,
+} from "../controller/ralan/form_default_ralan.js";
+import {
+  delete_form_default_ranap,
+  form_default_post_ranap,
+  form_default_ranap,
+} from "../controller/ranap/form_default_ranap.js";
 
 const router = express.Router();
 
@@ -246,7 +257,18 @@ router.get("/pendidikan", listPendidikan);
 router.post("/pendidikan", createListPendidikan);
 
 // form default pasien igd
-router.get("/form/default/igd", form_default);
+router.get("/form/default/igd", form_default_igd);
 router.patch("/form/default/igd", form_default_post);
+router.delete("/form/default/igd", delete_form_default_igd);
+
+// form default ralan
+router.get("/form/default/ralan", form_default_ralan);
+router.patch("/form/default/ralan", form_default_post_ralan);
+router.delete("/form/default/ralan", delete_form_default_ralan);
+
+// form default ranap
+router.get("/form/default/ranap", form_default_ranap);
+router.post("/form/default/ranap", form_default_post_ranap);
+router.delete("/form/default/ranap", delete_form_default_ranap);
 
 export default router;
