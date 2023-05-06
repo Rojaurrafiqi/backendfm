@@ -6,6 +6,7 @@ export const form_default_ralan = async (req, res) => {
   try {
     const response = await prisma.form_default_ralan.findMany({
       select: {
+        id: true,
         nama_form: true,
       },
       orderBy: {

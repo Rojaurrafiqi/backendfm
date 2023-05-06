@@ -73,7 +73,7 @@ Content-Type: application/json
 }
 
 ###
-DELETE http://localhost:5000/rm/4
+DELETE http://localhost:5000/form/default/ralan/1
 
 
 # create data tindakan pasien igd by id pasien igd
