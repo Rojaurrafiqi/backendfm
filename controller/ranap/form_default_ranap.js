@@ -10,7 +10,7 @@ export const form_default_ranap = async (req, res) => {
         nama_form: true,
       },
       orderBy: {
-        createdAt: "desc",
+        nama_form: "asc",
       },
     });
     res.status(200).json(response);

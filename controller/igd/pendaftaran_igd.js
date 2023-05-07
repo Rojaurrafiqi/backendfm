@@ -280,11 +280,17 @@ export const semua_pasien_igd = async (req, res) => {
 export const list_pasien_igd_penanganan = async (req, res) => {
   try {
     const data = await prisma.pasien_igd.findMany({
+      where: {
+        status: {
+          not: "selesai",
+        },
+      },
       select: {
         id: true,
         tgl_masuk: true,
         jam_masuk: true,
         jam_masuk: true,
+        status: true,
         pasien_rm: {
           select: {
             id: true,
@@ -396,6 +402,20 @@ export const deleteDataIgd = async (req, res) => {
   }
 };
 
-// tampilkan data obat
-// create data obat
-// create data list tambah list obat
+export const checkoutIgd = async (req, res) => {
+  const { status, id_pasien_rm } = req.body;
+  try {
+    const data = await prisma.pasien_igd.update({
+      where: {
+        id: Number(req.params.id),
+      },
+      data: {
+        id_pasien_rm: id_pasien_rm,
+        status: status,
+      },
+    });
+    res.status(200).json(data);
+  } catch (error) {
+    res.status(400).json({ msg: error.message });
+  }
+};

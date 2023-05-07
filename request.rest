@@ -63,12 +63,12 @@ Content-Type: application/json
 
 
 ###
-PATCH  http://localhost:5000/rm/77
+PATCH  http://localhost:5000/igd/pasien/checkout/28
 Content-Type: application/json
 
 {
-    "no_rm": 52,
-    "kitas": "johnbaru@email.com"
+
+    "status": "status"
 
 }
 
@@ -101,7 +101,7 @@ Content-Type: application/json
 
 # cek tindakan apa saja yang diberika kepada pasien di igd by id
 ###
-GET http://localhost:5000/igd/pasien/tindakan/6
+GET http://localhost:5000/igd/pasien/list/penanganan
 
 # hapus data tindakan pasien igd
 ###

@@ -80,6 +80,7 @@ model pasien_igd {
   tanggal_keluar_igd                              String?
   jam_keluar_igd                                  String?
   pembayaran_igd                                  String?
+  status                                          String?
   published                                       Boolean?                                          @default(false)
   createdAt                                       DateTime?                                         @default(now())
   updatedAt                                       DateTime?
