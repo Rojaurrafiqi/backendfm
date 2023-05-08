@@ -88,6 +88,7 @@ import {
   form_default_post_ranap,
   form_default_ranap,
 } from "../controller/ranap/form_default_ranap.js";
+import { getRiwayatIgdPasien } from "../controller/RekamMedis/Igd/riwayatIgdPasien.js";
 
 const router = express.Router();
 
@@ -272,5 +273,8 @@ router.delete("/form/default/ralan/:id", delete_form_default_ralan);
 router.get("/form/default/ranap", form_default_ranap);
 router.patch("/form/default/ranap", form_default_post_ranap);
 router.delete("/form/default/ranap/:id", delete_form_default_ranap);
+
+// rekam medis > riwayat igd pasien
+router.get("/rm/igd/:id", getRiwayatIgdPasien);
 
 export default router;

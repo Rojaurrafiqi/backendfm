@@ -280,11 +280,6 @@ export const semua_pasien_igd = async (req, res) => {
 export const list_pasien_igd_penanganan = async (req, res) => {
   try {
     const data = await prisma.pasien_igd.findMany({
-      where: {
-        status: {
-          not: "selesai",
-        },
-      },
       select: {
         id: true,
         tgl_masuk: true,
@@ -313,6 +308,9 @@ export const list_pasien_igd_penanganan = async (req, res) => {
       },
 
       where: {
+        status: {
+          not: "selesai",
+        },
         triase_ats_pasien_igd: {
           some: {
             plan: {

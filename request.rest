@@ -1,10 +1,13 @@
 
 ###
-GET http://localhost:5000/rm
+GET http://localhost:5000/rm/
 ###
 GET http://localhost:5000/igd/pasien/all
 ###
 GET http://localhost:5000/igd/pasien/16
+
+###
+GET http://localhost:5000/rm/igd/38
 
 
 ###
