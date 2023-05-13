@@ -34,7 +34,7 @@ import {
   pasien_igd_by_id,
   pencarian_pasien,
   deleteDataIgd,
-  checkoutIgd,
+  statusPasienIgd,
 } from "../controller/igd/pendaftaran_igd.js";
 
 import {
@@ -115,7 +115,7 @@ router.post("/igd/tindakan/list", create_list_tindakan_igd);
 router.delete("/igd/pasien/tindakan/:id", hapus_tindakan_pasien_igd);
 router.delete("/igd/tindakan/list/:id", hapus_list_tindakan_igd);
 router.delete("/igd/pasien/:id", deleteDataIgd);
-router.patch("/igd/pasien/checkout/:id", checkoutIgd);
+router.patch("/igd/pasien/status/:id", statusPasienIgd);
 
 // igd triase keluhan utama
 router.get("/igd/pasien/penanganan/triase/:id", triase_pasien_igd);

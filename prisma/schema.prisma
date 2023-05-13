@@ -39,6 +39,7 @@ model rekam_medis_pasien {
   createdAt              DateTime?    @default(now())
   updatedAt              DateTime?    @updatedAt
   pasien_igd             pasien_igd[]
+  pasien_ranap           pasien_ranap[]
 }
 
 model pekerjaan {
@@ -311,3 +312,36 @@ model form_default_ralan {
   createdAt DateTime? @default(now())
   updatedAt DateTime? @updatedAt
 }
+
+model pasien_ranap {
+  id        Int       @id @default(autoincrement())
+  pasien_rm                                       rekam_medis_pasien?                               @relation(fields: [id_pasien_rm], references: [id])
+  id_pasien_rm                                    Int?
+  tanggal_masuk                                   String?
+  tanggal_keluar                                   String?
+  kondisi_keluar                                   String?
+  dokter                                          String?
+  perawat                                         String?
+  kamar                                           String?
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
+}
+
+model kamar_ranap {
+  id        Int       @id @default(autoincrement())
+  no_kamar String?
+  no_bad String?
+  tipe_kamar String?
+  status_kamar String?
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
+}
+
+model tipe_kamar_ranap {
+  id        Int       @id @default(autoincrement())
+  tipe String?
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
+}
+
+
