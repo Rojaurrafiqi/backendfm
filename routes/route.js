@@ -89,6 +89,13 @@ import {
   form_default_ranap,
 } from "../controller/ranap/form_default_ranap.js";
 import { getRiwayatIgdPasien } from "../controller/RekamMedis/Igd/riwayatIgdPasien.js";
+import {
+  pendaftaran_ranap,
+  getAllPasienRanap,
+  deletePasienRanap,
+  getPasienRanapById,
+} from "../controller/ranap/pasien_ranap.js";
+import { getDataKamar, postDataKamar } from "../controller/ranap/kamar.js";
 
 const router = express.Router();
 
@@ -276,5 +283,23 @@ router.delete("/form/default/ranap/:id", delete_form_default_ranap);
 
 // rekam medis > riwayat igd pasien
 router.get("/rm/igd/:id", getRiwayatIgdPasien);
+
+// ranap > register pasien
+router.post("/ranap/pasien/register", pendaftaran_ranap);
+
+//ranap > get all pasien
+router.get("/ranap/pasien/all", getAllPasienRanap);
+
+//ranap > delete pasien ranap
+router.delete("/ranap/pasien/:id", deletePasienRanap);
+
+//ranap > get pasien ranap by id
+router.get("/ranap/pasien/:id", getPasienRanapById);
+
+//ranap > kamar > get all data kamar
+router.get("/ranap/kamar/", getDataKamar);
+
+//ranap > kamar > get all data kamar
+router.post("/ranap/kamar/", postDataKamar);
 
 export default router;

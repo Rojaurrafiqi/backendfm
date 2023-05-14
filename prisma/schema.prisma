@@ -318,11 +318,12 @@ model pasien_ranap {
   pasien_rm                                       rekam_medis_pasien?                               @relation(fields: [id_pasien_rm], references: [id])
   id_pasien_rm                                    Int?
   tanggal_masuk                                   String?
-  tanggal_keluar                                   String?
-  kondisi_keluar                                   String?
+  tanggal_keluar                                  String?
+  kondisi_keluar                                  String?
   dokter                                          String?
   perawat                                         String?
-  kamar                                           String?
+  no_kamar                                           String?
+  pembayaran_ranap                                String?
   createdAt DateTime? @default(now())
   updatedAt DateTime? @updatedAt
 }

@@ -7,7 +7,7 @@ GET http://localhost:5000/igd/pasien/all
 GET http://localhost:5000/igd/pasien/16
 
 ###
-GET http://localhost:5000/rm/igd/38
+GET http://localhost:5000/ranap/kamar
 
 
 ###
@@ -16,7 +16,7 @@ GET http://localhost:5000/search?query=1
 GET http://localhost:5000/igd/pasien?search=r&page=&limit=5
 
 ###
-GET http://localhost:5000/rm
+GET http://localhost:5000/ranap/pasien/all?search=&page=2&limit=10
 
 ###
 POST http://localhost:5000/rm
@@ -54,7 +54,7 @@ POST http://localhost:5000/igd/pasien/register
 Content-Type: application/json
 
 {
-    "id_pasien_rm": 2,
+    "id_pasien_rm": 15,
     "tgl_masuk": "12-12-2021",
     "jam_masuk": "12:12",
     "cara_masuk": "datang sendiri",
@@ -62,6 +62,30 @@ Content-Type: application/json
     "alasan_rujukan": "sakit parah",
     "dokter_merujuk": "dr.kem",
     "pembayaran_igd": "BPJS"
+}
+
+###
+POST http://localhost:5000/ranap/pasien/register
+Content-Type: application/json
+
+{
+    "id_pasien_rm": 15,
+    "tanggal_masuk": "12-12-2021",
+    "dokter":"mik",
+    "perawat":"sin",
+    "no_kamar": "12",
+    "pembayaran_ranap": "BPJS"
+}
+
+###
+POST http://localhost:5000/ranap/kamar
+Content-Type: application/json
+
+{
+    "no_kamar": "10",
+    "no_bad": "4",
+    "status_kamar": "available",
+    "tipe_kamar": "Kelas 3"
 }
 
 
