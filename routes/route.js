@@ -95,7 +95,11 @@ import {
   deletePasienRanap,
   getPasienRanapById,
 } from "../controller/ranap/pasien_ranap.js";
-import { getDataKamar, postDataKamar } from "../controller/ranap/kamar.js";
+import {
+  deleteDataKamar,
+  getDataKamar,
+  postDataKamar,
+} from "../controller/ranap/kamar.js";
 
 const router = express.Router();
 
@@ -301,5 +305,8 @@ router.get("/ranap/kamar/", getDataKamar);
 
 //ranap > kamar > get all data kamar
 router.post("/ranap/kamar/", postDataKamar);
+
+//ranap > kamar > delete data kamar
+router.delete("/ranap/kamar/:id", deleteDataKamar);
 
 export default router;

@@ -7,7 +7,7 @@ GET http://localhost:5000/igd/pasien/all
 GET http://localhost:5000/igd/pasien/16
 
 ###
-GET http://localhost:5000/ranap/kamar
+GET http://localhost:5000/ranap/kamar?filter=booked
 
 
 ###
@@ -84,7 +84,7 @@ Content-Type: application/json
 {
     "no_kamar": "10",
     "no_bad": "4",
-    "status_kamar": "available",
+    "status_kamar": "booked",
     "tipe_kamar": "Kelas 3"
 }
 
@@ -136,7 +136,7 @@ DELETE http://localhost:5000/igd/pasien/tindakan/8
 
 # hapus data list tindakan pasien igd
 ###
-DELETE http://localhost:5000/igd/tindakan/list/5
+DELETE http://localhost:5000/ranap/kamar/1
 
 
 # tambah pekerjaan ke tabel pekerjaan
