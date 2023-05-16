@@ -322,7 +322,8 @@ model pasien_ranap {
   kondisi_keluar                                  String?
   dokter                                          String?
   perawat                                         String?
-  no_kamar                                           String?
+  no_kamar                                        String?
+  no_bad                                          String?
   pembayaran_ranap                                String?
   createdAt DateTime? @default(now())
   updatedAt DateTime? @updatedAt

@@ -9,6 +9,7 @@ export const pendaftaran_ranap = async (req, res) => {
     dokter,
     perawat,
     no_kamar,
+    no_bad,
     pembayaran_ranap,
   } = req.body;
 
@@ -20,6 +21,7 @@ export const pendaftaran_ranap = async (req, res) => {
         dokter: dokter,
         perawat: perawat,
         no_kamar: no_kamar,
+        no_bad: no_bad,
         pembayaran_ranap: pembayaran_ranap,
       },
     });
@@ -29,6 +31,42 @@ export const pendaftaran_ranap = async (req, res) => {
   }
 };
 
+// untuk kamar yang available dan tampil pada form register pasien ranap
+export const kamarAvailable = async (req, res) => {
+  try {
+    const data = await prisma.kamar_ranap.findMany({
+      where: {
+        status_kamar: "available",
+      },
+      select: {
+        id: true,
+        no_kamar: true,
+        no_bad: true,
+      },
+    });
+    res.status(200).json(data);
+  } catch (error) {
+    res.status(404).json({ msg: error.message });
+  }
+};
+
+// update status kamar menjadi occupied (terisi)
+export const kamarStatus = async (req, res) => {
+  const { status_kamar } = req.body;
+  try {
+    const sendData = await prisma.kamar_ranap.update({
+      where: {
+        id: Number(req.params.id),
+      },
+      data: {
+        status_kamar: status_kamar,
+      },
+    });
+    res.status(201).json(sendData);
+  } catch (error) {
+    res.status(400).json({ msg: error.message });
+  }
+};
 // show all pasien ranap method get
 export const getAllPasienRanap = async (req, res) => {
   const { search, page, limit } = req.query;
@@ -58,6 +96,7 @@ export const getAllPasienRanap = async (req, res) => {
         dokter: true,
         perawat: true,
         no_kamar: true,
+        no_bad: true,
         pasien_rm: {
           select: {
             id: true,

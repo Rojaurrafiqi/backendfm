@@ -1,6 +1,16 @@
 
 ###
-GET http://localhost:5000/rm/
+GET http://localhost:5000/ranap/kamar/tipe
+
+###
+POST http://localhost:5000/ranap/kamar/tipe
+Content-Type: application/json
+
+{
+    "tipe": "Kelas 1"
+
+}
+
 ###
 GET http://localhost:5000/igd/pasien/all
 ###
@@ -50,18 +60,12 @@ Content-Type: application/json
 
 }
 ###
-POST http://localhost:5000/igd/pasien/register
+POST http://localhost:5000/ranap/kamar/tipe
 Content-Type: application/json
 
 {
-    "id_pasien_rm": 15,
-    "tgl_masuk": "12-12-2021",
-    "jam_masuk": "12:12",
-    "cara_masuk": "datang sendiri",
-    "asal_rujukan": "RSUD",
-    "alasan_rujukan": "sakit parah",
-    "dokter_merujuk": "dr.kem",
-    "pembayaran_igd": "BPJS"
+    "tipe": "Kelas 1"
+    
 }
 
 ###
@@ -74,6 +78,7 @@ Content-Type: application/json
     "dokter":"mik",
     "perawat":"sin",
     "no_kamar": "12",
+    "no_bad": "29",
     "pembayaran_ranap": "BPJS"
 }
 
@@ -90,12 +95,12 @@ Content-Type: application/json
 
 
 ###
-PATCH  http://localhost:5000/igd/pasien/checkout/28
+PATCH  http://localhost:5000/ranap/kamar/status/7
 Content-Type: application/json
 
 {
 
-    "status": "status"
+    "status_kamar": "available"
 
 }
 

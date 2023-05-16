@@ -94,12 +94,19 @@ import {
   getAllPasienRanap,
   deletePasienRanap,
   getPasienRanapById,
+  kamarAvailable,
+  kamarStatus,
 } from "../controller/ranap/pasien_ranap.js";
 import {
   deleteDataKamar,
   getDataKamar,
   postDataKamar,
 } from "../controller/ranap/kamar.js";
+import {
+  deleteTipeKamar,
+  getTipeKamar,
+  postTipeKamar,
+} from "../controller/ranap/tipe_kamar.js";
 
 const router = express.Router();
 
@@ -291,6 +298,12 @@ router.get("/rm/igd/:id", getRiwayatIgdPasien);
 // ranap > register pasien
 router.post("/ranap/pasien/register", pendaftaran_ranap);
 
+//ranap > register > kamar available
+router.get("/ranap/pasien/register/kamar/available", kamarAvailable);
+
+//ranap > register > kamar update menjadi occupied / terisi
+router.patch("/ranap/kamar/status/:id", kamarStatus);
+
 //ranap > get all pasien
 router.get("/ranap/pasien/all", getAllPasienRanap);
 
@@ -308,5 +321,14 @@ router.post("/ranap/kamar/", postDataKamar);
 
 //ranap > kamar > delete data kamar
 router.delete("/ranap/kamar/:id", deleteDataKamar);
+
+//ranap > tipe kamar > get all data tipe kamar
+router.get("/ranap/kamar/tipe", getTipeKamar);
+
+//ranap > tipe kamar > delete tipe kamar
+router.delete("/ranap/kamar/tipe/:id", deleteTipeKamar);
+
+// ranap > tipe kamar > post data
+router.post("/ranap/kamar/tipe", postTipeKamar);
 
 export default router;
