@@ -1,18 +1,47 @@
 
 ###
-GET http://localhost:5000/ranap/kamar/tipe
+GET http://localhost:5000/farmasi/obat/resep/umum?search=rojaur
 
 ###
-POST http://localhost:5000/ranap/kamar/tipe
+POST http://localhost:5000/farmasi/obat/resep/umum
 Content-Type: application/json
 
 {
-    "tipe": "Kelas 1"
+    "id_obat": 1,
+    "nama_dokter":"Rojaur",
+    "nama_pasien":"Rojaur",
+    "tanggal_resep":"12-12-15",
+    "dosis":"4mg",
+    "frekuensi":"3x1",
+    "instruksi_penggunaan":"oral",
+    "durasi_obat":"30mg",
+    "jumlah":"15",
+    "status_resep":"selesai"
+    
+}
+
+###
+PATCH  http://localhost:5000/farmasi/obat/resep/umum/1
+Content-Type: application/json
+
+{
+
+    "id_obat": 1,
+    "nama_dokter":"Rojaufr",
+    "nama_pasien":"Rojaurf",
+    "tanggal_resep":"12-12-15fffff",
+    "dosis":"4mgff",
+    "frekuensi":"3x1f",
+    "instruksi_penggunaan":"oralff",
+    "durasi_obat":"30mgff",
+    "jumlah":"15f",
+    "status_resep":"sedang dikerjakanff"
 
 }
 
 ###
-GET http://localhost:5000/igd/pasien/all
+DELETE  http://localhost:5000/farmasi/obat/resep/umum/1
+
 ###
 GET http://localhost:5000/igd/pasien/16
 

@@ -1,0 +1,24 @@
+GET (Mendapatkan data):
+200 OK: Data berhasil ditemukan dan dikembalikan dengan sukses.
+404 Not Found: Data tidak ditemukan.
+401 Unauthorized: Permintaan membutuhkan otentikasi atau akses ditolak.
+500 Internal Server Error: Terjadi kesalahan pada sisi server.
+
+POST (Membuat data):
+201 Created: Data berhasil dibuat dengan sukses.
+400 Bad Request: Permintaan tidak valid atau data yang dikirim tidak lengkap.
+401 Unauthorized: Permintaan membutuhkan otentikasi atau akses ditolak.
+500 Internal Server Error: Terjadi kesalahan pada sisi server.
+
+PUT/PATCH (Mengupdate data):
+200 OK: Data berhasil diperbarui dengan sukses.
+400 Bad Request: Permintaan tidak valid atau data yang dikirim tidak lengkap.
+404 Not Found: Data yang ingin diperbarui tidak ditemukan.
+401 Unauthorized: Permintaan membutuhkan otentikasi atau akses ditolak.
+500 Internal Server Error: Terjadi kesalahan pada sisi server.
+
+DELETE (Menghapus data):
+204 No Content: Data berhasil dihapus dengan sukses.
+404 Not Found: Data yang ingin dihapus tidak ditemukan.
+401 Unauthorized: Permintaan membutuhkan otentikasi atau akses ditolak.
+500 Internal Server Error: Terjadi kesalahan pada sisi server.

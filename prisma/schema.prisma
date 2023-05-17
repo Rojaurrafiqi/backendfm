@@ -40,6 +40,7 @@ model rekam_medis_pasien {
   updatedAt              DateTime?    @updatedAt
   pasien_igd             pasien_igd[]
   pasien_ranap           pasien_ranap[]
+  resep resep[]
 }
 
 model pekerjaan {
@@ -339,6 +340,21 @@ model kamar_ranap {
   updatedAt DateTime? @updatedAt
 }
 
+model dokter {
+  id        Int       @id @default(autoincrement())
+  nama_dokter String?
+  jenis_kelamin String?
+  tanggal_lahir String?
+  spesialis String?
+  nomor_hp String?
+  alamat String?
+  email String?
+  jadwal_praktik String?
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
+  resep                    resep[]
+
+}
 model tipe_kamar_ranap {
   id        Int       @id @default(autoincrement())
   tipe String?
@@ -346,4 +362,88 @@ model tipe_kamar_ranap {
   updatedAt DateTime? @updatedAt
 }
 
+model obat {
+  id        Int       @id @default(autoincrement())
+  nama_obat String?
+  kategori_obat String?
+  deskripsi_obat String?
+  dosis_obat String?
+  efek_samping String?
+  peringatan String?
+  instruksi_penggunaan String?
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
+  stok_obat                         stok_obat[]
+  penjualan_obat                    penjualan_obat[]
+  resep                    resep[]
+  resep_umum                    resep_umum[]
+}
 
+model stok_obat {
+  id        Int       @id @default(autoincrement())
+  obat                                              obat @relation(fields: [id_obat], references: [id], onDelete: Cascade)
+  id_obat                                           Int
+  jumlah_stok String?
+  tanggal_kadaluarsa String?
+  tanggal_penerimaan String?
+  lokasi_penyimpanan String?
+  batas_minimum_stok String?
+  status_stok String?
+  catatan String?
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
+}
+
+
+
+model penjualan_obat {
+  id        Int       @id @default(autoincrement())
+  obat                                              obat @relation(fields: [id_obat], references: [id], onDelete: Cascade)
+  id_obat  Int
+  jumlah String?
+  harga_satuan String?
+  diskon String?
+  total_harga String?
+  tanggal_penjualan String?
+  informasi_pembayaran String?
+  metode_pembayaran String?
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
+}
+
+
+model resep {
+  id        Int       @id @default(autoincrement())
+  obat                                              obat @relation(fields: [id_obat], references: [id], onDelete: Cascade)
+  id_obat  Int
+  pasien_rm                                       rekam_medis_pasien?          @relation(fields: [id_pasien_rm], references: [id])
+  id_pasien_rm                                    Int?
+  dokter                                       dokter?          @relation(fields: [id_dokter], references: [id])
+  id_dokter                                    Int?
+  tanggal_resep String?
+  dosis String?
+  frekuensi String?
+  instruksi_penggunaan String?
+  durasi_obat String?
+  jumlah String?
+  status_resep String?
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
+}
+
+model resep_umum {
+  id        Int       @id @default(autoincrement())
+  obat                                              obat @relation(fields: [id_obat], references: [id], onDelete: Cascade)
+  id_obat  Int
+  nama_dokter String?
+  nama_pasien String?
+   tanggal_resep String?
+  dosis String?
+  frekuensi String?
+  instruksi_penggunaan String?
+  durasi_obat String?
+  jumlah String?
+  status_resep String?
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
+}

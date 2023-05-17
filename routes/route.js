@@ -107,6 +107,36 @@ import {
   getTipeKamar,
   postTipeKamar,
 } from "../controller/ranap/tipe_kamar.js";
+import {
+  updateDataObat,
+  getDataObat,
+  postDataObat,
+  deleteDataObat,
+} from "../controller/farmasi/obat.js";
+import {
+  deletePenjualanObat,
+  getPenjualanObat,
+  postPenjualanObat,
+  updatePenjualanObat,
+} from "../controller/farmasi/penjualan.js";
+import {
+  deleteStokObat,
+  getStokObat,
+  postStokObat,
+  updateStokObat,
+} from "../controller/farmasi/stok_obat.js";
+import {
+  deleteResepObat,
+  getResepObat,
+  postResepObat,
+  updateResepObat,
+} from "../controller/farmasi/resep.js";
+import {
+  deleteResepUmum,
+  getResepUmum,
+  postResepUmum,
+  updateResepUmum,
+} from "../controller/farmasi/resep_umum.js";
 
 const router = express.Router();
 
@@ -330,5 +360,65 @@ router.delete("/ranap/kamar/tipe/:id", deleteTipeKamar);
 
 // ranap > tipe kamar > post data
 router.post("/ranap/kamar/tipe", postTipeKamar);
+
+// farmasi > data obat
+router.get("/farmasi/obat", getDataObat);
+
+//farmasi > post data obat
+router.post("/farmasi/obat", postDataObat);
+
+//farmasi > edit data obat
+router.patch("/farmasi/obat/:id", updateDataObat);
+
+//farmasi > delete data obat
+router.delete("/farmasi/obat/:id", deleteDataObat);
+
+// farmasi > penjualan obat
+router.get("/farmasi/obat/penjualan/", getPenjualanObat);
+
+// farmasi > post penjualan obat
+router.post("/farmasi/obat/penjualan/", postPenjualanObat);
+
+// farmasi > edit penjualan obat
+router.patch("/farmasi/obat/penjualan/:id", updatePenjualanObat);
+
+// farmasi > delete penjualan obat
+router.delete("/farmasi/obat/penjualan/:id", deletePenjualanObat);
+
+// farmasi > stok obat
+router.get("/farmasi/obat/stok", getStokObat);
+
+// farmasi > post stok obat
+router.post("/farmasi/obat/stok", postStokObat);
+
+// farmasi > edit stok obat
+router.patch("/farmasi/obat/stok/:id", updateStokObat);
+
+// farmasi > delete stok obat
+router.delete("/farmasi/obat/stok/:id", deleteStokObat);
+
+// farmasi > resep
+router.get("/farmasi/obat/resep", getResepObat);
+
+// farmasi > post resep
+router.post("/farmasi/obat/resep", postResepObat);
+
+// farmasi > edit resep
+router.patch("/farmasi/obat/resep/:id", updateResepObat);
+
+// farmasi > delete resep
+router.delete("/farmasi/obat/resep/:id", deleteResepObat);
+
+// farmasi > resep umum
+router.get("/farmasi/obat/resep/umum", getResepUmum);
+
+// farmasi > post resep umum
+router.post("/farmasi/obat/resep/umum", postResepUmum);
+
+// farmasi > edit resep umum
+router.patch("/farmasi/obat/resep/umum/:id", updateResepUmum);
+
+// farmasi > delete resep umum
+router.delete("/farmasi/obat/resep/umum/:id", deleteResepUmum);
 
 export default router;

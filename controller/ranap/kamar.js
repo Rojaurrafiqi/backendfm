@@ -35,7 +35,7 @@ export const getDataKamar = async (req, res) => {
       currentPage: pageNumber,
     });
   } catch (error) {
-    res.status(400).json({ msg: error.message });
+    res.status(404).json({ msg: error.message });
   }
 };
 
@@ -50,7 +50,7 @@ export const postDataKamar = async (req, res) => {
         no_bad: no_bad,
       },
     });
-    res.status(201).json(postData);
+    res.status(200).json(postData);
   } catch (error) {
     res.status(400).json({ msg: error.message });
   }
