@@ -112,6 +112,8 @@ import {
   getDataObat,
   postDataObat,
   deleteDataObat,
+  getDataObatById,
+  getNamaObat,
 } from "../controller/farmasi/obat.js";
 import {
   deletePenjualanObat,
@@ -364,11 +366,17 @@ router.post("/ranap/kamar/tipe", postTipeKamar);
 // farmasi > data obat
 router.get("/farmasi/obat", getDataObat);
 
+//farmasi > memunculkan nama obat saja untuk dipakai di select pemilihan nama obat
+router.get("/farmasi/obat/nama", getNamaObat);
+
 //farmasi > post data obat
 router.post("/farmasi/obat", postDataObat);
 
-//farmasi > edit data obat
+//farmasi > update data obat
 router.patch("/farmasi/obat/:id", updateDataObat);
+
+//farmasi > get data obat by id
+router.get("/farmasi/obat/:id", getDataObatById);
 
 //farmasi > delete data obat
 router.delete("/farmasi/obat/:id", deleteDataObat);
@@ -386,19 +394,19 @@ router.patch("/farmasi/obat/penjualan/:id", updatePenjualanObat);
 router.delete("/farmasi/obat/penjualan/:id", deletePenjualanObat);
 
 // farmasi > stok obat
-router.get("/farmasi/obat/stok", getStokObat);
+router.get("/farmasi/stok/obat", getStokObat);
 
 // farmasi > post stok obat
-router.post("/farmasi/obat/stok", postStokObat);
+router.post("/farmasi/stok/obat", postStokObat);
 
 // farmasi > edit stok obat
-router.patch("/farmasi/obat/stok/:id", updateStokObat);
+router.patch("/farmasi/stok/obat/:id", updateStokObat);
 
 // farmasi > delete stok obat
-router.delete("/farmasi/obat/stok/:id", deleteStokObat);
+router.delete("/farmasi/stok/obat/:id", deleteStokObat);
 
 // farmasi > resep
-router.get("/farmasi/obat/resep", getResepObat);
+router.get("/farmasi/resep/obat", getResepObat);
 
 // farmasi > post resep
 router.post("/farmasi/obat/resep", postResepObat);

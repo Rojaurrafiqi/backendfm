@@ -1,15 +1,15 @@
 
 ###
-GET http://localhost:5000/farmasi/obat/resep/umum?search=rojaur
+GET http://localhost:5000/farmasi/obat/stok
 
 ###
-POST http://localhost:5000/farmasi/obat/resep/umum
+POST http://localhost:5000/farmasi/obat/resep/
 Content-Type: application/json
 
 {
-    "id_obat": 1,
-    "nama_dokter":"Rojaur",
-    "nama_pasien":"Rojaur",
+    "id_obat": 4,
+    "id_dokter":1,
+    "id_pasien_rm":2,
     "tanggal_resep":"12-12-15",
     "dosis":"4mg",
     "frekuensi":"3x1",
@@ -17,6 +17,21 @@ Content-Type: application/json
     "durasi_obat":"30mg",
     "jumlah":"15",
     "status_resep":"selesai"
+    
+}
+
+###
+POST http://localhost:5000/farmasi/obat
+Content-Type: application/json
+
+{
+"nama_obat": "Obat H",
+"kategori_obat": "Kategori Z",
+"deskripsi_obat": "Deskripsi obat C",
+"dosis_obat": "3 kali sehari setelah makan",
+"efek_samping": "Sakit perut",
+"peringatan": "Tidak dianjurkan untuk ibu hamil",
+"instruksi_penggunaan": "Baca petunjuk sebelum menggunakan"
     
 }
 
@@ -43,7 +58,7 @@ Content-Type: application/json
 DELETE  http://localhost:5000/farmasi/obat/resep/umum/1
 
 ###
-GET http://localhost:5000/igd/pasien/16
+GET http://localhost:5000/farmasi/resep/obat
 
 ###
 GET http://localhost:5000/ranap/kamar?filter=booked

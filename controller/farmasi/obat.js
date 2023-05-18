@@ -34,6 +34,20 @@ export const getDataObat = async (req, res) => {
   }
 };
 
+// get data by id
+export const getDataObatById = async (req, res) => {
+  try {
+    const dataById = await prisma.obat.findUnique({
+      where: {
+        id: Number(req.params.id),
+      },
+    });
+    res.status(200).json(dataById);
+  } catch (error) {
+    res.status(404).json({ msg: error.message });
+  }
+};
+
 // post data
 export const postDataObat = async (req, res) => {
   const {
@@ -103,6 +117,20 @@ export const deleteDataObat = async (req, res) => {
       },
     });
     res.status(204).json(deleteData);
+  } catch (error) {
+    res.status(404).json({ msg: error.message });
+  }
+};
+
+export const getNamaObat = async (req, res) => {
+  try {
+    const getData = await prisma.obat.findMany({
+      select: {
+        id: true,
+        nama_obat: true,
+      },
+    });
+    res.status(200).json(getData);
   } catch (error) {
     res.status(404).json({ msg: error.message });
   }

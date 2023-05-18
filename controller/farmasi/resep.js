@@ -7,7 +7,7 @@ export const getResepObat = async (req, res) => {
   const searchQuery = search
     ? {
         OR: [
-          { obat: { nama_obat: { contains: search } } },
+          { obat_data: { nama_obat: { contains: search } } },
           { pasien_rm: { nama_lengkap: { contains: search } } },
           { dokter: { nama_dokter: { contains: search } } },
           { tanggal_resep: { contains: search } },
@@ -28,7 +28,7 @@ export const getResepObat = async (req, res) => {
       where: searchQuery,
       select: {
         id: true,
-        obat: {
+        obat_data: {
           select: {
             id: true,
             nama_obat: true,

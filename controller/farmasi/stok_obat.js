@@ -3,11 +3,11 @@ const prisma = new PrismaClient();
 
 // get data
 export const getStokObat = async (req, res) => {
-  const { search, page, limit, date } = req.query;
+  const { search, page, limit } = req.query;
   const searchQuery = search
     ? {
         OR: [
-          { obat: { nama_obat: { contains: search } } },
+          { obat_data: { nama_obat: { contains: search } } },
           { status_stok: { contains: search } },
         ],
       }
@@ -25,12 +25,6 @@ export const getStokObat = async (req, res) => {
       where: searchQuery,
       select: {
         id: true,
-        obat: {
-          select: {
-            id: true,
-            nama_obat: true,
-          },
-        },
         jumlah_stok: true,
         tanggal_kadaluarsa: true,
         tanggal_penerimaan: true,
@@ -38,6 +32,12 @@ export const getStokObat = async (req, res) => {
         batas_minimum_stok: true,
         status_stok: true,
         catatan: true,
+        obat_data: {
+          select: {
+            id: true,
+            nama_obat: true,
+          },
+        },
       },
       skip: skipNumber,
       take: limitNumber,
