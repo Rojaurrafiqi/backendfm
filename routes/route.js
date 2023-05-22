@@ -130,6 +130,7 @@ import {
 import {
   deleteResepObat,
   getResepObat,
+  getResepObatById,
   postResepObat,
   updateResepObat,
 } from "../controller/farmasi/resep.js";
@@ -382,7 +383,7 @@ router.get("/farmasi/obat/:id", getDataObatById);
 router.delete("/farmasi/obat/:id", deleteDataObat);
 
 // farmasi > penjualan obat
-router.get("/farmasi/obat/penjualan/", getPenjualanObat);
+router.get("/farmasi/penjualan/obat", getPenjualanObat);
 
 // farmasi > post penjualan obat
 router.post("/farmasi/obat/penjualan/", postPenjualanObat);
@@ -407,6 +408,9 @@ router.delete("/farmasi/stok/obat/:id", deleteStokObat);
 
 // farmasi > resep
 router.get("/farmasi/resep/obat", getResepObat);
+
+// farmasi > resep obat by id
+router.get("/farmasi/resep/obat/:id", getResepObatById);
 
 // farmasi > post resep
 router.post("/farmasi/obat/resep", postResepObat);

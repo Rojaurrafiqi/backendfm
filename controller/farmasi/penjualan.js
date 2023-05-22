@@ -4,18 +4,32 @@ const prisma = new PrismaClient();
 // get data
 // note: filter penjualan: 1.by Date 2.nama obat
 export const getPenjualanObat = async (req, res) => {
-  const { search, page, limit, date } = req.query;
+  const { search, page, limit, fromDate, toDate } = req.query;
   const searchQuery = search
     ? {
         OR: [
-          { obat: { nama_obat: { contains: search } } },
+          { obat_data: { nama_obat: { contains: search } } },
           { tanggal_penjualan: { contains: search } },
         ],
+        ...(fromDate &&
+          toDate && {
+            AND: [
+              { tanggal_penjualan: { gte: fromDate } },
+              { tanggal_penjualan: { lte: toDate } },
+            ],
+          }),
       }
-    : {};
+    : {
+        ...(fromDate &&
+          toDate && {
+            AND: [
+              { tanggal_penjualan: { gte: fromDate } },
+              { tanggal_penjualan: { lte: toDate } },
+            ],
+          }),
+      };
   const pageNumber = parseInt(page) || 1;
   const limitNumber = parseInt(limit) || 10;
-  // const datePenjualan = parseInt(date);
   const skipNumber = (pageNumber - 1) * limitNumber;
   try {
     const totalItems = await prisma.penjualan_obat.count({
@@ -27,7 +41,7 @@ export const getPenjualanObat = async (req, res) => {
       where: searchQuery,
       select: {
         id: true,
-        obat: {
+        obat_data: {
           select: {
             id: true,
             nama_obat: true,
@@ -57,30 +71,66 @@ export const getPenjualanObat = async (req, res) => {
 };
 
 // post data
+// export const postPenjualanObat = async (req, res) => {
+//   const {
+//     id_obat,
+//     jumlah,
+//     harga_satuan,
+//     diskon,
+//     total_harga,
+//     tanggal_penjualan,
+//     informasi_pembayaran,
+//     metode_pembayaran,
+//   } = req.body;
+//   try {
+//     const postData = await prisma.penjualan_obat.create({
+//       data: {
+//         id_obat: 4,
+//         jumlah: jumlah,
+//         harga_satuan: harga_satuan,
+//         diskon: diskon,
+//         total_harga: total_harga,
+//         tanggal_penjualan: tanggal_penjualan,
+//         informasi_pembayaran: informasi_pembayaran,
+//         metode_pembayaran: metode_pembayaran,
+//       },
+//     });
+//     res.status(201).json(postData);
+//   } catch (error) {
+//     res.status(400).json({ msg: error.message });
+//   }
+// };
+
 export const postPenjualanObat = async (req, res) => {
-  const {
-    id_obat,
-    jumlah,
-    harga_satuan,
-    diskon,
-    total_harga,
-    tanggal_penjualan,
-    informasi_pembayaran,
-    metode_pembayaran,
-  } = req.body;
+  const data = req.body;
   try {
-    const postData = await prisma.penjualan_obat.create({
-      data: {
-        id_obat: id_obat,
-        jumlah: jumlah,
-        harga_satuan: harga_satuan,
-        diskon: diskon,
-        total_harga: total_harga,
-        tanggal_penjualan: tanggal_penjualan,
-        informasi_pembayaran: informasi_pembayaran,
-        metode_pembayaran: metode_pembayaran,
-      },
-    });
+    const postData = await Promise.all(
+      data.map(async (item) => {
+        const {
+          id_obat,
+          jumlah,
+          harga_satuan,
+          diskon,
+          total_harga,
+          tanggal_penjualan,
+          informasi_pembayaran,
+          metode_pembayaran,
+        } = item;
+
+        return prisma.penjualan_obat.create({
+          data: {
+            id_obat,
+            jumlah,
+            harga_satuan,
+            diskon,
+            total_harga,
+            tanggal_penjualan,
+            informasi_pembayaran,
+            metode_pembayaran,
+          },
+        });
+      })
+    );
     res.status(201).json(postData);
   } catch (error) {
     res.status(400).json({ msg: error.message });

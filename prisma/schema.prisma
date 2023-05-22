@@ -384,6 +384,8 @@ model stok_obat {
   obat_data                                              obat? @relation(fields: [id_obat], references: [id], onDelete: Cascade)
   id_obat                                           Int?
   jumlah_stok String?
+  harga_beli String?
+  harga_jual String?
   tanggal_kadaluarsa String?
   tanggal_penerimaan String?
   lokasi_penyimpanan String?

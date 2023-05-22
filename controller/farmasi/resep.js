@@ -152,3 +152,45 @@ export const deleteResepObat = async (req, res) => {
     res.status(404).json({ msg: error.message });
   }
 };
+
+// get resep by id
+export const getResepObatById = async (req, res) => {
+  try {
+    const dataById = await prisma.resep.findUnique({
+      where: {
+        id: Number(req.params.id),
+      },
+      select: {
+        id: true,
+        obat_data: {
+          select: {
+            id: true,
+            nama_obat: true,
+          },
+        },
+        pasien_rm: {
+          select: {
+            id: true,
+            nama_lengkap: true,
+          },
+        },
+        dokter: {
+          select: {
+            id: true,
+            nama_dokter: true,
+          },
+        },
+        jumlah: true,
+        tanggal_resep: true,
+        dosis: true,
+        instruksi_penggunaan: true,
+        frekuensi: true,
+        durasi_obat: true,
+        status_resep: true,
+      },
+    });
+    res.status(200).json(dataById);
+  } catch (error) {
+    res.status(404).json({ msg: error.message });
+  }
+};
