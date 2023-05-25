@@ -123,6 +123,7 @@ import {
 } from "../controller/farmasi/penjualan.js";
 import {
   deleteStokObat,
+  getNamaObatByStokObat,
   getStokObat,
   postStokObat,
   updateStokObat,
@@ -369,6 +370,9 @@ router.get("/farmasi/obat", getDataObat);
 
 //farmasi > memunculkan nama obat saja untuk dipakai di select pemilihan nama obat
 router.get("/farmasi/obat/nama", getNamaObat);
+
+//farmasi ? memunculkan pilihan nama obat hanya yang stok tersedia saja
+router.get("/farmasi/obat/nama/stok", getNamaObatByStokObat);
 
 //farmasi > post data obat
 router.post("/farmasi/obat", postDataObat);

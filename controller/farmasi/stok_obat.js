@@ -53,6 +53,50 @@ export const getStokObat = async (req, res) => {
   }
 };
 
+// untuk mendapatkan nama-nama obat yang stok obat masih tersedia saja
+export const getNamaObatByStokObat = async (req, res) => {
+  const { search, page, limit } = req.query;
+  const searchQuery = search
+    ? {
+        OR: [{ obat_data: { nama_obat: { contains: search } } }],
+      }
+    : {};
+  const pageNumber = parseInt(page) || 1;
+  const limitNumber = parseInt(limit) || 10;
+  const skipNumber = (pageNumber - 1) * limitNumber;
+  try {
+    const totalItems = await prisma.stok_obat.count({
+      where: searchQuery,
+    });
+    const totalPages = Math.ceil(totalItems / limitNumber);
+
+    const getData = await prisma.stok_obat.findMany({
+      where: searchQuery,
+      select: {
+        id: true,
+        jumlah_stok: true,
+        harga_jual: true,
+        obat_data: {
+          select: {
+            id: true,
+            nama_obat: true,
+          },
+        },
+      },
+      skip: skipNumber,
+      take: limitNumber,
+    });
+    res.status(200).json({
+      data: getData,
+      totalItems,
+      totalPages,
+      currentPage: pageNumber,
+    });
+  } catch (error) {
+    res.status(404).json({ msg: error.message });
+  }
+};
+
 // post data
 export const postStokObat = async (req, res) => {
   const {

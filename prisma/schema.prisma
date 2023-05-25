@@ -8,7 +8,7 @@ datasource db {
 }
 
 model rekam_medis_pasien {
-  id                     Int          @id @default(autoincrement())
+  id                     Int                 @id @default(autoincrement())
   no_rm                  Int?
   kitas                  String?
   no_kitas               String?
@@ -35,12 +35,15 @@ model rekam_medis_pasien {
   alamat_pj_kec          String?
   alamat_pj_desa         String?
   alamat_pj_detail       String?
-  published              Boolean?     @default(false)
-  createdAt              DateTime?    @default(now())
-  updatedAt              DateTime?    @updatedAt
+  published              Boolean?            @default(false)
+  createdAt              DateTime?           @default(now())
+  updatedAt              DateTime?           @updatedAt
   pasien_igd             pasien_igd[]
-  pasien_ranap           pasien_ranap[]
-  resep resep[]
+  pasien_ranap           pasien_ralan[]
+  pasien_ralan           pasien_ranap[]
+  resep                  resep[]
+  poliklinik             poliklinik[]
+  jadwal_poliklinik      jadwal_poliklinik[]
 }
 
 model pekerjaan {
@@ -301,12 +304,14 @@ model form_default_igd {
   createdAt DateTime? @default(now())
   updatedAt DateTime? @updatedAt
 }
+
 model form_default_ranap {
   id        Int       @id @default(autoincrement())
   nama_form String?
   createdAt DateTime? @default(now())
   updatedAt DateTime? @updatedAt
 }
+
 model form_default_ralan {
   id        Int       @id @default(autoincrement())
   nama_form String?
@@ -315,137 +320,196 @@ model form_default_ralan {
 }
 
 model pasien_ranap {
-  id        Int       @id @default(autoincrement())
-  pasien_rm                                       rekam_medis_pasien?                               @relation(fields: [id_pasien_rm], references: [id])
-  id_pasien_rm                                    Int?
-  tanggal_masuk                                   String?
-  tanggal_keluar                                  String?
-  kondisi_keluar                                  String?
-  dokter                                          String?
-  perawat                                         String?
-  no_kamar                                        String?
-  no_bad                                          String?
-  pembayaran_ranap                                String?
-  createdAt DateTime? @default(now())
-  updatedAt DateTime? @updatedAt
+  id               Int                 @id @default(autoincrement())
+  pasien_rm        rekam_medis_pasien? @relation(fields: [id_pasien_rm], references: [id])
+  id_pasien_rm     Int?
+  tanggal_masuk    String?
+  tanggal_keluar   String?
+  kondisi_keluar   String?
+  dokter           String?
+  perawat          String?
+  no_kamar         String?
+  no_bad           String?
+  pembayaran_ranap String?
+  createdAt        DateTime?           @default(now())
+  updatedAt        DateTime?           @updatedAt
 }
 
 model kamar_ranap {
-  id        Int       @id @default(autoincrement())
-  no_kamar String?
-  no_bad String?
-  tipe_kamar String?
+  id           Int       @id @default(autoincrement())
+  no_kamar     String?
+  no_bad       String?
+  tipe_kamar   String?
   status_kamar String?
-  createdAt DateTime? @default(now())
-  updatedAt DateTime? @updatedAt
+  createdAt    DateTime? @default(now())
+  updatedAt    DateTime? @updatedAt
 }
 
 model dokter {
-  id        Int       @id @default(autoincrement())
-  nama_dokter String?
-  jenis_kelamin String?
-  tanggal_lahir String?
-  spesialis String?
-  nomor_hp String?
-  alamat String?
-  email String?
-  jadwal_praktik String?
-  createdAt DateTime? @default(now())
-  updatedAt DateTime? @updatedAt
-  resep                    resep[]
-
+  id                Int                 @id @default(autoincrement())
+  nama_dokter       String?
+  jenis_kelamin     String?
+  tanggal_lahir     String?
+  spesialis         String?
+  nomor_hp          String?
+  alamat            String?
+  email             String?
+  jadwal_praktik    String?
+  createdAt         DateTime?           @default(now())
+  updatedAt         DateTime?           @updatedAt
+  resep             resep[]
+  jadwal_poliklinik jadwal_poliklinik[]
+  pasien_ralan      pasien_ralan[]
 }
+
 model tipe_kamar_ranap {
   id        Int       @id @default(autoincrement())
-  tipe String?
+  tipe      String?
   createdAt DateTime? @default(now())
   updatedAt DateTime? @updatedAt
 }
 
 model obat {
-  id        Int       @id @default(autoincrement())
-  nama_obat String?
-  kategori_obat String?
-  deskripsi_obat String?
-  dosis_obat String?
-  efek_samping String?
-  peringatan String?
+  id                   Int              @id @default(autoincrement())
+  nama_obat            String?
+  kategori_obat        String?
+  deskripsi_obat       String?
+  dosis_obat           String?
+  efek_samping         String?
+  peringatan           String?
   instruksi_penggunaan String?
-  createdAt DateTime? @default(now())
-  updatedAt DateTime? @updatedAt
-  stok_obat                         stok_obat[]
-  penjualan_obat                    penjualan_obat[]
-  resep                    resep[]
-  resep_umum                    resep_umum[]
+  createdAt            DateTime?        @default(now())
+  updatedAt            DateTime?        @updatedAt
+  stok_obat            stok_obat[]
+  penjualan_obat       penjualan_obat[]
+  resep                resep[]
+  resep_umum           resep_umum[]
 }
 
 model stok_obat {
-  id        Int       @id @default(autoincrement())
-  obat_data                                              obat? @relation(fields: [id_obat], references: [id], onDelete: Cascade)
-  id_obat                                           Int?
-  jumlah_stok String?
-  harga_beli String?
-  harga_jual String?
+  id                 Int       @id @default(autoincrement())
+  obat_data          obat?     @relation(fields: [id_obat], references: [id], onDelete: Cascade)
+  id_obat            Int?
+  jumlah_stok        String?
+  harga_beli         String?
+  harga_jual         String?
   tanggal_kadaluarsa String?
   tanggal_penerimaan String?
   lokasi_penyimpanan String?
   batas_minimum_stok String?
-  status_stok String?
-  catatan String?
-  createdAt DateTime? @default(now())
-  updatedAt DateTime? @updatedAt
+  status_stok        String?
+  catatan            String?
+  createdAt          DateTime? @default(now())
+  updatedAt          DateTime? @updatedAt
 }
-
-
 
 model penjualan_obat {
-  id        Int       @id @default(autoincrement())
-  obat_data                                              obat? @relation(fields: [id_obat], references: [id], onDelete: Cascade)
-  id_obat  Int?
-  jumlah String?
-  harga_satuan String?
-  diskon String?
-  total_harga String?
-  tanggal_penjualan String?
+  id                   Int       @id @default(autoincrement())
+  obat_data            obat?     @relation(fields: [id_obat], references: [id], onDelete: Cascade)
+  id_obat              Int?
+  jumlah               String?
+  harga_satuan         String?
+  diskon               String?
+  total_harga          String?
+  tanggal_penjualan    String?
   informasi_pembayaran String?
-  metode_pembayaran String?
-  createdAt DateTime? @default(now())
-  updatedAt DateTime? @updatedAt
+  metode_pembayaran    String?
+  createdAt            DateTime? @default(now())
+  updatedAt            DateTime? @updatedAt
 }
 
-
 model resep {
-  id        Int       @id @default(autoincrement())
-  obat_data                                              obat @relation(fields: [id_obat], references: [id], onDelete: Cascade)
-  id_obat  Int
-  pasien_rm                                       rekam_medis_pasien?          @relation(fields: [id_pasien_rm], references: [id])
-  id_pasien_rm                                    Int?
-  dokter                                       dokter?          @relation(fields: [id_dokter], references: [id])
-  id_dokter                                    Int?
-  tanggal_resep String?
-  dosis String?
-  frekuensi String?
+  id                   Int                 @id @default(autoincrement())
+  obat_data            obat                @relation(fields: [id_obat], references: [id], onDelete: Cascade)
+  id_obat              Int
+  pasien_rm            rekam_medis_pasien? @relation(fields: [id_pasien_rm], references: [id])
+  id_pasien_rm         Int?
+  dokter               dokter?             @relation(fields: [id_dokter], references: [id])
+  id_dokter            Int?
+  tanggal_resep        String?
+  dosis                String?
+  frekuensi            String?
   instruksi_penggunaan String?
-  durasi_obat String?
-  jumlah String?
-  status_resep String?
-  createdAt DateTime? @default(now())
-  updatedAt DateTime? @updatedAt
+  durasi_obat          String?
+  jumlah               String?
+  status_resep         String?
+  createdAt            DateTime?           @default(now())
+  updatedAt            DateTime?           @updatedAt
 }
 
 model resep_umum {
-  id        Int       @id @default(autoincrement())
-  obat_data                                              obat @relation(fields: [id_obat], references: [id], onDelete: Cascade)
-  id_obat  Int
-  nama_dokter String?
-  nama_pasien String?
-   tanggal_resep String?
-  dosis String?
-  frekuensi String?
+  id                   Int       @id @default(autoincrement())
+  obat_data            obat      @relation(fields: [id_obat], references: [id], onDelete: Cascade)
+  id_obat              Int
+  nama_dokter          String?
+  nama_pasien          String?
+  tanggal_resep        String?
+  dosis                String?
+  frekuensi            String?
   instruksi_penggunaan String?
-  durasi_obat String?
-  jumlah String?
-  status_resep String?
-  createdAt DateTime? @default(now())
-  updatedAt DateTime? @updatedAt
+  durasi_obat          String?
+  jumlah               String?
+  status_resep         String?
+  createdAt            DateTime? @default(now())
+  updatedAt            DateTime? @updatedAt
+}
+
+model pasien_ralan {
+  id                   Int                 @id @default(autoincrement())
+  pasien_rm            rekam_medis_pasien? @relation(fields: [id_pasien_rm], references: [id])
+  id_pasien_rm         Int?
+  poliklinik_ralan     poliklinik?         @relation(fields: [id_poli], references: [id])
+  id_poli              Int?
+  jadwal_poliklinik    jadwal_poliklinik?  @relation(fields: [id_jadwal_poliklinik], references: [id])
+  id_jadwal_poliklinik Int?
+  jenis_pembayaran     pembayaran?         @relation(fields: [id_pembayaran], references: [id])
+  id_pembayaran        Int?
+  nama_dokter          dokter?             @relation(fields: [id_dokter], references: [id])
+  id_dokter            Int?
+  createdAt            DateTime?           @default(now())
+  updatedAt            DateTime?           @updatedAt
+}
+
+model poliklinik {
+  id                   Int                 @id @default(autoincrement())
+  daftar_poliklinik    String?
+  createdAt            DateTime?           @default(now())
+  updatedAt            DateTime?           @updatedAt
+  jadwal_poliklinik    jadwal_poliklinik[]
+  rekam_medis_pasien   rekam_medis_pasien? @relation(fields: [rekam_medis_pasienId], references: [id])
+  rekam_medis_pasienId Int?
+  pasien_ralan         pasien_ralan[]
+}
+
+model jadwal_poliklinik {
+  id              Int            @id @default(autoincrement())
+  nama_poliklinik poliklinik?    @relation(fields: [id_poli], references: [id])
+  id_poli         Int?
+  hari            nama_hari?     @relation(fields: [id_hari], references: [id])
+  id_hari         Int?
+  nama_dokter     dokter?        @relation(fields: [id_dokter], references: [id])
+  id_dokter       Int?
+  jam             String?
+  createdAt       DateTime?      @default(now())
+  updatedAt       DateTime?      @updatedAt
+  pasien_ralan    pasien_ralan[]
+
+  rekam_medis_pasien   rekam_medis_pasien? @relation(fields: [rekam_medis_pasienId], references: [id])
+  rekam_medis_pasienId Int?
+}
+
+model pembayaran {
+  id               Int            @id @default(autoincrement())
+  jenis_pembayaran String?
+  createdAt        DateTime?      @default(now())
+  updatedAt        DateTime?      @updatedAt
+  pasien_ralan     pasien_ralan[]
+}
+
+model nama_hari {
+  id                Int                 @id @default(autoincrement())
+  list_nama_hari    String?
+  createdAt         DateTime?           @default(now())
+  updatedAt         DateTime?           @updatedAt
+  jadwal_poliklinik jadwal_poliklinik[]
 }

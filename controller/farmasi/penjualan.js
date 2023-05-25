@@ -70,37 +70,7 @@ export const getPenjualanObat = async (req, res) => {
   }
 };
 
-// post data
-// export const postPenjualanObat = async (req, res) => {
-//   const {
-//     id_obat,
-//     jumlah,
-//     harga_satuan,
-//     diskon,
-//     total_harga,
-//     tanggal_penjualan,
-//     informasi_pembayaran,
-//     metode_pembayaran,
-//   } = req.body;
-//   try {
-//     const postData = await prisma.penjualan_obat.create({
-//       data: {
-//         id_obat: 4,
-//         jumlah: jumlah,
-//         harga_satuan: harga_satuan,
-//         diskon: diskon,
-//         total_harga: total_harga,
-//         tanggal_penjualan: tanggal_penjualan,
-//         informasi_pembayaran: informasi_pembayaran,
-//         metode_pembayaran: metode_pembayaran,
-//       },
-//     });
-//     res.status(201).json(postData);
-//   } catch (error) {
-//     res.status(400).json({ msg: error.message });
-//   }
-// };
-
+// post
 export const postPenjualanObat = async (req, res) => {
   const data = req.body;
   try {
