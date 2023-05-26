@@ -141,8 +141,19 @@ import {
   postResepUmum,
   updateResepUmum,
 } from "../controller/farmasi/resep_umum.js";
+import { getUser, login, logout, register } from "../controller/users/users.js";
+
+import { verifyToken } from "../middleware/VerifyToken.js";
+import { refreshToken } from "../controller/token/RefreshToken.js";
 
 const router = express.Router();
+
+// auth
+router.get("/users", verifyToken, getUser);
+router.get("/token", refreshToken);
+router.post("/users", register);
+router.post("/login", login);
+router.patch("/logout/:id", logout);
 
 // pendaftaran pasien baru
 router.get("/rm", getData);
