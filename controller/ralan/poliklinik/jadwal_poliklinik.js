@@ -2,7 +2,7 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 export const getDataJadwalPoliklinik = async (req, res) => {
-  const { search, page, limit, poli } = req.query;
+  const { search, page, limit, poli, hari } = req.query;
   const searchQuery = search
     ? {
         OR: [{ dokter_data: { nama_dokter: { contains: search } } }],
@@ -18,7 +18,15 @@ export const getDataJadwalPoliklinik = async (req, res) => {
       whereCondition = {
         ...searchQuery,
         id_poli: {
-          equals: Number(poli), // Use 'poli' instead of 'id_poli'
+          equals: Number(poli), // parse id dari string ke number atau int
+        },
+      };
+    }
+    if (hari) {
+      whereCondition = {
+        ...searchQuery,
+        id_hari: {
+          equals: Number(hari), // parse id dari string ke number atau int
         },
       };
     }

@@ -17,11 +17,15 @@ Content-Type: application/json
 ###
 GET http://localhost:5000/ralan/pasien/all
 ###
-GET http://localhost:5000/hari/nama
+
+GET http://localhost:5000/j
 
 
 ###
-GET http://localhost:5000/ralan/poliklinik/jadwal?poli=2
+GET http://localhost:5000/ralan/poliklinik/jadwal?poli=1
+
+###
+GET http://localhost:5000/ralan/poliklinik/jadwal?hari=1
 
 ###
 GET http://localhost:5000/ralan/pasien/2

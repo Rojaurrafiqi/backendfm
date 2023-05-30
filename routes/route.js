@@ -176,6 +176,7 @@ import {
   getNamaDokter,
   postDataJadwalPoliklinik,
 } from "../controller/ralan/poliklinik/jadwal_poliklinik.js";
+import { getPoliById } from "../controller/ralan/poliklinik/api_jadwal_poli.js";
 
 const router = express.Router();
 
@@ -204,6 +205,9 @@ router.get("/hari/nama", getDataNamaHari);
 router.get("/ralan/poliklinik/dokter/nama", getNamaDokter);
 router.delete("/ralan/poliklinik/jadwal/:id", deleteDataJadwalPoliklinik);
 router.post("/ralan/poliklinik/jadwal", postDataJadwalPoliklinik);
+
+// api dynamic dropdown jadwal poliklinik
+router.get("/ralan/poliklinik/jadwal/:id", getPoliById);
 
 // pendaftaran pasien baru
 router.get("/rm", getData);
