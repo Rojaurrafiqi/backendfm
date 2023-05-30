@@ -4,13 +4,23 @@ import jwt from "jsonwebtoken";
 const prisma = new PrismaClient();
 
 export const register = async (req, res) => {
-  const { name, email, password, confPassword } = req.body;
+  const {
+    name,
+    email,
+    password,
+    confPassword,
+    jabatan,
+    status,
+    jenis_kelamin,
+  } = req.body;
 
   if (password !== confPassword)
     return res
       .status(400)
       .json({ msg: "password dan confirm password tidak cocok" });
-  const salt = await bcrypt.genSalt();
+
+  const saltRounds = 10;
+  const salt = await bcrypt.genSalt(saltRounds);
   const hashPassword = await bcrypt.hash(password, salt);
 
   try {
@@ -19,6 +29,9 @@ export const register = async (req, res) => {
         name: name,
         email: email,
         password: hashPassword,
+        jabatan: jabatan,
+        jenis_kelamin: jenis_kelamin,
+        status: status,
       },
     });
     res.json({ msg: "register berhasil" });
@@ -42,6 +55,64 @@ export const getUser = async (req, res) => {
     res.status(200).json(data);
   } catch (error) {
     console.log(error);
+  }
+};
+
+export const getAllUser = async (req, res) => {
+  const { search, page, limit, jabatan, status } = req.query;
+  const searchQuery = search
+    ? {
+        OR: [{ name: { contains: search } }],
+      }
+    : {};
+  const pageNumber = parseInt(page) || 1;
+  const limitNumber = parseInt(limit) || 10;
+  const skipNumber = (pageNumber - 1) * limitNumber;
+
+  try {
+    let whereCondition = searchQuery;
+    if (jabatan) {
+      whereCondition = {
+        ...searchQuery,
+        jabatan: {
+          equals: jabatan,
+        },
+      };
+    }
+
+    if (status) {
+      whereCondition = {
+        ...whereCondition,
+        status: {
+          equals: status,
+        },
+      };
+    }
+
+    const totalItems = await prisma.users.count({ where: whereCondition });
+    const totalPages = Math.ceil(totalItems / limitNumber);
+
+    const getData = await prisma.users.findMany({
+      where: whereCondition,
+      select: {
+        id: true,
+        name: true,
+        jabatan: true,
+        status: true,
+        email: true,
+      },
+      skip: skipNumber,
+      take: limitNumber,
+    });
+
+    res.status(200).json({
+      data: getData,
+      totalItems,
+      totalPages,
+      currentPage: pageNumber,
+    });
+  } catch (error) {
+    res.status(404).json({ msg: error.message });
   }
 };
 
@@ -135,5 +206,55 @@ export const logout = async (req, res) => {
   } catch (error) {
     console.error("Error logging out:", error);
     res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+// delete users
+export const deleteUser = async (req, res) => {
+  try {
+    const data = await prisma.users.delete({
+      where: {
+        id: parseInt(req.params.id),
+      },
+    });
+    res.status(200).json(data);
+  } catch (error) {
+    res.status(400).json({ msg: error.message });
+  }
+};
+
+// untuk dipakai pada form pendaftaran user baru pada field select jabatan di FE user
+export const getJabatan = async (req, res) => {
+  try {
+    const data = await prisma.jabatan.findMany({
+      select: {
+        id: true,
+        nama_jabatan: true,
+      },
+    });
+    res.status(200).json(data);
+  } catch (error) {
+    res.status(404).json({ msg: error.message });
+  }
+};
+
+// data user by id
+export const getUserById = async (req, res) => {
+  try {
+    const data = await prisma.users.findUnique({
+      where: {
+        id: Number(req.params.id),
+      },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        jabatan: true,
+        jenis_kelamin: true,
+      },
+    });
+    res.status(200).json(data);
+  } catch (error) {
+    res.status(400).json({ msg: error.message });
   }
 };

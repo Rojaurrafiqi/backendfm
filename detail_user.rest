@@ -1,0 +1,20 @@
+###
+GET http://localhost:5000/user/detail/dokter/4
+
+
+###
+POST http://localhost:5000/user/detail/dokter
+Content-Type: application/json
+
+{
+    "id_user":4,
+    "nama_dokter": "rojaur rafiqi",
+    "spesialis": "Jantung dan pembuluh darah",
+    "sub_spesialis": "-",
+    "nomor_hp": "081299009921",
+    "alamat": "banda aceh",
+    "email": "email@gmai.com",
+    "tanggal_lahir": "1988-05-20",
+    "jenis_kelamin": "laki-laki",
+    "tempat_lahir": "banda aceh"
+}

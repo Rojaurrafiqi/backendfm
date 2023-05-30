@@ -1,0 +1,47 @@
+###
+GET http://localhost:5000/users/all?jabatan=perawat&status=tidak aktif
+
+# ###
+# GET http://localhost:5000/users
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsIm5hbWVVc2VyIjoicm9qYXVyYWZpcWkiLCJlbWFpbFVzZXIiOiJyb2phdXJyYWZpcWkyNUBnbWFpbC5jb20iLCJpYXQiOjE2ODUxMTE1MTUsImV4cCI6MTY4NTExMTUzNX0.VZ5Hkx8M6xRXCjq2EW2N31aumaA3iolXivuVGlP7ze0
+
+###
+GET http://localhost:5000/token
+
+###
+GET http://localhost:5000/users/4
+
+###
+GET http://localhost:5000/users/jabatan
+
+###
+PATCH  http://localhost:5000/logout/3
+
+###
+POST http://localhost:5000/users
+Content-Type: application/json
+
+{
+    "name": "Putra",
+    "email": "putra@example.com",
+    "password": "12345678",
+    "confPassword": "12345678",
+    "jabatan":"dokter",
+    "jenis_kelamin":"laki-laki",
+    "status":"aktif"
+}
+
+
+
+
+
+
+###
+POST http://localhost:5000/login
+Content-Type: application/json
+
+{
+    "email": "rojaurrafiqi25@gmail.com",
+    "password": "12345678"
+
+}

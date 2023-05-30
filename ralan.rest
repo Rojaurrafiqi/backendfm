@@ -1,0 +1,31 @@
+###
+POST http://localhost:5000/ralan/pasien/daftar
+Content-Type: application/json
+
+{
+    "id_pasien_rm": 17,
+    "id_poli": 1,
+    "id_jadwal_poliklinik": 1,
+    "id_pembayaran": 1,
+    "id_dokter": 1,
+    "jenis_pasien": "BPJS",
+    "jenis_konsultasi": "datang langsung",
+    "no_antrian": "A12"
+
+}
+
+###
+GET http://localhost:5000/ralan/pasien/all
+###
+GET http://localhost:5000/hari/nama
+
+
+###
+GET http://localhost:5000/ralan/poliklinik/jadwal?poli=2
+
+###
+GET http://localhost:5000/ralan/pasien/2
+
+###
+DELETE  http://localhost:5000/ralan/pasien/2
+

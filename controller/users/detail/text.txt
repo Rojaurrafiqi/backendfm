@@ -1,0 +1,4 @@
+pada users memiliki beberapa jabatan, seperti dokter, perawat, apokeker, admin, staff, dll.
+setiap akun tersebut membutuhkan identitas lengkap yang disebut sebagai detail user, yang memberitahu
+secara detail biodata user tersebut. seperti pada dokter, maka memberi informasi dokter tersebut
+spesialis di bagian apa, input str, dll.

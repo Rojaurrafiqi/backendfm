@@ -8,7 +8,7 @@ datasource db {
 }
 
 model rekam_medis_pasien {
-  id                     Int                 @id @default(autoincrement())
+  id                     Int            @id @default(autoincrement())
   no_rm                  Int?
   kitas                  String?
   no_kitas               String?
@@ -35,15 +35,13 @@ model rekam_medis_pasien {
   alamat_pj_kec          String?
   alamat_pj_desa         String?
   alamat_pj_detail       String?
-  published              Boolean?            @default(false)
-  createdAt              DateTime?           @default(now())
-  updatedAt              DateTime?           @updatedAt
+  published              Boolean?       @default(false)
+  createdAt              DateTime?      @default(now())
+  updatedAt              DateTime?      @updatedAt
   pasien_igd             pasien_igd[]
   pasien_ranap           pasien_ralan[]
   pasien_ralan           pasien_ranap[]
   resep                  resep[]
-  poliklinik             poliklinik[]
-  jadwal_poliklinik      jadwal_poliklinik[]
 }
 
 model pekerjaan {
@@ -345,23 +343,6 @@ model kamar_ranap {
   updatedAt    DateTime? @updatedAt
 }
 
-model dokter {
-  id                Int                 @id @default(autoincrement())
-  nama_dokter       String?
-  jenis_kelamin     String?
-  tanggal_lahir     String?
-  spesialis         String?
-  nomor_hp          String?
-  alamat            String?
-  email             String?
-  jadwal_praktik    String?
-  createdAt         DateTime?           @default(now())
-  updatedAt         DateTime?           @updatedAt
-  resep             resep[]
-  jadwal_poliklinik jadwal_poliklinik[]
-  pasien_ralan      pasien_ralan[]
-}
-
 model tipe_kamar_ranap {
   id        Int       @id @default(autoincrement())
   tipe      String?
@@ -464,38 +445,37 @@ model pasien_ralan {
   id_jadwal_poliklinik Int?
   jenis_pembayaran     pembayaran?         @relation(fields: [id_pembayaran], references: [id])
   id_pembayaran        Int?
-  nama_dokter          dokter?             @relation(fields: [id_dokter], references: [id])
+  dokter               dokter?             @relation(fields: [id_dokter], references: [id])
   id_dokter            Int?
+  jenis_pasien         String?
+  jenis_konsultasi     String?
+  no_antrian           String?
   createdAt            DateTime?           @default(now())
   updatedAt            DateTime?           @updatedAt
 }
 
 model poliklinik {
-  id                   Int                 @id @default(autoincrement())
-  daftar_poliklinik    String?
-  createdAt            DateTime?           @default(now())
-  updatedAt            DateTime?           @updatedAt
-  jadwal_poliklinik    jadwal_poliklinik[]
-  rekam_medis_pasien   rekam_medis_pasien? @relation(fields: [rekam_medis_pasienId], references: [id])
-  rekam_medis_pasienId Int?
-  pasien_ralan         pasien_ralan[]
+  id                Int                 @id @default(autoincrement())
+  nama_poliklinik   String?
+  createdAt         DateTime?           @default(now())
+  updatedAt         DateTime?           @updatedAt
+  jadwal_poliklinik jadwal_poliklinik[]
+  pasien_ralan      pasien_ralan[]
 }
 
 model jadwal_poliklinik {
   id              Int            @id @default(autoincrement())
-  nama_poliklinik poliklinik?    @relation(fields: [id_poli], references: [id])
+  poliklinik_data poliklinik?    @relation(fields: [id_poli], references: [id])
   id_poli         Int?
   hari            nama_hari?     @relation(fields: [id_hari], references: [id])
   id_hari         Int?
-  nama_dokter     dokter?        @relation(fields: [id_dokter], references: [id])
+  dokter_data     dokter?        @relation(fields: [id_dokter], references: [id])
   id_dokter       Int?
   jam             String?
+  catatan         String?
   createdAt       DateTime?      @default(now())
   updatedAt       DateTime?      @updatedAt
   pasien_ralan    pasien_ralan[]
-
-  rekam_medis_pasien   rekam_medis_pasien? @relation(fields: [rekam_medis_pasienId], references: [id])
-  rekam_medis_pasienId Int?
 }
 
 model pembayaran {
@@ -521,7 +501,36 @@ model users {
   password      String?
   jabatan       String?
   status        String?
+  jenis_kelamin String?
   refresh_token String?
   createdAt     DateTime? @default(now())
   updatedAt     DateTime? @updatedAt
+  dokter        dokter[]
+}
+
+model jabatan {
+  id           Int       @id @default(autoincrement())
+  nama_jabatan String?
+  createdAt    DateTime? @default(now())
+  updatedAt    DateTime? @updatedAt
+}
+
+model dokter {
+  id                Int                 @id @default(autoincrement())
+  user_data         users?              @relation(fields: [id_user], references: [id])
+  id_user           Int?
+  nama_dokter       String?
+  jenis_kelamin     String?
+  tanggal_lahir     String?
+  tempat_lahir      String?
+  spesialis         String?
+  sub_spesialis     String?
+  nomor_hp          String?
+  alamat            String?
+  email             String?
+  createdAt         DateTime?           @default(now())
+  updatedAt         DateTime?           @updatedAt
+  resep             resep[]
+  jadwal_poliklinik jadwal_poliklinik[]
+  pasien_ralan      pasien_ralan[]
 }

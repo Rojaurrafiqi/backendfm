@@ -141,19 +141,69 @@ import {
   postResepUmum,
   updateResepUmum,
 } from "../controller/farmasi/resep_umum.js";
-import { getUser, login, logout, register } from "../controller/users/users.js";
+import {
+  deleteUser,
+  getAllUser,
+  getJabatan,
+  getUser,
+  getUserById,
+  login,
+  logout,
+  register,
+} from "../controller/users/users.js";
 
 import { verifyToken } from "../middleware/VerifyToken.js";
 import { refreshToken } from "../controller/token/RefreshToken.js";
+import {
+  deletePasienRalan,
+  getAllPasienRalan,
+  getPasienRalanById,
+  pendaftaran_ralan,
+} from "../controller/ralan/pasien_ralan.js";
+import {
+  getDetailUserDokter,
+  postDetailUserDokter,
+} from "../controller/users/detail/detail_users.js";
+import {
+  deleteDataPoliklinik,
+  getDataPoliklinik,
+  postDataPoliklinik,
+} from "../controller/ralan/poliklinik/data_poliklinik.js";
+import {
+  deleteDataJadwalPoliklinik,
+  getDataJadwalPoliklinik,
+  getDataNamaHari,
+  getNamaDokter,
+  postDataJadwalPoliklinik,
+} from "../controller/ralan/poliklinik/jadwal_poliklinik.js";
 
 const router = express.Router();
 
 // auth
-router.get("/users", verifyToken, getUser);
+// router.get("/users", verifyToken, getUser);
+router.get("/users", getUser);
+router.get("/users/all", getAllUser);
 router.get("/token", refreshToken);
 router.post("/users", register);
+router.get("/users/jabatan", getJabatan); //dipakai untuk select jabatan pada form register user
 router.post("/login", login);
 router.patch("/logout/:id", logout);
+router.get("/users/:id", getUserById);
+router.delete("/users/:id", deleteUser);
+router.get("/user/detail/dokter/:id", getDetailUserDokter); // parse pakai id user bukan id dokter
+router.post("/user/detail/dokter", postDetailUserDokter);
+
+//poliklinik
+router.get("/ralan/poliklinik", getDataPoliklinik);
+router.delete("/ralan/poliklinik/:id", deleteDataPoliklinik);
+router.post("/ralan/poliklinik", postDataPoliklinik);
+
+// jadwal poliklinik
+router.get("/ralan/poliklinik/jadwal", getDataJadwalPoliklinik);
+router.get("/hari/nama", getDataNamaHari);
+router.get("/ralan/poliklinik/dokter/nama", getNamaDokter);
+router.delete("/ralan/poliklinik/jadwal/:id", deleteDataJadwalPoliklinik);
+router.post("/ralan/poliklinik/jadwal", postDataJadwalPoliklinik);
 
 // pendaftaran pasien baru
 router.get("/rm", getData);
@@ -376,13 +426,15 @@ router.delete("/ranap/kamar/tipe/:id", deleteTipeKamar);
 // ranap > tipe kamar > post data
 router.post("/ranap/kamar/tipe", postTipeKamar);
 
+// ------farmasi -------
+
 // farmasi > data obat
 router.get("/farmasi/obat", getDataObat);
 
 //farmasi > memunculkan nama obat saja untuk dipakai di select pemilihan nama obat
 router.get("/farmasi/obat/nama", getNamaObat);
 
-//farmasi ? memunculkan pilihan nama obat hanya yang stok tersedia saja
+//farmasi > memunculkan pilihan nama obat hanya yang stok tersedia saja
 router.get("/farmasi/obat/nama/stok", getNamaObatByStokObat);
 
 //farmasi > post data obat
@@ -447,5 +499,19 @@ router.patch("/farmasi/obat/resep/umum/:id", updateResepUmum);
 
 // farmasi > delete resep umum
 router.delete("/farmasi/obat/resep/umum/:id", deleteResepUmum);
+
+// ------rawat jalan-----
+
+// ralan > pendaftaran
+router.post("/ralan/pasien/daftar", pendaftaran_ralan);
+
+//ralan > get all data
+router.get("/ralan/pasien/all", getAllPasienRalan);
+
+// ralan > get data by id
+router.get("/ralan/pasien/:id", getPasienRalanById);
+
+// ralan > delete data
+router.delete("/ralan/pasien/:id", deletePasienRalan);
 
 export default router;
