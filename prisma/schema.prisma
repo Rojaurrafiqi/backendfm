@@ -42,6 +42,7 @@ model rekam_medis_pasien {
   pasien_ranap           pasien_ralan[]
   pasien_ralan           pasien_ranap[]
   resep                  resep[]
+  kasir                  kasir[]
 }
 
 model pekerjaan {
@@ -445,13 +446,17 @@ model pasien_ralan {
   id_jadwal_poliklinik Int?
   jenis_pembayaran     pembayaran?         @relation(fields: [id_pembayaran], references: [id])
   id_pembayaran        Int?
-  dokter               dokter?             @relation(fields: [id_dokter], references: [id])
+  dokter_data          dokter?             @relation(fields: [id_dokter], references: [id])
   id_dokter            Int?
   jenis_pasien         String?
+  deposit              String?
+  catatan              String?
   jenis_konsultasi     String?
   no_antrian           String?
   createdAt            DateTime?           @default(now())
   updatedAt            DateTime?           @updatedAt
+  tipe_pasien          tipe_pasien?        @relation(fields: [tipe_pasienId], references: [id])
+  tipe_pasienId        Int?
 }
 
 model poliklinik {
@@ -484,6 +489,14 @@ model pembayaran {
   createdAt        DateTime?      @default(now())
   updatedAt        DateTime?      @updatedAt
   pasien_ralan     pasien_ralan[]
+}
+
+model tipe_pasien {
+  id                Int            @id @default(autoincrement())
+  jenis_tipe_pasien String?
+  createdAt         DateTime?      @default(now())
+  updatedAt         DateTime?      @updatedAt
+  pasien_ralan      pasien_ralan[]
 }
 
 model nama_hari {
@@ -533,4 +546,76 @@ model dokter {
   resep             resep[]
   jadwal_poliklinik jadwal_poliklinik[]
   pasien_ralan      pasien_ralan[]
+}
+
+model Barang {
+  id_barang           Int       @id
+  grup                Int       @default(1) // 1 = Gudang Farmasi, 2 = Gudang Umum
+  id_bpjs             String    @default("-")
+  id_kategori         Int
+  nama_barang         String?
+  nama_alias          String    @default("-")
+  nama_barang_lengkap String?
+  no_batch            String    @default("0")
+  barcode             String    @default("-")
+  sumber_brg          Int       @default(0) // 1 = Dibeli, 2 = Diproduksi Sendiri, 3 = Titipan
+  id_produsen         Int
+  isasset             Int       @default(0) // 1 = Asset, 0 = Tidak
+  jenis_asset         Int       @default(0) // 1 = Asset Tetap, 2 = Asset Bergerak
+  iscontrolstock      Int       @default(1)
+  isdijual            Int       @default(1)
+  id_jenis            Int       @default(10)
+  id_bentuk           Int       @default(10)
+  kandungan_isi       Float     @default(0.00)
+  kandungan_satuan    String?
+  kemasan             String?
+  kemasan_isi         Int       @default(0)
+  kemasan_satuan      String?
+  hpp_awal            Float     @default(0.00) // HPP Satuan Awal Barang
+  harga_dasar         Float     @default(0.00) // Untuk barang titipan
+  tax                 String    @default("N-T")
+  isresep             Int       @default(0)
+  hrg_jual1           Float     @default(0.00000000)
+  pcn_jual1           Float     @default(0.00)
+  hrg_jual2           Float     @default(0.00000000)
+  pcn_jual2           Float     @default(0.00)
+  hrg_jual3           Float     @default(0.00000000)
+  pcn_jual3           Float     @default(0.00)
+  sts_account_setup   Int       @default(0)
+  acc_asset           String?
+  acc_hpp_biaya       String?
+  acc_income          String?
+  keterangan          String    @default("-")
+  isused              Int       @default(1)
+  user_created        String?
+  date_created        DateTime?
+  user_modified       String?
+  date_modified       DateTime?
+  catatan             String    @default("-")
+  sts_barang          Int       @default(0)
+  sts_ada             Int       @default(1)
+  sts_obat            Int       @default(0) // 0 = Default, 1 = Obat Dalam, 2 = Obat Luar
+  id_gol              Int?
+}
+
+// ketiga ini ikut punya klkdta
+// bikin database barang
+// bikin database stok_barang
+// bikin database kasir
+
+model kasir {
+  id                Int                 @id @default(autoincrement())
+  pasien_rm         rekam_medis_pasien? @relation(fields: [id_pasien_rm], references: [id])
+  id_pasien_rm      Int?
+  metode_pembayaran String?
+  item              String?
+  quantity          String?
+  harga_satuan      String?
+  total_harga       String?
+  diskon            String?
+  status_pembayaran String?
+  keterangan        String?
+  kirim_apotek      Boolean?
+  createdAt         DateTime?           @default(now())
+  updatedAt         DateTime?           @updatedAt
 }

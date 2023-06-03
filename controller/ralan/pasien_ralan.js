@@ -8,6 +8,7 @@ export const pendaftaran_ralan = async (req, res) => {
     id_poli,
     id_jadwal_poliklinik,
     id_pembayaran,
+    deposit,
     id_dokter,
     jenis_pasien,
     jenis_konsultasi,
@@ -20,6 +21,7 @@ export const pendaftaran_ralan = async (req, res) => {
         id_pasien_rm: id_pasien_rm,
         id_poli: id_poli,
         id_jadwal_poliklinik: id_jadwal_poliklinik,
+        deposit: deposit,
         id_pembayaran: id_pembayaran,
         id_dokter: id_dokter,
         jenis_pasien: jenis_pasien,
@@ -39,7 +41,7 @@ export const getAllPasienRalan = async (req, res) => {
   const searchQuery = search
     ? {
         OR: [
-          { dokter: { contains: search } },
+          { dokter: { nama_dokter: { contains: search } } },
           { pasien_rm: { nama_lengkap: { contains: search } } },
           // pencarian dngn no rm masih belum jalan
           // { pasien_rm: { no_rm: { contains: parseInt(search) } } },
@@ -72,13 +74,7 @@ export const getAllPasienRalan = async (req, res) => {
             nama_poliklinik: true,
           },
         },
-        // jadwal_poliklinik: {
-        //   select: {
-        //     id: true,
-        //     nama_poliklinik: true,
-        //   },
-        // },
-        dokter: {
+        dokter_data: {
           select: {
             id: true,
             nama_dokter: true,
@@ -87,6 +83,7 @@ export const getAllPasienRalan = async (req, res) => {
         jenis_pasien: true,
         jenis_konsultasi: true,
         no_antrian: true,
+        deposit: true,
       },
       skip: skipNumber,
       take: limitNumber,
@@ -118,21 +115,34 @@ export const getPasienRalanById = async (req, res) => {
             no_rm: true,
             nama_lengkap: true,
             kelamin: true,
+            agama: true,
+            kontak_pasien: true,
+            alamat_pasien_provinsi: true,
+            alamat_pasien_detail: true,
           },
         },
         poliklinik_ralan: {
           select: {
             id: true,
+            nama_poliklinik: true,
           },
         },
         jadwal_poliklinik: {
           select: {
             id: true,
+            jam: true,
+          },
+        },
+        dokter_data: {
+          select: {
+            id: true,
+            nama_dokter: true,
           },
         },
         jenis_pasien: true,
         jenis_konsultasi: true,
         no_antrian: true,
+        deposit: true,
       },
     });
     res.status(200).json(data);

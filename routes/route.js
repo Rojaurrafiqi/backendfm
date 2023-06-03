@@ -177,6 +177,8 @@ import {
   postDataJadwalPoliklinik,
 } from "../controller/ralan/poliklinik/jadwal_poliklinik.js";
 import { getPoliById } from "../controller/ralan/poliklinik/api_jadwal_poli.js";
+import { getTipePembayaran } from "../controller/pembayaran/pembayaran.js";
+import { getTipePasien } from "../controller/JenisPasien/jenis_pasien.js";
 
 const router = express.Router();
 
@@ -517,5 +519,11 @@ router.get("/ralan/pasien/:id", getPasienRalanById);
 
 // ralan > delete data
 router.delete("/ralan/pasien/:id", deletePasienRalan);
+
+// pembayaran
+router.get("/pembayaran", getTipePembayaran);
+
+//jenis pasien like : bpjs, umum, asuransi
+router.get("/pasien/tipe", getTipePasien);
 
 export default router;

@@ -9,16 +9,18 @@ Content-Type: application/json
     "id_pembayaran": 1,
     "id_dokter": 1,
     "jenis_pasien": "BPJS",
+    "deposit": "50000",
     "jenis_konsultasi": "datang langsung",
     "no_antrian": "A12"
 
 }
 
+
 ###
-GET http://localhost:5000/ralan/pasien/all
+GET http://localhost:5000/ralan/pasien/all?search=
 ###
 
-GET http://localhost:5000/j
+GET http://localhost:5000/pasien/tipe
 
 
 ###
@@ -29,6 +31,9 @@ GET http://localhost:5000/ralan/poliklinik/jadwal?hari=1
 
 ###
 GET http://localhost:5000/ralan/pasien/2
+
+###
+GET http://localhost:5000/ralan/poliklinik
 
 ###
 DELETE  http://localhost:5000/ralan/pasien/2
