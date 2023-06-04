@@ -9,7 +9,7 @@ datasource db {
 
 model rekam_medis_pasien {
   id                     Int            @id @default(autoincrement())
-  no_rm                  Int?
+  no_rm                  String?
   kitas                  String?
   no_kitas               String?
   nama_lengkap           String?
@@ -35,6 +35,8 @@ model rekam_medis_pasien {
   alamat_pj_kec          String?
   alamat_pj_desa         String?
   alamat_pj_detail       String?
+  email                  String?
+  berat_lahir            String?
   published              Boolean?       @default(false)
   createdAt              DateTime?      @default(now())
   updatedAt              DateTime?      @updatedAt
@@ -599,7 +601,7 @@ model Barang {
 }
 
 // ketiga ini ikut punya klkdta
-// bikin database barang
+
 // bikin database stok_barang
 // bikin database kasir
 
