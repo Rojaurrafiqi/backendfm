@@ -59,6 +59,9 @@ export const getDataJadwalPoliklinik = async (req, res) => {
             nama_dokter: true,
           },
         },
+        id_poli: true,
+        id_hari: true,
+        id_dokter: true,
       },
       skip: skipNumber,
       take: limitNumber,
@@ -74,20 +77,6 @@ export const getDataJadwalPoliklinik = async (req, res) => {
     res.status(404).json({ msg: error.message });
   }
 };
-
-// export const getAllDataJadwalPoliklinik = async (req, res) => {
-//   try {
-//     const getData = await prisma.jadwal_poliklinik.findMany({
-//       select: {
-//         id: true,
-//         nama_poliklinik: true,
-//       },
-//     });
-//     res.status(200).json(getData);
-//   } catch (error) {
-//     res.status(404).json({ msg: message.error });
-//   }
-// };
 
 export const postDataJadwalPoliklinik = async (req, res) => {
   const { id_poli, id_hari, id_dokter, jam } = req.body;
@@ -144,5 +133,70 @@ export const getNamaDokter = async (req, res) => {
     res.status(200).json(getData);
   } catch (error) {
     res.status(404).json({ msg: error.message });
+  }
+};
+
+// Retrieve jadwal_poli data
+export const getJadwalPoli = async (req, res) => {
+  try {
+    const { nama_poli, nama_hari } = req.query;
+    let jadwalPolis;
+
+    if (nama_poli && nama_hari) {
+      jadwalPolis = await prisma.jadwal_poliklinik.findMany({
+        where: {
+          poliklinik_data: {
+            nama_poliklinik: nama_poli, // Use the value of the nama_poli parameter
+          },
+          hari: {
+            list_nama_hari: nama_hari, // Use the value of the nama_hari parameter
+          },
+        },
+        include: {
+          poliklinik_data: true,
+          hari: true,
+          dokter_data: true,
+        },
+      });
+    } else if (nama_poli) {
+      jadwalPolis = await prisma.jadwal_poliklinik.findMany({
+        where: {
+          poliklinik_data: {
+            nama_poliklinik: nama_poli, // Use the value of the nama_poli parameter
+          },
+        },
+        include: {
+          poliklinik_data: true,
+          hari: true,
+          dokter_data: true,
+        },
+      });
+    } else if (nama_hari) {
+      jadwalPolis = await prisma.jadwal_poliklinik.findMany({
+        where: {
+          hari: {
+            list_nama_hari: nama_hari, // Use the value of the nama_hari parameter
+          },
+        },
+        include: {
+          poliklinik_data: true,
+          hari: true,
+          dokter_data: true,
+        },
+      });
+    } else {
+      jadwalPolis = await prisma.jadwal_poliklinik.findMany({
+        include: {
+          poliklinik_data: true,
+          hari: true,
+          dokter_data: true,
+        },
+      });
+    }
+
+    res.json(jadwalPolis);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal server error" });
   }
 };

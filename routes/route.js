@@ -88,7 +88,10 @@ import {
   form_default_post_ranap,
   form_default_ranap,
 } from "../controller/ranap/form_default_ranap.js";
-import { getRiwayatIgdPasien } from "../controller/RekamMedis/Igd/riwayatIgdPasien.js";
+import {
+  getRiwayatIgdPasien,
+  getRiwayatRekamMedisById,
+} from "../controller/RekamMedis/Igd/riwayatIgdPasien.js";
 import {
   pendaftaran_ranap,
   getAllPasienRanap,
@@ -173,6 +176,7 @@ import {
   deleteDataJadwalPoliklinik,
   getDataJadwalPoliklinik,
   getDataNamaHari,
+  getJadwalPoli,
   getNamaDokter,
   postDataJadwalPoliklinik,
 } from "../controller/ralan/poliklinik/jadwal_poliklinik.js";
@@ -525,5 +529,11 @@ router.get("/pembayaran", getTipePembayaran);
 
 //jenis pasien like : bpjs, umum, asuransi
 router.get("/pasien/tipe", getTipePasien);
+
+// tes jadwal poli
+router.get("/jadwal/poli", getJadwalPoli);
+
+// get rekam medis pasien lama by id
+router.get("/pasien/rekammedis/lama/:id", getRiwayatRekamMedisById);
 
 export default router;

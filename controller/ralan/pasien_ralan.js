@@ -5,11 +5,10 @@ const prisma = new PrismaClient();
 export const pendaftaran_ralan = async (req, res) => {
   const {
     id_pasien_rm,
-    id_poli,
-    id_jadwal_poliklinik,
+    poliklinik,
     id_pembayaran,
     deposit,
-    id_dokter,
+    dokter,
     jenis_pasien,
     jenis_konsultasi,
     no_antrian,
@@ -19,11 +18,10 @@ export const pendaftaran_ralan = async (req, res) => {
     const dataPasien = await prisma.pasien_ralan.create({
       data: {
         id_pasien_rm: id_pasien_rm,
-        id_poli: id_poli,
-        id_jadwal_poliklinik: id_jadwal_poliklinik,
+        poliklinik: poliklinik,
+        dokter: dokter,
         deposit: deposit,
         id_pembayaran: id_pembayaran,
-        id_dokter: id_dokter,
         jenis_pasien: jenis_pasien,
         jenis_konsultasi: jenis_konsultasi,
         no_antrian: no_antrian,
@@ -41,7 +39,7 @@ export const getAllPasienRalan = async (req, res) => {
   const searchQuery = search
     ? {
         OR: [
-          { dokter: { nama_dokter: { contains: search } } },
+          { dokter_data: { nama_dokter: { contains: search } } },
           { pasien_rm: { nama_lengkap: { contains: search } } },
           // pencarian dngn no rm masih belum jalan
           // { pasien_rm: { no_rm: { contains: parseInt(search) } } },
@@ -68,18 +66,8 @@ export const getAllPasienRalan = async (req, res) => {
             kelamin: true,
           },
         },
-        poliklinik_ralan: {
-          select: {
-            id: true,
-            nama_poliklinik: true,
-          },
-        },
-        dokter_data: {
-          select: {
-            id: true,
-            nama_dokter: true,
-          },
-        },
+        poliklinik: true,
+        dokter: true,
         jenis_pasien: true,
         jenis_konsultasi: true,
         no_antrian: true,
@@ -121,24 +109,8 @@ export const getPasienRalanById = async (req, res) => {
             alamat_pasien_detail: true,
           },
         },
-        poliklinik_ralan: {
-          select: {
-            id: true,
-            nama_poliklinik: true,
-          },
-        },
-        jadwal_poliklinik: {
-          select: {
-            id: true,
-            jam: true,
-          },
-        },
-        dokter_data: {
-          select: {
-            id: true,
-            nama_dokter: true,
-          },
-        },
+        poliklinik: true,
+        dokter: true,
         jenis_pasien: true,
         jenis_konsultasi: true,
         no_antrian: true,

@@ -3,11 +3,10 @@ POST http://localhost:5000/ralan/pasien/daftar
 Content-Type: application/json
 
 {
-    "id_pasien_rm": 17,
-    "id_poli": 1,
-    "id_jadwal_poliklinik": 1,
+    "id_pasien_rm": 1118030004,
+    "poliklinik": "umum",
     "id_pembayaran": 1,
-    "id_dokter": 1,
+    "dokter": "rojaur",
     "jenis_pasien": "BPJS",
     "deposit": "50000",
     "jenis_konsultasi": "datang langsung",
@@ -17,17 +16,17 @@ Content-Type: application/json
 
 
 ###
-GET http://localhost:5000/ralan/pasien/all?search=
+GET http://localhost:5000/ralan/pasien/all?search=fa
 ###
 
-GET http://localhost:5000/pasien/tipe
+GET http://localhost:5000/jadwal/poli?nama_poli=umum&nama_hari=senin
 
 
 ###
-GET http://localhost:5000/ralan/poliklinik/jadwal?poli=1
+GET http://localhost:5000/ralan/poliklinik/jadwal?
 
 ###
-GET http://localhost:5000/ralan/poliklinik/jadwal?hari=1
+GET http://localhost:5000/ralan/poliklinik/jadwal?hari=3
 
 ###
 GET http://localhost:5000/ralan/pasien/2
