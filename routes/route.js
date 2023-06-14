@@ -181,9 +181,12 @@ import {
   postDataJadwalPoliklinik,
 } from "../controller/ralan/poliklinik/jadwal_poliklinik.js";
 import { getPoliById } from "../controller/ralan/poliklinik/api_jadwal_poli.js";
-import { getTipePembayaran } from "../controller/pembayaran/pembayaran.js";
+import { getTipePembayaran } from "../controller/kasir/jenis_pembayaran.js";
 import { getTipePasien } from "../controller/JenisPasien/jenis_pasien.js";
-import { getDataTarifTindakan } from "../controller/form/tindakan/MasterTarif/tarif_tindakan.js";
+import {
+  getDataTarifTindakan,
+  getDataTarifTindakanById,
+} from "../controller/form/tindakan/MasterTarif/tarif_tindakan.js";
 import {
   getDataDiagnosaIcd,
   getDataDiagnosaIcdById,
@@ -195,9 +198,11 @@ import {
 } from "../controller/form/diagnosa/diagnosa_pasien.js";
 import {
   deleteTindakanPasienRalan,
+  getDataTindakanPasienRalanById,
   getTindakanPasienRalan,
   postDataTindakanPasienRalan,
 } from "../controller/form/tindakan/tindakan_pasien_ralan.js";
+import { getDataListTagihanPasien } from "../controller/kasir/kasir.js";
 
 const router = express.Router();
 
@@ -539,8 +544,9 @@ router.get("/ralan/pasien/:id", getPasienRalanById);
 // ralan > delete data
 router.delete("/ralan/pasien/:id", deletePasienRalan);
 
-// pembayaran
+// kasir
 router.get("/pembayaran", getTipePembayaran);
+router.get("/kasir/tagihan", getDataListTagihanPasien);
 
 //jenis pasien like : bpjs, umum, asuransi
 router.get("/pasien/tipe", getTipePasien);
@@ -553,6 +559,7 @@ router.get("/pasien/rekammedis/lama/:id", getRiwayatRekamMedisById);
 
 // master tarif tindakan
 router.get("/master/tindakan/tarif", getDataTarifTindakan);
+router.get("/master/tindakan/tarif/:id", getDataTarifTindakanById);
 
 // master diagnosa icd
 router.get("/master/diagnosa/icd", getDataDiagnosaIcd);
@@ -565,6 +572,7 @@ router.post("/ralan/tangani/diagnosa", postDataDiagnosaPasien);
 
 //tindakan pasien ralan
 router.get("/ralan/tangani/tindakan", getTindakanPasienRalan);
+router.get("/ralan/tangani/tindakan/:id", getDataTindakanPasienRalanById);
 router.delete("/ralan/tangani/tindakan/:id", deleteTindakanPasienRalan);
 router.post("/ralan/tangani/tindakan", postDataTindakanPasienRalan);
 

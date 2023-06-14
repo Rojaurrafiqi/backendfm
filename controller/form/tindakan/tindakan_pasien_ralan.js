@@ -69,3 +69,30 @@ export const deleteTindakanPasienRalan = async (req, res) => {
     res.status(404).json({ msg: error.message });
   }
 };
+
+export const getDataTindakanPasienRalanById = async (req, res) => {
+  try {
+    const data = await prisma.tindakan_ralan.findMany({
+      where: {
+        no_registrasi: req.params.id,
+      },
+      select: {
+        id: true,
+        no_registrasi: true,
+        catatan: true,
+        tarif: true,
+        poli: true,
+        tindakan: {
+          select: {
+            id: true,
+            nama_tindakan: true,
+          },
+        },
+      },
+    });
+
+    res.status(200).json(data);
+  } catch (error) {
+    res.status(404).json({ msg: error.message });
+  }
+};

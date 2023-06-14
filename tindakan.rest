@@ -7,6 +7,11 @@ GET http://localhost:5000/master/tindakan/tarif?search=tarif
 GET http://localhost:5000/ralan/tangani/tindakan
 
 
+# get data tindakan ralan by id
+###
+GET http://localhost:5000/ralan/tangani/tindakan/2305150001
+
+
 ###
 POST  http://localhost:5000/ralan/tangani/tindakan
 Content-Type: application/json

@@ -478,6 +478,7 @@ model resep_umum {
 
 model pasien_ralan {
   id                       Int                 @id @default(autoincrement())
+  no_registrasi            String?
   id_pasien_rm             Int?
   id_pembayaran            Int?
   createdAt                DateTime?           @default(now())
@@ -490,7 +491,7 @@ model pasien_ralan {
   deposit                  String?
   asal_rujukan             String?
   cara_daftar              String?
-  checkout_poli            String?
+  isCheckout_Poli          Int?                @default(0)
   dokter                   String?
   id_sumber_pasien         String?
   isKasir                  String?

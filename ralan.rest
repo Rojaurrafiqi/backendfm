@@ -16,7 +16,7 @@ Content-Type: application/json
 
 
 ###
-GET http://localhost:5000/ralan/pasien/all?search=fa
+GET http://localhost:5000/ralan/pasien/all?search=
 ###
 
 GET http://localhost:5000/jadwal/poli?nama_poli=umum&nama_hari=senin

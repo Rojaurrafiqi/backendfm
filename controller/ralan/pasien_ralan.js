@@ -41,21 +41,30 @@ export const getAllPasienRalan = async (req, res) => {
         OR: [
           { dokter_data: { nama_dokter: { contains: search } } },
           { pasien_rm: { nama_lengkap: { contains: search } } },
-          // pencarian dngn no rm masih belum jalan
-          // { pasien_rm: { no_rm: { contains: parseInt(search) } } },
         ],
       }
     : {};
+
   const pageNumber = parseInt(page) || 1;
   const limitNumber = parseInt(limit) || 10;
   const skipNumber = (pageNumber - 1) * limitNumber;
 
   try {
-    const totalItems = await prisma.pasien_ralan.count({ where: searchQuery });
+    const countQuery = await prisma.pasien_ralan.count({
+      where: {
+        ...searchQuery,
+        isCheckout_Poli: 0,
+      },
+    });
+
+    const totalItems = countQuery;
     const totalPages = Math.ceil(totalItems / limitNumber);
 
     const getData = await prisma.pasien_ralan.findMany({
-      where: searchQuery,
+      where: {
+        ...searchQuery,
+        isCheckout_Poli: 0,
+      },
       select: {
         id: true,
         pasien_rm: {
@@ -110,6 +119,7 @@ export const getPasienRalanById = async (req, res) => {
           },
         },
         poliklinik: true,
+        no_registrasi: true,
         dokter: true,
         jenis_pasien: true,
         jenis_konsultasi: true,

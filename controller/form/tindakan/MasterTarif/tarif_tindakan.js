@@ -40,3 +40,16 @@ export const getDataTarifTindakan = async (req, res) => {
     res.status(404).json({ msg: error.message });
   }
 };
+
+export const getDataTarifTindakanById = async (req, res) => {
+  try {
+    const dataById = await prisma.tarif_tindakan.findUnique({
+      where: {
+        id: parseInt(req.params.id),
+      },
+    });
+    res.status(200).json(dataById);
+  } catch (error) {
+    res.status(404).json({ msg: error.message });
+  }
+};
