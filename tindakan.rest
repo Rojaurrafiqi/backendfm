@@ -1,0 +1,23 @@
+###
+GET http://localhost:5000/master/tindakan/tarif?search=tarif
+
+
+# get data tindakan pasien ralan
+###
+GET http://localhost:5000/ralan/tangani/tindakan
+
+
+###
+POST  http://localhost:5000/ralan/tangani/tindakan
+Content-Type: application/json
+
+{
+        "no_registrasi": "121214",
+        "nama_pasien": "nama_pasien",
+        "nama_dokter": "nama_dokter",
+        "id_tindakan": 1,
+        "catatan": "catatan",
+        "tarif": "tarif",
+        "poli": "poli"
+}
+

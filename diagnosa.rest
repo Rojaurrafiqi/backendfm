@@ -1,0 +1,26 @@
+# data icd
+###
+GET http://localhost:5000/master/diagnosa/icd?search=CISTERNAL
+
+###
+GET http://localhost:5000/master/diagnosa/icd/5
+
+
+# diagnosa pasien
+###
+GET http://localhost:5000/ralan/tangani/diagnosa
+
+
+###
+POST  http://localhost:5000/ralan/tangani/diagnosa
+Content-Type: application/json
+
+{
+        "no_registrasi": "121214",
+        "tgl_masuk": "12-12-2022",
+        "id_pasien": "500",
+        "no_rm": "9999",
+        "code_diagnosa": "code_diagnosa",
+        "diagnosa": "diagnosa",
+        "keterangan": "keterangan"
+}

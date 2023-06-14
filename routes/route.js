@@ -183,6 +183,21 @@ import {
 import { getPoliById } from "../controller/ralan/poliklinik/api_jadwal_poli.js";
 import { getTipePembayaran } from "../controller/pembayaran/pembayaran.js";
 import { getTipePasien } from "../controller/JenisPasien/jenis_pasien.js";
+import { getDataTarifTindakan } from "../controller/form/tindakan/MasterTarif/tarif_tindakan.js";
+import {
+  getDataDiagnosaIcd,
+  getDataDiagnosaIcdById,
+} from "../controller/form/diagnosa/diagnosa_icd.js";
+import {
+  deleteDiagnosaPasien,
+  getDiagnosaPasien,
+  postDataDiagnosaPasien,
+} from "../controller/form/diagnosa/diagnosa_pasien.js";
+import {
+  deleteTindakanPasienRalan,
+  getTindakanPasienRalan,
+  postDataTindakanPasienRalan,
+} from "../controller/form/tindakan/tindakan_pasien_ralan.js";
 
 const router = express.Router();
 
@@ -535,5 +550,22 @@ router.get("/jadwal/poli", getJadwalPoli);
 
 // get rekam medis pasien lama by id
 router.get("/pasien/rekammedis/lama/:id", getRiwayatRekamMedisById);
+
+// master tarif tindakan
+router.get("/master/tindakan/tarif", getDataTarifTindakan);
+
+// master diagnosa icd
+router.get("/master/diagnosa/icd", getDataDiagnosaIcd);
+router.get("/master/diagnosa/icd/:id", getDataDiagnosaIcdById);
+
+//diagnosa pasien ralan
+router.get("/ralan/tangani/diagnosa", getDiagnosaPasien);
+router.delete("/ralan/tangani/diagnosa/:id", deleteDiagnosaPasien);
+router.post("/ralan/tangani/diagnosa", postDataDiagnosaPasien);
+
+//tindakan pasien ralan
+router.get("/ralan/tangani/tindakan", getTindakanPasienRalan);
+router.delete("/ralan/tangani/tindakan/:id", deleteTindakanPasienRalan);
+router.post("/ralan/tangani/tindakan", postDataTindakanPasienRalan);
 
 export default router;

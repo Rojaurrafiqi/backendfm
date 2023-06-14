@@ -848,3 +848,55 @@ model barang_produsen {
   isdefault     Int?     @default(0) @map("isdefault") @db.Int
   barang        barang[]
 }
+
+model icd {
+  id_icd      Int     @id @default(autoincrement())
+  code_dx     String?
+  description String?
+  keterangan  String?
+  grup        String?
+}
+
+// table ini yang dipakai untuk tarif dan daftar tindakan
+model tarif_tindakan {
+  id             Int              @id @default(autoincrement())
+  nama_tindakan  String?
+  satuan         String?
+  keterangan     String?
+  nil_js         String?
+  nil_jp         String?
+  tarif          String?
+  poli           String?
+  createdAt      DateTime?        @default(now())
+  updatedAt      DateTime?        @updatedAt
+  user_created   String?
+  user_modified  String?
+  tindakan_ralan tindakan_ralan[]
+}
+
+model diagnosa_pasien {
+  id            Int       @id @default(autoincrement())
+  no_registrasi String?
+  tgl_masuk     String?
+  id_pasien     String?
+  no_rm         String?
+  code_diagnosa String?
+  diagnosa      String?
+  keterangan    String?
+  createdAt     DateTime? @default(now())
+  updatedAt     DateTime? @updatedAt
+}
+
+model tindakan_ralan {
+  id            Int             @id @default(autoincrement())
+  no_registrasi String?
+  nama_pasien   String?
+  nama_dokter   String?
+  tindakan      tarif_tindakan? @relation(fields: [id_tindakan], references: [id])
+  id_tindakan   Int?
+  catatan       String?
+  tarif         String?
+  poli          String?
+  createdAt     DateTime?       @default(now())
+  updatedAt     DateTime?       @updatedAt
+}

@@ -55,7 +55,7 @@ DELETE  http://localhost:5000/farmasi/obat/resep/umum/1
 GET http://localhost:5000/farmasi/stok/obat?search=data
 
 ###
-GET http://localhost:5000/ranap/kamar?filter=booked
+GET http://localhost:5000/farmasi/obat
 
 
 ###
