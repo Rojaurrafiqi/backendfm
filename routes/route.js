@@ -203,6 +203,15 @@ import {
   postDataTindakanPasienRalan,
 } from "../controller/form/tindakan/tindakan_pasien_ralan.js";
 import { getDataListTagihanPasien } from "../controller/kasir/kasir.js";
+import {
+  getDataStokBarangGudang,
+  getDataStokBarangGudangById,
+} from "../controller/gundang/stok_barang.js";
+import {
+  getDataObatPasienRalan,
+  getDataObatPasienRalanById,
+  postDataObatPasienRalan,
+} from "../controller/form/obat/ObatPasienRalan.js";
 
 const router = express.Router();
 
@@ -575,5 +584,16 @@ router.get("/ralan/tangani/tindakan", getTindakanPasienRalan);
 router.get("/ralan/tangani/tindakan/:id", getDataTindakanPasienRalanById);
 router.delete("/ralan/tangani/tindakan/:id", deleteTindakanPasienRalan);
 router.post("/ralan/tangani/tindakan", postDataTindakanPasienRalan);
+
+//stok barang (jika sudah jalan, ini mengganti tugas stok obat farmasi)
+router.get("/gudang/barang/stok", getDataStokBarangGudang);
+router.get("/gudang/barang/stok/:id", getDataStokBarangGudangById);
+// router.delete("/ralan/tangani/tindakan/:id", deleteTindakanPasienRalan);
+// router.post("/ralan/tangani/tindakan", postDataTindakanPasienRalan);
+
+//obat pasien ralan
+router.get("/ralan/tangani/obat", getDataObatPasienRalan);
+router.post("/ralan/tangani/obat", postDataObatPasienRalan);
+router.get("/ralan/tangani/obat/:id", getDataObatPasienRalanById);
 
 export default router;

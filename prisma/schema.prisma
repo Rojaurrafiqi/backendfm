@@ -381,6 +381,7 @@ model tipe_kamar_ranap {
   updatedAt DateTime? @updatedAt
 }
 
+// tidak digunakan lagi
 model obat {
   id                   Int              @id @default(autoincrement())
   nama_obat            String?
@@ -398,6 +399,7 @@ model obat {
   stok_obat            stok_obat[]
 }
 
+// tidak digunakan lagi
 model stok_obat {
   id                 Int       @id @default(autoincrement())
   id_obat            Int?
@@ -417,6 +419,7 @@ model stok_obat {
   @@index([id_obat], map: "stok_obat_id_obat_fkey")
 }
 
+// tidak digunakan lagi
 model penjualan_obat {
   id                   Int       @id @default(autoincrement())
   id_obat              Int?
@@ -434,6 +437,7 @@ model penjualan_obat {
   @@index([id_obat], map: "penjualan_obat_id_obat_fkey")
 }
 
+// tidak digunakan lagi
 model resep {
   id                   Int                 @id @default(autoincrement())
   id_obat              Int
@@ -511,13 +515,15 @@ model pasien_ralan {
 
 model poliklinik {
   id                Int                 @id @default(autoincrement())
+  kode_ruang        Int?
+  nama_poliklinik   String?
   createdAt         DateTime?           @default(now())
   updatedAt         DateTime?           @updatedAt
-  nama_poliklinik   String?
   jadwal_poli       jadwal_poli[]
   jadwal_poliklinik jadwal_poliklinik[]
 }
 
+// tidak digunakan lagi krna jadwal dokter sering berubah
 model jadwal_poliklinik {
   id              Int         @id @default(autoincrement())
   id_poli         Int?
@@ -536,6 +542,7 @@ model jadwal_poliklinik {
   @@index([id_poli], map: "jadwal_poliklinik_id_poli_fkey")
 }
 
+// tidak digunakan lagi, karena jadwal dokter berubah
 model jadwal_poli {
   id              Int         @id @default(autoincrement())
   createdAt       DateTime?   @default(now())
@@ -772,56 +779,59 @@ model medrec_dx_lama {
 }
 
 model barang {
-  id_barang           Int              @id @map("id_barang")
-  grup_barang         barang_grup?     @relation(fields: [id_grup], references: [id])
+  id_barang           Int                  @id @map("id_barang")
+  grup_barang         barang_grup?         @relation(fields: [id_grup], references: [id])
   id_grup             Int?
-  id_bpjs             String           @default("-")
-  barang_kategori     barang_kategori? @relation(fields: [id_kategori], references: [id_kategori])
+  id_bpjs             String               @default("-")
+  barang_kategori     barang_kategori?     @relation(fields: [id_kategori], references: [id_kategori])
   id_kategori         Int
   nama_barang         String?
-  nama_alias          String           @default("-")
+  nama_alias          String               @default("-")
   nama_barang_lengkap String?
-  no_batch            String           @default("0")
-  barcode             String           @default("-")
-  sumber_brg          Int              @default(0) @map("sumber_brg")
-  data_produsen       barang_produsen? @relation(fields: [id_produsen], references: [id_produsen])
+  no_batch            String               @default("0")
+  barcode             String               @default("-")
+  sumber_brg          Int                  @default(0) @map("sumber_brg")
+  data_produsen       barang_produsen?     @relation(fields: [id_produsen], references: [id_produsen])
   id_produsen         Int
-  isasset             Int              @default(0)
-  jenis_asset         Int              @default(0)
-  iscontrolstock      Int              @default(1)
-  isdijual            Int              @default(1)
-  id_jenis            Int              @default(10)
-  id_bentuk           Int              @default(10)
-  kandungan_isi       Float            @default(0)
+  isasset             Int                  @default(0)
+  jenis_asset         Int                  @default(0)
+  iscontrolstock      Int                  @default(1)
+  isdijual            Int                  @default(1)
+  id_jenis            Int                  @default(10)
+  id_bentuk           Int                  @default(10)
+  kandungan_isi       Float                @default(0)
   kandungan_satuan    String?
   kemasan             String?
-  kemasan_isi         Int              @default(0)
+  kemasan_isi         Int                  @default(0)
   kemasan_satuan      String?
-  hpp_awal            Float            @default(0)
-  harga_dasar         Float            @default(0)
-  tax                 String           @default("N-T")
-  isresep             Int              @default(0)
-  hrg_jual1           Float            @default(0)
-  pcn_jual1           Float            @default(0)
-  hrg_jual2           Float            @default(0)
-  pcn_jual2           Float            @default(0)
-  hrg_jual3           Float            @default(0)
-  pcn_jual3           Float            @default(0)
-  sts_account_setup   Int              @default(0)
+  hpp_awal            Float                @default(0)
+  harga_dasar         Float                @default(0)
+  tax                 String               @default("N-T")
+  isresep             Int                  @default(0)
+  hrg_jual1           Float                @default(0)
+  pcn_jual1           Float                @default(0)
+  hrg_jual2           Float                @default(0)
+  pcn_jual2           Float                @default(0)
+  hrg_jual3           Float                @default(0)
+  pcn_jual3           Float                @default(0)
+  sts_account_setup   Int                  @default(0)
   acc_asset           String?
   acc_hpp_biaya       String?
   acc_income          String?
-  keterangan          String           @default("-")
-  isused              Int              @default(1)
+  keterangan          String               @default("-")
+  isused              Int                  @default(1)
   user_created        String?
   date_created        DateTime?
   user_modified       String?
   date_modified       DateTime?
-  catatan             String           @default("-")
-  sts_barang          Int              @default(0)
-  sts_ada             Int              @default(1)
-  sts_obat            Int              @default(0)
+  catatan             String               @default("-")
+  sts_barang          Int                  @default(0)
+  sts_ada             Int                  @default(1)
+  sts_obat            Int                  @default(0)
   id_gol              Int?
+  stok_barangId       Int?
+  stok_barang         stok_barang[]
+  jual_barang_detail  jual_barang_detail[]
 }
 
 model barang_kategori {
@@ -831,6 +841,25 @@ model barang_kategori {
   isasset       String?
   isdefault     String?
   barang        barang[]
+}
+
+model stok_barang {
+  id            Int       @id @default(autoincrement())
+  data_barang   barang?   @relation(fields: [id_barang], references: [id_barang])
+  id_barang     Int?
+  stok_gudang   String?
+  stok_pinjam   String? //ini digunakan untuk stok yang belum deal dengan pasien di poli
+  stok_min      String?
+  harga_pokok   String?
+  harga_satuan  String?
+  tgl_expired   String?
+  no_batch      String?
+  lokasi        String?
+  keterangan    String?
+  createdAt     DateTime? @default(now())
+  updatedAt     DateTime? @updatedAt
+  user_created  String?
+  user_modified String?
 }
 
 model barang_grup {
@@ -901,3 +930,35 @@ model tindakan_ralan {
   createdAt     DateTime?       @default(now())
   updatedAt     DateTime?       @updatedAt
 }
+
+model jual_barang_detail {
+  id                     Int       @id @default(autoincrement())
+  no_transaksi           String?
+  no_registrasi          String?
+  resep                  String?
+  no_urut                String?
+  data_barang            barang?   @relation(fields: [id_barang], references: [id_barang])
+  id_barang              Int?
+  racikan_jumlah         String?
+  racikan_jumlah_diambil String?
+  racikan_kemasan        String?
+  qty                    String?
+  satuan                 String?
+  aturan_pakai           String?
+  harga_jual             String?
+  status_harus_bayar     String?
+  createdAt              DateTime? @default(now())
+  updatedAt              DateTime? @updatedAt
+}
+
+// model jual_barang {
+//     id                     Int       @id @default(autoincrement())
+//   no_transaksi           String?
+//   no_registrasi          String?
+// id_ruang_sumber_obat String? // ruang poli yang diambil dari akun dokter
+// id_apotik String?
+// jenis_penjualan String?
+
+//   createdAt              DateTime? @default(now())
+//   updatedAt              DateTime? @updatedAt
+// }

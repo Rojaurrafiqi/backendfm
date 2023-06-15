@@ -1,0 +1,29 @@
+
+
+        
+###
+GET http://localhost:5000/ralan/tangani/obat
+
+###
+GET http://localhost:5000/ralan/tangani/obat/2306150000013101
+
+
+###
+POST  http://localhost:5000/ralan/tangani/obat
+Content-Type: application/json
+
+{
+        "no_transaksi": "2306150000013101",
+        "no_registrasi": "2306150002",
+        "resep": "RR2",
+        "no_urut": "2",
+        "id_barang": 110032,
+        "racikan_jumlah": "racikan_jumlah",
+        "racikan_jumlah_diambil": "racikan_jumlah_diambil",
+        "racikan_kemasan": "racikan_kemasan",
+        "qty": "qty",
+        "satuan": "satuan",
+        "aturan_pakai": "aturan_pakai",
+        "harga_jual": "harga_jual",
+        "status_harus_bayar": "status_harus_bayar"
+}
