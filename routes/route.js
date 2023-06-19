@@ -162,6 +162,7 @@ import {
   getAllPasienRalan,
   getPasienRalanById,
   pendaftaran_ralan,
+  statusCheckoutPoli,
 } from "../controller/ralan/pasien_ralan.js";
 import {
   getDetailUserDokter,
@@ -202,7 +203,11 @@ import {
   getTindakanPasienRalan,
   postDataTindakanPasienRalan,
 } from "../controller/form/tindakan/tindakan_pasien_ralan.js";
-import { getDataListTagihanPasien } from "../controller/kasir/kasir.js";
+import {
+  getDataListTagihanPasien,
+  getTotalTagihanPasienRalan,
+  statusCheckoutKasir,
+} from "../controller/kasir/kasir.js";
 import {
   getDataStokBarangGudang,
   getDataStokBarangGudangById,
@@ -214,6 +219,11 @@ import {
   getDataObatPasienRalanById,
   postDataObatPasienRalan,
 } from "../controller/form/obat/ObatPasienRalan.js";
+import {
+  deleteBarangPasienRalan,
+  hitungTotalTransaksi,
+  postPenjualanBarang,
+} from "../controller/farmasi/penjualan_barang.js";
 
 const router = express.Router();
 
@@ -557,6 +567,7 @@ router.delete("/ralan/pasien/:id", deletePasienRalan);
 
 // kasir
 router.get("/pembayaran", getTipePembayaran);
+router.get("/pembayaran/totaltagihan/:id", getTotalTagihanPasienRalan);
 router.get("/kasir/tagihan", getDataListTagihanPasien);
 
 //jenis pasien like : bpjs, umum, asuransi
@@ -597,8 +608,21 @@ router.get("/gudang/barang/stok/:id", getDataStokBarangGudangById);
 router.get("/ralan/tangani/obat", getDataObatPasienRalan);
 router.post("/ralan/tangani/obat", postDataObatPasienRalan);
 router.get("/ralan/tangani/obat/:id", getDataObatPasienRalanById);
+router.delete("/ralan/tangani/obat/:id", deleteBarangPasienRalan);
 router.get("/ralan/tangani/obat/general/:id", getDataObatGeneralPasienRalan);
 //obat pasien ralan > pengecekan no urutan resep umum / general
 router.get("/ralan/tangani/obat/cekurutan/:id", ceknoRTObatResepUmum);
+
+// pasien ralan checkout poli
+router.patch("/ralan/tangani/checkout/:id", statusCheckoutPoli);
+// pasien ralan checkout kasir
+router.patch("/kasir/checkout/:id", statusCheckoutKasir);
+
+// penjualan barang
+router.get(
+  "/farmasi/barang/penjualan/totaltransaksi/:id",
+  hitungTotalTransaksi
+);
+router.post("/farmasi/barang/penjualan/:id", postPenjualanBarang);
 
 export default router;

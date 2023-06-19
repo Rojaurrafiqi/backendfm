@@ -28,9 +28,30 @@ Content-Type: application/json
         "status_harus_bayar": "status_harus_bayar"
 }
 
+###
+POST  http://localhost:5000/farmasi/barang/penjualan/2306150002
+Content-Type: application/json
+
+{
+        "no_transaksi": "2306150000013101",
+        "no_registrasi": "2306150002",
+        "total_transaksi": "90000"
+    
+}
+
 # pengecekan nomor urutan resep umum pada pasien ralan
 ###
 GET http://localhost:5000/ralan/tangani/obat/cekurutan/2306150002
 
 ###
-GET http://localhost:5000/ralan/tangani/obat/general/2306150002
+GET http://localhost:5000/farmasi/barang/penjualan/totaltransaksi/2306150002
+
+###
+GET http://localhost:5000/ralan/tangani/obat/general/2306150002  
+
+###
+GET http://localhost:5000/pembayaran/totaltagihan/2306150002  
+
+# hapus data
+###
+DELETE  http://localhost:5000/ralan/tangani/obat/58

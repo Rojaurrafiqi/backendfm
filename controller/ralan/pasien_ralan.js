@@ -146,3 +146,20 @@ export const deletePasienRalan = async (req, res) => {
     res.status(400).json({ msg: error.message });
   }
 };
+
+//update status pasien ralan checkout poli
+export const statusCheckoutPoli = async (req, res) => {
+  try {
+    const updateData = await prisma.pasien_ralan.update({
+      where: {
+        id: Number(req.params.id),
+      },
+      data: {
+        isCheckout_Poli: 1,
+      },
+    });
+    res.status(200).json(updateData);
+  } catch (error) {
+    res.status(404).json({ msg: error.message });
+  }
+};

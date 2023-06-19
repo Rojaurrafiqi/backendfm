@@ -45,6 +45,7 @@ model rekam_medis_pasien {
   pasien_ranap           pasien_ralan[]
   pasien_ralan           pasien_ranap[]
   resep                  resep[]
+  jual_barang            jual_barang[]
 }
 
 model pekerjaan {
@@ -498,8 +499,8 @@ model pasien_ralan {
   isCheckout_Poli          Int?                @default(0)
   dokter                   String?
   id_sumber_pasien         String?
-  isKasir                  String?
-  isResep                  String?
+  isKasir                  String?             @default("0")
+  isResep                  String?             @default("0")
   jam_checkout             String?
   ket_kondisi_masuk        String?
   poliklinik               String?
@@ -952,14 +953,25 @@ model jual_barang_detail {
   updatedAt              DateTime? @updatedAt
 }
 
-// model jual_barang {
-//     id                     Int       @id @default(autoincrement())
-//   no_transaksi           String?
-//   no_registrasi          String?
-// id_ruang_sumber_obat String? // ruang poli yang diambil dari akun dokter
-// id_apotik String?
-// jenis_penjualan String?
-
-//   createdAt              DateTime? @default(now())
-//   updatedAt              DateTime? @updatedAt
-// }
+model jual_barang {
+  id                   Int                 @id @default(autoincrement())
+  no_transaksi         String?             @default("-")
+  no_registrasi        String?             @default("-")
+  id_ruang_sumber_obat String?             @default("-") // ruang poli yang diambil dari akun dokter
+  id_apotek            String?             @default("-")
+  jenis_penjualan      String?             @default("-")
+  id_pasien            Int?                @default(0)
+  id_dokter            Int?                @default(0)
+  id_apoteker          Int?                @default(0)
+  nama_pasien_luar     String?             @default("-")
+  nama_dokter_luar     String?             @default("-")
+  status_ambil_resep   String?             @default("-") //penuh, setengah, custom
+  nilai_asuransi_bayar String?             @default("-")
+  nilai_pasien_bayar   String?             @default("-")
+  diskon               Int?                @default(0)
+  total_transaksi      String?             @default("-")
+  createdAt            DateTime?           @default(now())
+  updatedAt            DateTime?           @updatedAt
+  rekam_medis_pasien   rekam_medis_pasien? @relation(fields: [rekam_medis_pasienId], references: [id])
+  rekam_medis_pasienId Int?
+}
