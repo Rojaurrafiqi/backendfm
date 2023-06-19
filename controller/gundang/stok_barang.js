@@ -81,6 +81,7 @@ export const getDataStokBarangGudangById = async (req, res) => {
           select: {
             id_barang: true,
             nama_barang: true,
+            kemasan: true,
           },
         },
       },

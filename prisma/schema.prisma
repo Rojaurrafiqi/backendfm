@@ -939,14 +939,15 @@ model jual_barang_detail {
   no_urut                String?
   data_barang            barang?   @relation(fields: [id_barang], references: [id_barang])
   id_barang              Int?
-  racikan_jumlah         String?
-  racikan_jumlah_diambil String?
-  racikan_kemasan        String?
+  racikan_jumlah         String?   @default("-")
+  racikan_jumlah_diambil String?   @default("-")
+  racikan_kemasan        String?   @default("-")
   qty                    String?
   satuan                 String?
   aturan_pakai           String?
   harga_jual             String?
   status_harus_bayar     String?
+  catatan                String?   @default("-")
   createdAt              DateTime? @default(now())
   updatedAt              DateTime? @updatedAt
 }

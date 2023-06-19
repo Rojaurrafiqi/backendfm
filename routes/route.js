@@ -208,6 +208,8 @@ import {
   getDataStokBarangGudangById,
 } from "../controller/gundang/stok_barang.js";
 import {
+  ceknoRTObatResepUmum,
+  getDataObatGeneralPasienRalan,
   getDataObatPasienRalan,
   getDataObatPasienRalanById,
   postDataObatPasienRalan,
@@ -595,5 +597,8 @@ router.get("/gudang/barang/stok/:id", getDataStokBarangGudangById);
 router.get("/ralan/tangani/obat", getDataObatPasienRalan);
 router.post("/ralan/tangani/obat", postDataObatPasienRalan);
 router.get("/ralan/tangani/obat/:id", getDataObatPasienRalanById);
+router.get("/ralan/tangani/obat/general/:id", getDataObatGeneralPasienRalan);
+//obat pasien ralan > pengecekan no urutan resep umum / general
+router.get("/ralan/tangani/obat/cekurutan/:id", ceknoRTObatResepUmum);
 
 export default router;
