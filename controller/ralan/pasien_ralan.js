@@ -40,7 +40,7 @@ export const getAllPasienRalan = async (req, res) => {
     ? {
         OR: [
           { dokter_data: { nama_dokter: { contains: search } } },
-          { pasien_rm: { nama_lengkap: { contains: search } } },
+          { pasien_rm: { name_user: { contains: search } } },
         ],
       }
     : {};
@@ -70,9 +70,9 @@ export const getAllPasienRalan = async (req, res) => {
         pasien_rm: {
           select: {
             id: true,
-            no_rm: true,
-            nama_lengkap: true,
-            kelamin: true,
+            no_mr: true,
+            nama_user: true,
+            id_jk: true,
           },
         },
         poliklinik: true,
@@ -109,13 +109,14 @@ export const getPasienRalanById = async (req, res) => {
         pasien_rm: {
           select: {
             id: true,
-            no_rm: true,
-            nama_lengkap: true,
-            kelamin: true,
-            agama: true,
-            kontak_pasien: true,
-            alamat_pasien_provinsi: true,
-            alamat_pasien_detail: true,
+            no_mr: true,
+            nama_user: true,
+            id_jk: true,
+            id_agama: true,
+            no_hp: true,
+            alamat: true,
+            id_prov: true,
+            id_kabkota: true,
           },
         },
         poliklinik: true,
@@ -150,14 +151,46 @@ export const deletePasienRalan = async (req, res) => {
 //update status pasien ralan checkout poli
 export const statusCheckoutPoli = async (req, res) => {
   try {
-    const updateData = await prisma.pasien_ralan.update({
+    //mengambil no registrasi sesuai id pasien
+    const pasienRalan = await prisma.pasien_ralan.findUnique({
       where: {
         id: Number(req.params.id),
       },
-      data: {
-        isCheckout_Poli: 1,
+      select: {
+        no_registrasi: true,
       },
     });
+
+    // cek apakah no_registrasi pasien terdapat di table jual barang
+    const jualBarang = await prisma.jual_barang.findFirst({
+      where: {
+        no_registrasi: pasienRalan.no_registrasi,
+      },
+    });
+
+    let updateData;
+
+    if (jualBarang) {
+      updateData = await prisma.pasien_ralan.update({
+        where: {
+          id: Number(req.params.id),
+        },
+        data: {
+          isCheckout_Poli: 1,
+          isResep: "1",
+        },
+      });
+    } else {
+      updateData = await prisma.pasien_ralan.update({
+        where: {
+          id: Number(req.params.id),
+        },
+        data: {
+          isCheckout_Poli: 1,
+        },
+      });
+    }
+
     res.status(200).json(updateData);
   } catch (error) {
     res.status(404).json({ msg: error.message });

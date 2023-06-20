@@ -14,13 +14,13 @@ export const getDataListTagihanPasien = async (req, res) => {
         pasien_rm: {
           select: {
             id: true,
-            no_rm: true,
-            nama_lengkap: true,
-            kelamin: true,
-            agama: true,
-            kontak_pasien: true,
-            alamat_pasien_provinsi: true,
-            alamat_pasien_detail: true,
+            no_mr: true,
+            nama_user: true,
+            id_jk: true,
+            id_agama: true,
+            no_hp: true,
+            // alamat_pasien_provinsi: true,
+            // alamat_pasien_detail: true,
           },
         },
         poliklinik: true,
@@ -83,5 +83,78 @@ export const statusCheckoutKasir = async (req, res) => {
     res.status(200).json(updateData);
   } catch (error) {
     res.status(404).json({ msg: error.message });
+  }
+};
+
+export const postBillDetail = async (req, res) => {
+  const data = req.body;
+  try {
+    const postData = await Promise.all(
+      data.map(async (listItem) => {
+        const {
+          no_bill,
+          no_registrasi,
+          id_pasien,
+          asuransi,
+          item,
+          js,
+          jp,
+          harga,
+          catatan,
+        } = listItem;
+
+        return prisma.bill_detail.create({
+          data: {
+            no_bill,
+            no_registrasi,
+            id_pasien,
+            asuransi,
+            item,
+            js,
+            jp,
+            harga,
+            catatan,
+          },
+        });
+      })
+    );
+    res.status(201).json(postData);
+  } catch (error) {
+    res.status(400).json({ msg: error.message });
+  }
+};
+
+export const postBill = async (req, res) => {
+  const {
+    no_bill,
+    id_dokter,
+    id_pasien,
+    id_poli,
+    asuransi,
+    status,
+    no_registrasi,
+    diskon,
+    total,
+    catatan,
+  } = req.body;
+  try {
+    const postData = await prisma.bill.create({
+      data: {
+        no_bill: no_bill,
+        no_registrasi: no_registrasi,
+        id_dokter: id_dokter,
+        id_pasien: id_pasien,
+        id_poli: id_poli,
+        asuransi: asuransi,
+        status: status,
+        diskon: diskon,
+        total: total,
+        catatan: catatan,
+      },
+    });
+
+    res.status(201).json(postData);
+  } catch (error) {
+    res.status(400).json({ msg: error.message });
   }
 };

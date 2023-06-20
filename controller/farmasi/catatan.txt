@@ -1,1 +1,0 @@
-yang dipakai saat ini hanya file penjualan_barang.js saja, sedangkan yang lain blm dipakai

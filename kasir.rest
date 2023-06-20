@@ -1,2 +1,53 @@
 ###
 GET http://localhost:5000/kasir/tagihan
+
+###
+PATCH  http://localhost:5000/farmasi/resep/selesai/2
+
+###
+POST  http://localhost:5000/kasir/bill
+Content-Type: application/json
+
+{
+        "no_bill": "123321",
+        "no_registrasi": "123321",
+        "dokter": 123321,
+        "id_poli": 243123,
+        "id_pasien": 1120010752,
+        "asuransi": "asuransi",
+        "status": "status",
+        "diskon": "diskon",
+        "total": "total",
+        "catatan": "catatan"
+    
+}
+
+###
+POST  http://localhost:5000/kasir/bill/detail
+Content-Type: application/json
+
+[
+  {
+    "no_bill": "no_bill_1",
+    "no_registrasi": "no_registrasi_1",
+    "id_pasien": 123,
+    "asuransi": "asuransi_1",
+    "item": "item_1",
+    "js": "js_1",
+    "jp": "jp_1",
+    "harga": "5000",
+    "catatan": "catatan_1"
+  },
+  {
+    "no_bill": "no_bill_2",
+    "no_registrasi": "no_registrasi_2",
+    "id_pasien": 456,
+    "asuransi": "asuransi_2",
+    "item": "item_2",
+    "js": "js_2",
+    "jp": "jp_2",
+    "harga": "10000",
+    "catatan": "catatan_2"
+  }
+]
+

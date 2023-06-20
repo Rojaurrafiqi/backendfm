@@ -8,44 +8,77 @@ datasource db {
 }
 
 model rekam_medis_pasien {
-  id                     Int            @id @default(autoincrement())
-  no_rm                  String?
-  kitas                  String?
-  no_kitas               String?
-  nama_lengkap           String?
-  tempat_lahir           String?
-  tanggal_lahir          String?
-  kelamin                String?
-  kontak_pasien          String?
-  golongan_darah         String?
-  agama                  String?
-  status_kawin           String?
-  pendidikan             String?
-  pekerjaan              String?
-  id_pekerjaan           Int?
-  alamat_pasien_provinsi String?
-  alamat_pasien_kota     String?
-  alamat_pasien_kec      String?
-  alamat_pasien_desa     String?
-  alamat_pasien_detail   String?
-  nama_penanggungjawab   String?
-  kontak_pj              String?
-  alamat_pj_provinsi     String?
-  alamat_pj_kota         String?
-  alamat_pj_kec          String?
-  alamat_pj_desa         String?
-  alamat_pj_detail       String?
-  published              Boolean?       @default(false)
-  createdAt              DateTime?      @default(now())
-  updatedAt              DateTime?      @updatedAt
-  berat_lahir            String?
-  email                  String?
-  kasir                  kasir[]
-  pasien_igd             pasien_igd[]
-  pasien_ranap           pasien_ralan[]
-  pasien_ralan           pasien_ranap[]
-  resep                  resep[]
-  jual_barang            jual_barang[]
+  id                        Int            @id @default(autoincrement())
+  id_finger                 String?        @map("id_finger")
+  foto                      String?        @map("foto")
+  tanda_tangan              String?        @map("tanda_tangan")
+  no_mr                     String         @map("no_mr")
+  no_mr_lama                String?        @map("no_mr_lama")
+  kode_dpjp                 String?        @map("kode_dpjp")
+  gelar_dpn                 String?        @map("gelar_dpn")
+  nama_user                 String?        @map("nama_user")
+  gelar_blk                 String?        @map("gelar_blk")
+  id_shift                  Int?           @map("id_shift")
+  tmp_lhr                   String?        @map("tmp_lhr")
+  tgl_lhr                   String?        @map("tgl_lhr")
+  id_jk                     String?        @map("id_jk")
+  id_kawin                  Int?           @map("id_kawin")
+  id_agama                  String         @map("id_agama")
+  gol_darah                 String?        @map("gol_darah")
+  berat_lahir               String?        @map("berat_lahir")
+  id_jpdd                   Int?           @map("id_jpdd")
+  id_prodi                  Int?           @map("id_prodi")
+  id_pekerjaan              Int?
+  id_pekerjaan_sts          Int?           @map("id_pekerjaan_sts")
+  id_kantor                 Int?           @map("id_kantor")
+  id_grupsdm                Int?           @map("id_grupsdm")
+  tarif_konsul              String?        @map("tarif_konsul")
+  sts_tarif_dikelola_dokter String?        @map("sts_tarif_dikelola_dokter")
+  ket_spesialisasi          String?        @map("ket_spesialisasi")
+  no_sip                    String?        @map("no_sip")
+  id_ruangan                Int?           @map("id_ruangan")
+  tmt_cpns                  String?        @map("tmt_cpns")
+  tmt_pns                   String?        @map("tmt_pns")
+  nip                       String?        @map("nip")
+  no_karpeg                 String?        @map("no_karpeg")
+  npwp                      String?        @map("npwp")
+  id_desa                   Int?           @map("id_desa")
+  alamat                    String?        @map("alamat")
+  jenis_identitas           String?        @map("jenis_identitas")
+  no_identitas              String?        @map("no_identitas")
+  no_kk                     String?        @map("no_kk")
+  no_hp                     String?        @map("no_hp")
+  email                     String?        @map("email")
+  grup_user                 Int?           @map("grup_user")
+  sts_user                  Int?           @map("sts_user")
+  sts_prioritas             String?        @map("sts_prioritas")
+  id_prov                   Int?           @map("id_prov")
+  id_kabkota                Int?           @map("id_kabkota")
+  id_kecamatan              Int?           @map("id_kecamatan")
+  id_kelp_sdm               Int?           @map("id_kelp_sdm")
+  nip_lama                  String?        @map("nip_lama")
+  cuti_tahunan              String?        @map("cuti_tahunan")
+  tmt_pensiun               String?        @map("tmt_pensiun")
+  sts_allowed_credit        String?        @map("sts_allowed_credit")
+  riwayat_alergi_obat       String?        @map("riwayat_alergi_obat")
+  riwayat_alergi_makanan    String?        @map("riwayat_alergi_makanan")
+  idcardprinted             String?        @map("idcardprinted")
+  idcardtaked               String?        @map("idcardtaked")
+  idcardpaid                String?        @map("idcardpaid")
+  idcardexpired             String?        @map("idcardexpired")
+  date_registered           String?        @map("date_registered")
+  user_registered           String?        @map("user_registered")
+  date_modified             String?        @map("date_modified")
+  user_modified             String?        @map("user_modified")
+  isdefault                 String?        @map("isdefault")
+  password                  String?        @map("password")
+  sts_update                String?        @map("sts_update")
+  kasir                     kasir[]
+  pasien_igd                pasien_igd[]
+  pasien_ranap              pasien_ralan[]
+  pasien_ralan              pasien_ranap[]
+  jual_barang               jual_barang[]
+  bill                      bill[]
 }
 
 model pekerjaan {
@@ -440,7 +473,7 @@ model penjualan_obat {
 
 // tidak digunakan lagi
 model resep {
-  id                   Int                 @id @default(autoincrement())
+  id                   Int       @id @default(autoincrement())
   id_obat              Int
   id_pasien_rm         Int?
   id_dokter            Int?
@@ -451,11 +484,10 @@ model resep {
   durasi_obat          String?
   jumlah               String?
   status_resep         String?
-  createdAt            DateTime?           @default(now())
-  updatedAt            DateTime?           @updatedAt
-  dokter               dokter?             @relation(fields: [id_dokter], references: [id])
-  obat_data            obat                @relation(fields: [id_obat], references: [id], onDelete: Cascade)
-  pasien_rm            rekam_medis_pasien? @relation(fields: [id_pasien_rm], references: [id])
+  createdAt            DateTime? @default(now())
+  updatedAt            DateTime? @updatedAt
+  dokter               dokter?   @relation(fields: [id_dokter], references: [id])
+  obat_data            obat      @relation(fields: [id_obat], references: [id], onDelete: Cascade)
 
   @@index([id_dokter], map: "resep_id_dokter_fkey")
   @@index([id_obat], map: "resep_id_obat_fkey")
@@ -974,4 +1006,36 @@ model jual_barang {
   updatedAt            DateTime?           @updatedAt
   rekam_medis_pasien   rekam_medis_pasien? @relation(fields: [rekam_medis_pasienId], references: [id])
   rekam_medis_pasienId Int?
+}
+
+model bill {
+  id            Int                 @id @default(autoincrement())
+  no_bill       String?
+  no_registrasi String?
+  data_pasien   rekam_medis_pasien? @relation(fields: [id_pasien], references: [id])
+  id_pasien     Int?
+  dokter        String?
+  id_poli       Int?
+  asuransi      String?
+  status        String?
+  diskon        String?
+  total         String?
+  catatan       String?             @default("-")
+  createdAt     DateTime?           @default(now())
+  updatedAt     DateTime?           @updatedAt
+}
+
+model bill_detail {
+  id            Int       @id @default(autoincrement())
+  no_bill       String?
+  no_registrasi String?
+  id_pasien     Int?
+  asuransi      String?
+  item          String?
+  js            String?
+  jp            String?
+  harga         String?
+  catatan       String?   @default("-")
+  createdAt     DateTime? @default(now())
+  updatedAt     DateTime? @updatedAt
 }
