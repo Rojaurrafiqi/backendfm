@@ -111,6 +111,10 @@ import {
   statusCheckoutFarmasi,
 } from "../controller/farmasi/resep.js";
 import { getDataGudang } from "../controller/gudang/gudang.js";
+import {
+  getDataPasienById,
+  searchDataPasien,
+} from "../controller/SearchPasien/search_pasien.js";
 
 const router = express.Router();
 
@@ -200,6 +204,10 @@ router.post("/ralan/poliklinik/jadwal", postDataJadwalPoliklinik);
 
 // api dynamic dropdown jadwal poliklinik
 router.get("/ralan/poliklinik/jadwal/:id", getPoliById);
+
+// -------------SEARCH PASIEN-----------------//
+router.get("/pasien/search", searchDataPasien);
+router.get("/pasien/result/:id", getDataPasienById);
 
 // -------------KASIR-----------------//
 

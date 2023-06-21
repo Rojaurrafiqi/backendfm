@@ -1,3 +1,6 @@
 ###
-GET http://localhost:5000/farmasi/obat/resep/antrian
+GET http://localhost:5000/gudang/barang
+
+###
+GET http://localhost:5000/pasien/search?nama=NADIA
 
