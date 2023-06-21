@@ -110,6 +110,7 @@ import {
   getDataAntrianResep,
   statusCheckoutFarmasi,
 } from "../controller/farmasi/resep.js";
+import { getDataGudang } from "../controller/gudang/gudang.js";
 
 const router = express.Router();
 
@@ -232,8 +233,9 @@ router.get("/ralan/tangani/tindakan/:id", getDataTindakanPasienRalanById);
 router.delete("/ralan/tangani/tindakan/:id", deleteTindakanPasienRalan);
 router.post("/ralan/tangani/tindakan", postDataTindakanPasienRalan);
 
-//stok barang (jika sudah jalan, ini mengganti tugas stok obat farmasi)
+//stok barang
 router.get("/gudang/barang/stok", getDataStokBarangGudang);
+router.get("/gudang/barang", getDataGudang);
 router.get("/gudang/barang/stok/:id", getDataStokBarangGudangById);
 // router.delete("/ralan/tangani/tindakan/:id", deleteTindakanPasienRalan);
 // router.post("/ralan/tangani/tindakan", postDataTindakanPasienRalan);
