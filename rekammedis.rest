@@ -2,5 +2,5 @@
 GET http://localhost:5000/gudang/barang
 
 ###
-GET http://localhost:5000/pasien/search?nama=NADIA
+GET http://localhost:5000/pasien/search?nama=&nomr=&nik=&tgl_lahir
 

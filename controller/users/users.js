@@ -145,7 +145,8 @@ export const login = async (req, res) => {
       },
       process.env.ACCESS_TOKEN_SECRET,
       {
-        expiresIn: "20s",
+        // expiresIn: "20s", dinon aktifkan sementara, untuk proses developmen, nnti ketika deploy harus pakai ini lagi
+        expiresIn: "1d",
       }
     );
     const refreshToken = jwt.sign(

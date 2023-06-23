@@ -120,8 +120,8 @@ const router = express.Router();
 
 // ------------auth------------//
 
-// router.get("/users", verifyToken, getUser);
-router.get("/users", getUser);
+router.get("/users", verifyToken, getUser);
+// router.get("/users", getUser);
 router.get("/users/all", getAllUser);
 router.get("/token", refreshToken);
 router.post("/users", register);

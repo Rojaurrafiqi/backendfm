@@ -1,9 +1,9 @@
 ###
 GET http://localhost:5000/users/all?jabatan=perawat&status=tidak aktif
 
-# ###
-# GET http://localhost:5000/users
-# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsIm5hbWVVc2VyIjoicm9qYXVyYWZpcWkiLCJlbWFpbFVzZXIiOiJyb2phdXJyYWZpcWkyNUBnbWFpbC5jb20iLCJpYXQiOjE2ODUxMTE1MTUsImV4cCI6MTY4NTExMTUzNX0.VZ5Hkx8M6xRXCjq2EW2N31aumaA3iolXivuVGlP7ze0
+###
+GET http://localhost:5000/users
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsIm5hbWVVc2VyIjoicm9qYXVyIiwiZW1haWxVc2VyIjoicm9qYXVycmFmaXFpMjVAZ21haWwuY29tIiwiaWF0IjoxNjg3NTE1OTM4LCJleHAiOjE2ODc1MTU5NTN9.OY3Ao26B5-F1CMLE_urFNh15yZIr0YAbLG5aYXbbwbs
 
 ###
 GET http://localhost:5000/token
@@ -15,18 +15,18 @@ GET http://localhost:5000/users/4
 GET http://localhost:5000/users/jabatan
 
 ###
-PATCH  http://localhost:5000/logout/3
+PATCH  http://localhost:5000/logout/2
 
 ###
-POST http://localhost:5000/users
+POST http://localhost:5000/users/
 Content-Type: application/json
 
 {
-    "name": "Putra",
-    "email": "putra@example.com",
+    "name": "rojaur",
+    "email": "rojaurrafiqi25@gmail.com",
     "password": "12345678",
     "confPassword": "12345678",
-    "jabatan":"dokter",
+    "jabatan":"1",
     "jenis_kelamin":"laki-laki",
     "status":"aktif"
 }
