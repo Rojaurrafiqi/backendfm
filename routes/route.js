@@ -53,15 +53,7 @@ import {
   getDataPoliklinik,
   postDataPoliklinik,
 } from "../controller/ralan/poliklinik/data_poliklinik.js";
-import {
-  deleteDataJadwalPoliklinik,
-  getDataJadwalPoliklinik,
-  getDataNamaHari,
-  getJadwalPoli,
-  getNamaDokter,
-  postDataJadwalPoliklinik,
-} from "../controller/ralan/poliklinik/jadwal_poliklinik.js";
-import { getPoliById } from "../controller/ralan/poliklinik/api_jadwal_poli.js";
+
 import { getTipePembayaran } from "../controller/kasir/jenis_pembayaran.js";
 import { getTipePasien } from "../controller/JenisPasien/jenis_pasien.js";
 import {
@@ -195,16 +187,6 @@ router.get("/ralan/poliklinik", getDataPoliklinik);
 router.delete("/ralan/poliklinik/:id", deleteDataPoliklinik);
 router.post("/ralan/poliklinik", postDataPoliklinik);
 
-// jadwal poliklinik
-router.get("/ralan/poliklinik/jadwal", getDataJadwalPoliklinik);
-router.get("/hari/nama", getDataNamaHari);
-router.get("/ralan/poliklinik/dokter/nama", getNamaDokter);
-router.delete("/ralan/poliklinik/jadwal/:id", deleteDataJadwalPoliklinik);
-router.post("/ralan/poliklinik/jadwal", postDataJadwalPoliklinik);
-
-// api dynamic dropdown jadwal poliklinik
-router.get("/ralan/poliklinik/jadwal/:id", getPoliById);
-
 // -------------SEARCH PASIEN-----------------//
 router.get("/pasien/search", searchDataPasien);
 router.get("/pasien/result/:id", getDataPasienById);
@@ -218,9 +200,6 @@ router.get("/kasir/tagihan", getDataListTagihanPasien);
 
 //jenis pasien like : bpjs, umum, asuransi
 router.get("/pasien/tipe", getTipePasien);
-
-// tes jadwal poli
-router.get("/jadwal/poli", getJadwalPoli);
 
 // master tarif tindakan
 router.get("/master/tindakan/tarif", getDataTarifTindakan);

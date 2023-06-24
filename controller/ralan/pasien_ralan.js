@@ -39,8 +39,8 @@ export const getAllPasienRalan = async (req, res) => {
   const searchQuery = search
     ? {
         OR: [
-          { dokter_data: { nama_dokter: { contains: search } } },
-          { pasien_rm: { name_user: { contains: search } } },
+          // { dokter: { nama_dokter: { contains: search } } },
+          { pasien_rm: { nama_user: { contains: search } } },
         ],
       }
     : {};

@@ -547,28 +547,27 @@ model pasien_ralan {
 }
 
 model poliklinik {
-  id                Int                 @id @default(autoincrement())
-  kode_ruang        Int?
-  nama_poliklinik   String?
-  createdAt         DateTime?           @default(now())
-  updatedAt         DateTime?           @updatedAt
-  jadwal_poli       jadwal_poli[]
-  jadwal_poliklinik jadwal_poliklinik[]
+  id_ruangan   Int       @id @default(autoincrement())
+  no_ruang     Int?
+  kode_bpjs    String?
+  nama_ruangan String?
+  ket_ruangan  String?
+  createdAt    DateTime? @default(now())
+  updatedAt    DateTime? @updatedAt
 }
 
 // tidak digunakan lagi krna jadwal dokter sering berubah
 model jadwal_poliklinik {
-  id              Int         @id @default(autoincrement())
-  id_poli         Int?
-  id_hari         Int?
-  id_dokter       Int?
-  jam             String?
-  createdAt       DateTime?   @default(now())
-  updatedAt       DateTime?   @updatedAt
-  catatan         String?
-  dokter_data     dokter?     @relation(fields: [id_dokter], references: [id])
-  hari            nama_hari?  @relation(fields: [id_hari], references: [id])
-  poliklinik_data poliklinik? @relation(fields: [id_poli], references: [id])
+  id          Int        @id @default(autoincrement())
+  id_poli     Int?
+  id_hari     Int?
+  id_dokter   Int?
+  jam         String?
+  createdAt   DateTime?  @default(now())
+  updatedAt   DateTime?  @updatedAt
+  catatan     String?
+  dokter_data dokter?    @relation(fields: [id_dokter], references: [id])
+  hari        nama_hari? @relation(fields: [id_hari], references: [id])
 
   @@index([id_dokter], map: "jadwal_poliklinik_id_dokter_fkey")
   @@index([id_hari], map: "jadwal_poliklinik_id_hari_fkey")
@@ -577,15 +576,14 @@ model jadwal_poliklinik {
 
 // tidak digunakan lagi, karena jadwal dokter berubah
 model jadwal_poli {
-  id              Int         @id @default(autoincrement())
-  createdAt       DateTime?   @default(now())
-  updatedAt       DateTime?   @updatedAt
-  id_dokter       Int?
-  id_hari         Int?
-  id_poli         Int?
-  dokter_data     dokter?     @relation(fields: [id_dokter], references: [id])
-  hari            nama_hari?  @relation(fields: [id_hari], references: [id])
-  poliklinik_data poliklinik? @relation(fields: [id_poli], references: [id])
+  id          Int        @id @default(autoincrement())
+  createdAt   DateTime?  @default(now())
+  updatedAt   DateTime?  @updatedAt
+  id_dokter   Int?
+  id_hari     Int?
+  id_poli     Int?
+  dokter_data dokter?    @relation(fields: [id_dokter], references: [id])
+  hari        nama_hari? @relation(fields: [id_hari], references: [id])
 
   @@index([id_dokter], map: "jadwal_poli_id_dokter_fkey")
   @@index([id_hari], map: "jadwal_poli_id_hari_fkey")
