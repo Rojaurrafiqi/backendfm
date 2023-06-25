@@ -5,12 +5,14 @@ Content-Type: application/json
 {
     "id_pasien_rm": 1118030004,
     "poliklinik": "umum",
-    "id_pembayaran": 1,
     "dokter": "rojaur",
-    "jenis_pasien": "BPJS",
-    "deposit": "50000",
+    "asuransi": "BPJS",
+    "no_asuransi": "50000",
+    "biaya_adm": "50000",
+    "biaya_share_dokter": "50000",
     "jenis_konsultasi": "datang langsung",
     "no_antrian": "A12"
+
 
 }
 

@@ -7,11 +7,13 @@ export const pendaftaran_ralan = async (req, res) => {
     id_pasien_rm,
     poliklinik,
     id_pembayaran,
-    deposit,
+    asuransi,
+    no_asuransi,
     dokter,
-    jenis_pasien,
     jenis_konsultasi,
     no_antrian,
+    biaya_adm,
+    biaya_share_dokter,
   } = req.body;
 
   try {
@@ -20,9 +22,11 @@ export const pendaftaran_ralan = async (req, res) => {
         id_pasien_rm: id_pasien_rm,
         poliklinik: poliklinik,
         dokter: dokter,
-        deposit: deposit,
+        asuransi: asuransi,
+        no_asuransi: no_asuransi,
+        biaya_adm: biaya_adm,
+        biaya_share_dokter: biaya_share_dokter,
         id_pembayaran: id_pembayaran,
-        jenis_pasien: jenis_pasien,
         jenis_konsultasi: jenis_konsultasi,
         no_antrian: no_antrian,
       },
@@ -72,22 +76,52 @@ export const getAllPasienRalan = async (req, res) => {
             id: true,
             no_mr: true,
             nama_user: true,
-            id_jk: true,
+            gender_data: {
+              select: {
+                id_gender: true,
+                jenis_kelamin: true,
+              },
+            },
           },
         },
-        poliklinik: true,
-        dokter: true,
-        jenis_pasien: true,
+        poliklinik_data: {
+          select: {
+            id_ruangan: true,
+            nama_ruangan: true,
+          },
+        },
+        dokter_data: {
+          select: {
+            id: true,
+            gelar_dpn: true,
+            nama_user: true,
+            gelar_blk: true,
+          },
+        },
         jenis_konsultasi: true,
         no_antrian: true,
-        deposit: true,
+        asuransi_data: {
+          select: {
+            id_asuransi: true,
+            singkatan: true,
+          },
+        },
+        no_asuransi: true,
+        biaya_adm: true,
+        biaya_share_dokter: true,
       },
       skip: skipNumber,
       take: limitNumber,
     });
 
+    // deposit = biaya adm + biaya share ke dokter
+    const dataWithDeposit = getData.map((item) => ({
+      ...item,
+      deposit: Number(item.biaya_adm) + Number(item.biaya_share_dokter),
+    }));
+
     res.status(200).json({
-      data: getData,
+      data: dataWithDeposit,
       totalItems,
       totalPages,
       currentPage: pageNumber,

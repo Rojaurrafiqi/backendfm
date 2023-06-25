@@ -107,6 +107,8 @@ import {
   getDataPasienById,
   searchDataPasien,
 } from "../controller/SearchPasien/search_pasien.js";
+import { getDokterPoli } from "../controller/ralan/dokter/pilih_dokter.js";
+import { getDataAsuransi } from "../controller/ralan/pembiayaan/pembiayaan.js";
 
 const router = express.Router();
 
@@ -186,6 +188,12 @@ router.delete("/ralan/pasien/:id", deletePasienRalan);
 router.get("/ralan/poliklinik", getDataPoliklinik);
 router.delete("/ralan/poliklinik/:id", deleteDataPoliklinik);
 router.post("/ralan/poliklinik", postDataPoliklinik);
+
+//nama dokter berdasarkan poli yng dipilih
+router.get("/ralan/poliklinik/dokter", getDokterPoli);
+
+//nama data asuransi untuk pendaftaran ralan
+router.get("/ralan/pembayaran", getDataAsuransi);
 
 // -------------SEARCH PASIEN-----------------//
 router.get("/pasien/search", searchDataPasien);
