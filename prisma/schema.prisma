@@ -536,6 +536,7 @@ model pasien_ralan {
   biaya_adm                String?
   biaya_share_dokter       String?
   no_asuransi              String?
+  isBB                     Int?                @default(0) // untuk kode pasien umum sudah bayar atau blm. 1 untuk bayar, 0 untuk blm.
   pembayaranId             Int?
   asuransi_data            tbl_mst_asuransi?   @relation(fields: [asuransi], references: [id_asuransi])
   dokter_data              rekam_medis_pasien? @relation("DokterRalan", fields: [dokter], references: [id])

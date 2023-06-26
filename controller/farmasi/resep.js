@@ -44,7 +44,19 @@ export const getDataAntrianResep = async (req, res) => {
             nama_user: true,
           },
         },
-        poliklinik: true,
+        poliklinik_data: {
+          select: {
+            id_ruangan: true,
+            nama_ruangan: true,
+          },
+        },
+        jenis_konsultasi: true,
+        asuransi_data: {
+          select: {
+            id_asuransi: true,
+            singkatan: true,
+          },
+        },
         dokter: true,
         no_antrian: true,
         isKasir: true,

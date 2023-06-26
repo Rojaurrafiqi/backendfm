@@ -14,12 +14,28 @@ export const pendaftaran_ralan = async (req, res) => {
     no_antrian,
     biaya_adm,
     biaya_share_dokter,
+    isBB,
   } = req.body;
 
   try {
+    const currentDate = new Date();
+    const lastTwoDigitsOfYear = currentDate.getFullYear() % 100;
+    const month = (currentDate.getMonth() + 1).toString().padStart(2, "0");
+    const day = currentDate.getDate();
+    const hours = currentDate.getHours();
+    const minutes = currentDate.getMinutes();
+
+    const createNoReg =
+      lastTwoDigitsOfYear.toString() +
+      month.toString().padStart(2, "0") +
+      day.toString().padStart(2, "0") +
+      hours.toString().padStart(2, "0") +
+      minutes.toString().padStart(2, "0") +
+      id_pasien_rm.toString();
     const dataPasien = await prisma.pasien_ralan.create({
       data: {
         id_pasien_rm: id_pasien_rm,
+        no_registrasi: createNoReg.toString(),
         poliklinik: poliklinik,
         dokter: dokter,
         asuransi: asuransi,
@@ -29,6 +45,7 @@ export const pendaftaran_ralan = async (req, res) => {
         id_pembayaran: id_pembayaran,
         jenis_konsultasi: jenis_konsultasi,
         no_antrian: no_antrian,
+        isBB: isBB,
       },
     });
     res.status(201).json(dataPasien);
@@ -109,6 +126,7 @@ export const getAllPasienRalan = async (req, res) => {
         no_asuransi: true,
         biaya_adm: true,
         biaya_share_dokter: true,
+        isBB: true,
       },
       skip: skipNumber,
       take: limitNumber,
@@ -134,7 +152,7 @@ export const getAllPasienRalan = async (req, res) => {
 //get pasien ralan by id
 export const getPasienRalanById = async (req, res) => {
   try {
-    const data = await prisma.pasien_ralan.findUnique({
+    const getData = await prisma.pasien_ralan.findUnique({
       where: {
         id: Number(req.params.id),
       },
@@ -145,7 +163,12 @@ export const getPasienRalanById = async (req, res) => {
             id: true,
             no_mr: true,
             nama_user: true,
-            id_jk: true,
+            gender_data: {
+              select: {
+                id_gender: true,
+                jenis_kelamin: true,
+              },
+            },
             id_agama: true,
             no_hp: true,
             alamat: true,
@@ -153,16 +176,40 @@ export const getPasienRalanById = async (req, res) => {
             id_kabkota: true,
           },
         },
-        poliklinik: true,
+        poliklinik_data: {
+          select: {
+            id_ruangan: true,
+            nama_ruangan: true,
+          },
+        },
         no_registrasi: true,
-        dokter: true,
-        jenis_pasien: true,
+        dokter_data: {
+          select: {
+            id: true,
+            gelar_dpn: true,
+            nama_user: true,
+            gelar_blk: true,
+          },
+        },
         jenis_konsultasi: true,
         no_antrian: true,
-        deposit: true,
+        asuransi_data: {
+          select: {
+            id_asuransi: true,
+            singkatan: true,
+          },
+        },
+        no_asuransi: true,
+        biaya_adm: true,
+        biaya_share_dokter: true,
       },
     });
-    res.status(200).json(data);
+    // deposit = biaya adm + biaya share ke dokter
+    const dataWithDeposit = {
+      ...getData,
+      deposit: Number(getData.biaya_adm) + Number(getData.biaya_share_dokter),
+    };
+    res.status(200).json({ data: dataWithDeposit });
   } catch (error) {
     res.status(404).json({ msg: error.message });
   }
