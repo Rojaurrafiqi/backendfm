@@ -23,7 +23,7 @@ model rekam_medis_pasien {
   tgl_lhr                   String?        @map("tgl_lhr")
   id_jk                     String?        @map("id_jk")
   id_kawin                  Int?           @map("id_kawin")
-  id_agama                  String         @map("id_agama")
+  id_agama                  String?        @map("id_agama")
   gol_darah                 String?        @map("gol_darah")
   berat_lahir               String?        @map("berat_lahir")
   id_jpdd                   Int?           @map("id_jpdd")

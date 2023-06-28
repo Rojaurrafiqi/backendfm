@@ -1,6 +1,86 @@
 ###
-GET http://localhost:5000/gudang/barang
+GET http://localhost:5000/pasien/data/all
 
 ###
 GET http://localhost:5000/pasien/search?nama=&nomr=&nik=&tgl_lahir
 
+###
+POST http://localhost:5000/rm
+Content-Type: application/json
+
+{
+    "email": "rojaurrafiqi25@gmail.com",
+    "password": "12345678",
+    "id": " 1",
+    "id_finger":"1",
+    "foto": 0,
+    "tanda_tangan": 0,
+    "no_mr":1,
+    "no_mr_lama":2,
+    "kode_dpjp":1,
+    "gelar_dpn":"dr.",
+    "nama_user":"fachri",
+    "gelar_blk":"S.Kom",
+    "id_shift":"1",
+    "tmp_lhr":"sigli",
+    "tgl_lhr":"21-06-1998",
+    "id_jk":"1",
+    "id_kawin":"2",
+    "id_agama":"2",
+    "gol_darah":"AB",
+    "berat_lahir":"3",
+    "id_jpdd":"5",
+    "id_prodi":"6",
+    "id_pekerjaan": "7",
+    "id_pekerjaan_sts":"8",
+    "id_kantor":"9",
+    "id_grupsdm":"10",
+    "tarif_konsul":20000,
+    "sts_tarif_dikelola_dokter":"lunas",
+    "ket_spesialisasi":"sakit perut",
+    "no_sip": 220,
+    "id_ruangan":9,
+    "tmt_cpns":"ya",
+    "nip": 208912412,
+    "no_karpeg": 212312312,
+    "npwp": 212193232,
+    "id_desa": 80,
+    "alamat":"Tanjong",
+    "jenis_identitas": "KTP",
+    "no_identitas": 01321321011,
+    "no_kk": 2132132131,
+    "no_hp": 085260257475,
+    "email": "elnino.fahri@gmail.com",
+    "grup_user": "YES",
+    "sts_user":"Ditangguhkan",
+    "sts_prioritas":1,
+    "id_prov": 2,
+    "id_kabkota": 2,
+    "id_kecamatan": 3,
+    "id_kelp_sdm": 4,
+    "nip_lama": 6,
+    "cuti_tahunan": "Ya",
+    "tmt_pensiun": "Ya",
+    "sts_allowed_credit":"YES",
+    "riwayat_alergi_obat":"Alergi Obat gatal",
+    "riwayat_alergi_makanan":"Gak ada",
+    "idcardprinted": "Ya",
+    "idcardtaked": "Ya",
+    "idcardpaid":"Ya",
+    "idcardexpired":"Ya",
+    "user_registered":"20-06-2023",
+    "date_registered":"20-06-2023",
+    "date_modified":"20-06-2023",
+    "user_modified":"20-06-2023",
+    "isdefault":"YES",
+    "password":"anjayani210",
+    "sts_update":"terupdate"
+}
+###
+POST http://localhost:5000/rm
+Content-Type: application/json
+
+{
+    "nama_user": "Fachri Siddiq Akbar"
+    
+}
