@@ -24,7 +24,7 @@ model rekam_medis_pasien {
   gender_data               gender?        @relation(fields: [id_jk], references: [id_gender])
   id_jk                     Int?           @map("id_jk")
   id_kawin                  Int?           @map("id_kawin")
-  id_agama                  String         @map("id_agama")
+  id_agama                  String?        @map("id_agama")
   gol_darah                 String?        @map("gol_darah")
   berat_lahir               String?        @map("berat_lahir")
   id_jpdd                   Int?           @map("id_jpdd")
@@ -999,7 +999,9 @@ model jual_barang_detail {
   no_transaksi           String?
   no_registrasi          String?
   resep                  String?
+  jenis_resep            String?
   no_urut                String?
+  resep_ke               String?
   racikan_jumlah         String?   @default("-")
   racikan_jumlah_diambil String?   @default("-")
   racikan_kemasan        String?   @default("-")

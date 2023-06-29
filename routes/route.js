@@ -87,10 +87,12 @@ import {
   getDataStokBarangGudangById,
 } from "../controller/gudang/stok_barang.js";
 import {
+  cekNoUrutResepRacikan,
   ceknoRTObatResepUmum,
   getDataObatGeneralPasienRalan,
   getDataObatPasienRalan,
   getDataObatPasienRalanById,
+  getDataObatRacikanPasienRalan,
   postDataObatPasienRalan,
 } from "../controller/form/obat/ObatPasienRalan.js";
 import {
@@ -241,8 +243,10 @@ router.post("/ralan/tangani/obat", postDataObatPasienRalan);
 router.get("/ralan/tangani/obat/:id", getDataObatPasienRalanById);
 router.delete("/ralan/tangani/obat/:id", deleteBarangPasienRalan);
 router.get("/ralan/tangani/obat/general/:id", getDataObatGeneralPasienRalan);
+router.get("/ralan/tangani/obat/racikan/:id", getDataObatRacikanPasienRalan);
 //obat pasien ralan > pengecekan no urutan resep umum / general
-router.get("/ralan/tangani/obat/cekurutan/:id", ceknoRTObatResepUmum);
+router.get("/ralan/tangani/obat/resepke/rt/:id", ceknoRTObatResepUmum);
+router.get("/ralan/tangani/obat/nourut/rr/:id/:resepke", cekNoUrutResepRacikan);
 
 //farmasi > resep obat
 router.get("/farmasi/obat/resep/antrian", getDataAntrianResep);

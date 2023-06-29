@@ -4,3 +4,13 @@ GET http://localhost:5000/gudang/barang
 ###
 GET http://localhost:5000/pasien/search?nama=&nomr=&nik=&tgl_lahir
 
+###
+POST  http://localhost:5000/rm
+Content-Type: application/json
+
+{
+  
+    "email": "roaj@mail.com"
+
+}
+
