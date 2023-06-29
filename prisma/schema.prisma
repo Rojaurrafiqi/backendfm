@@ -1000,8 +1000,8 @@ model jual_barang_detail {
   no_registrasi          String?
   resep                  String?
   jenis_resep            String?
-  no_urut                String?
-  resep_ke               String?
+  no_urut                Int?
+  resep_ke               Int?
   racikan_jumlah         String?   @default("-")
   racikan_jumlah_diambil String?   @default("-")
   racikan_kemasan        String?   @default("-")
@@ -1082,4 +1082,44 @@ model gender {
   id_gender          Int                  @id @default(autoincrement())
   jenis_kelamin      String?
   rekam_medis_pasien rekam_medis_pasien[]
+}
+
+model pemeriksaan_fisik_ralan {
+  id            Int     @id @default(autoincrement())
+  no_registrasi String?
+  id_pasien     Int?
+  kesadaran     String?
+  tekanan_darah String?
+  nadi          String?
+  pernafasan    String?
+  suhu          String?
+  tb            String?
+  bb            String?
+  images        String?
+}
+
+model form_pengkajian_awal_medis_ralan {
+  id                         Int       @id @default(autoincrement())
+  no_registrasi              String?
+  id_pasien                  Int?
+  tgl_periksa                String?
+  keluhan_utama              String?
+  anamnesis                  String?
+  jam_periksa                String?
+  wawancara                  String?
+  isAlergi                   String?
+  alergi_obat                String?
+  alergi_makanan             String?
+  alergi_udara               String?
+  alergi_lainya              String?
+  isKawin                    String?
+  grafida                    String?
+  partus                     String?
+  abortus                    String?
+  isImunisasi                String?
+  tumbuh_kembang             String?
+  riwayat_penyakit_keluarga  String?
+  riwayat_penyakit_terdahulu String?
+  createdAt                  DateTime? @default(now())
+  updatedAt                  DateTime? @updatedAt
 }

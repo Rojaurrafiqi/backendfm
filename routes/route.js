@@ -111,6 +111,12 @@ import {
 } from "../controller/SearchPasien/search_pasien.js";
 import { getDokterPoli } from "../controller/ralan/dokter/pilih_dokter.js";
 import { getDataAsuransi } from "../controller/ralan/pembiayaan/pembiayaan.js";
+import {
+  getDataPengkajianAwalRalan,
+  getDataPengkajianAwalRalanById,
+  postDataPengkajianAwalRalan,
+  updateDataPengkajianAwalRalan,
+} from "../controller/form/pengkajian_awal_ralan/pengkajian_awal_ralan.js";
 
 const router = express.Router();
 
@@ -260,5 +266,11 @@ router.patch("/kasir/checkout/:id", statusCheckoutKasir);
 //pembuatan bill penjualan
 router.post("/kasir/bill", postBill);
 router.post("/kasir/bill/detail", postBillDetail);
+
+// form pengkajian awal pasien ralan
+router.get("/form/ralan/pengkajianawal", getDataPengkajianAwalRalan);
+router.get("/form/ralan/pengkajianawal/:id", getDataPengkajianAwalRalanById);
+router.post("/form/ralan/pengkajianawal/", postDataPengkajianAwalRalan);
+router.patch("/form/ralan/pengkajianawal/:id", updateDataPengkajianAwalRalan);
 
 export default router;

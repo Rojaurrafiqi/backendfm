@@ -171,9 +171,9 @@ export const ceknoRTObatResepUmum = async (req, res) => {
     });
     if (response) {
       const nextResepRT = Number(response.resep_ke) + 1;
-      res.status(200).json({ nextResepRT: nextResepRT.toString() });
+      res.status(200).json({ nextResepRT: nextResepRT });
     } else {
-      res.status(200).json({ nextResepRT: "1" });
+      res.status(200).json({ nextResepRT: 1 });
     }
   } catch (error) {
     res.status(404).json({ msg: error.message });
@@ -186,7 +186,7 @@ export const cekNoUrutResepRacikan = async (req, res) => {
     const response = await prisma.jual_barang_detail.findFirst({
       where: {
         no_registrasi: req.params.id,
-        resep_ke: req.params.resepke,
+        resep_ke: Number(req.params.resepke),
         resep: "RR",
       },
       orderBy: {
@@ -194,10 +194,10 @@ export const cekNoUrutResepRacikan = async (req, res) => {
       },
     });
     if (response) {
-      const nextUrutanRR = Number(response.no_urut) + 1;
-      res.status(200).json({ nextUrutanRR: nextUrutanRR.toString() });
+      const nextUrutanRR = response.no_urut + 1;
+      res.status(200).json({ nextUrutanRR: nextUrutanRR });
     } else {
-      res.status(200).json({ nextUrutanRR: "1" });
+      res.status(200).json({ nextUrutanRR: 1 });
     }
   } catch (error) {
     res.status(404).json({ msg: error.message });
