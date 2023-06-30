@@ -106,6 +106,12 @@ model golongan_darah {
   list_golongan_darah String?
 }
 
+model gender {
+  id_gender          Int                  @id @default(autoincrement())
+  jenis_kelamin      String?
+
+}
+
 model pasien_igd {
   id                                              Int                                               @id @default(autoincrement())
   id_pasien_rm                                    Int?
