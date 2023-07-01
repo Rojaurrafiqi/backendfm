@@ -1,0 +1,23 @@
+
+
+###
+GET http://localhost:5000/form/ralan/pemeriksaanfisik/1
+
+###
+POST  http://localhost:5000/form/ralan/pemeriksaanfisik
+Content-Type: application/json
+
+{
+        "no_registrasi": "2306150002",
+        "id_pasien": 11111
+}
+
+###
+PATCH http://localhost:5000/form/ralan/pemeriksaanfisik/1
+Content-Type: application/json
+
+{
+
+        "no_registrasi": "2306150002",
+        "id_pasien": 11112
+}

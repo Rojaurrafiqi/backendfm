@@ -117,6 +117,11 @@ import {
   postDataPengkajianAwalRalan,
   updateDataPengkajianAwalRalan,
 } from "../controller/form/pengkajian_awal_ralan/pengkajian_awal_ralan.js";
+import {
+  getDataPemeriksaanFisikRalanById,
+  postDataPemeriksaanFisikRalan,
+  updateDataPemeriksaanFisikRalan,
+} from "../controller/form/pemeriksaan_fisik/pemeriksaan_fisik.js";
 
 const router = express.Router();
 
@@ -272,5 +277,16 @@ router.get("/form/ralan/pengkajianawal", getDataPengkajianAwalRalan);
 router.get("/form/ralan/pengkajianawal/:id", getDataPengkajianAwalRalanById);
 router.post("/form/ralan/pengkajianawal/", postDataPengkajianAwalRalan);
 router.patch("/form/ralan/pengkajianawal/:id", updateDataPengkajianAwalRalan);
+
+// form pemeriksaan fisik pasien ralan
+router.get(
+  "/form/ralan/pemeriksaanfisik/:id",
+  getDataPemeriksaanFisikRalanById
+);
+router.post("/form/ralan/pemeriksaanfisik/", postDataPemeriksaanFisikRalan);
+router.patch(
+  "/form/ralan/pemeriksaanfisik/:id",
+  updateDataPemeriksaanFisikRalan
+);
 
 export default router;
