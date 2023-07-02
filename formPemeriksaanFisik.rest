@@ -1,7 +1,7 @@
 
 
 ###
-GET http://localhost:5000/form/ralan/pemeriksaanfisik/1
+GET http://localhost:5000/form/ralan/pemeriksaanfisik/2306150002
 
 ###
 POST  http://localhost:5000/form/ralan/pemeriksaanfisik
