@@ -5,6 +5,16 @@ GET http://localhost:5000/pasien/data/all
 GET http://localhost:5000/pasien/search?nama=&nomr=&nik=&tgl_lahir
 
 ###
+POST  http://localhost:5000/rm
+Content-Type: application/json
+
+{
+  
+    "email": "roaj@mail.com"
+
+}
+    
+###
 POST http://localhost:5000/rm
 Content-Type: application/json
 
@@ -82,5 +92,5 @@ Content-Type: application/json
 
 {
     "nama_user": "Fachri Siddiq Akbar"
-    
+
 }

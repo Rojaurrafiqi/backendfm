@@ -87,10 +87,12 @@ import {
   getDataStokBarangGudangById,
 } from "../controller/gudang/stok_barang.js";
 import {
+  cekNoUrutResepRacikan,
   ceknoRTObatResepUmum,
   getDataObatGeneralPasienRalan,
   getDataObatPasienRalan,
   getDataObatPasienRalanById,
+  getDataObatRacikanPasienRalan,
   postDataObatPasienRalan,
 } from "../controller/form/obat/ObatPasienRalan.js";
 import {
@@ -107,6 +109,14 @@ import {
   getDataPasienById,
   searchDataPasien,
 } from "../controller/SearchPasien/search_pasien.js";
+import { getDokterPoli } from "../controller/ralan/dokter/pilih_dokter.js";
+import { getDataAsuransi } from "../controller/ralan/pembiayaan/pembiayaan.js";
+import {
+  getDataPengkajianAwalRalan,
+  getDataPengkajianAwalRalanById,
+  postDataPengkajianAwalRalan,
+  updateDataPengkajianAwalRalan,
+} from "../controller/form/pengkajian_awal_ralan/pengkajian_awal_ralan.js";
 
 const router = express.Router();
 
@@ -187,6 +197,12 @@ router.get("/ralan/poliklinik", getDataPoliklinik);
 router.delete("/ralan/poliklinik/:id", deleteDataPoliklinik);
 router.post("/ralan/poliklinik", postDataPoliklinik);
 
+//nama dokter berdasarkan poli yng dipilih
+router.get("/ralan/poliklinik/dokter", getDokterPoli);
+
+//nama data asuransi untuk pendaftaran ralan
+router.get("/ralan/pembayaran", getDataAsuransi);
+
 // -------------SEARCH PASIEN-----------------//
 router.get("/pasien/search", searchDataPasien);
 router.get("/pasien/result/:id", getDataPasienById);
@@ -233,8 +249,10 @@ router.post("/ralan/tangani/obat", postDataObatPasienRalan);
 router.get("/ralan/tangani/obat/:id", getDataObatPasienRalanById);
 router.delete("/ralan/tangani/obat/:id", deleteBarangPasienRalan);
 router.get("/ralan/tangani/obat/general/:id", getDataObatGeneralPasienRalan);
+router.get("/ralan/tangani/obat/racikan/:id", getDataObatRacikanPasienRalan);
 //obat pasien ralan > pengecekan no urutan resep umum / general
-router.get("/ralan/tangani/obat/cekurutan/:id", ceknoRTObatResepUmum);
+router.get("/ralan/tangani/obat/resepke/rt/:id", ceknoRTObatResepUmum);
+router.get("/ralan/tangani/obat/nourut/rr/:id/:resepke", cekNoUrutResepRacikan);
 
 //farmasi > resep obat
 router.get("/farmasi/obat/resep/antrian", getDataAntrianResep);
@@ -248,5 +266,11 @@ router.patch("/kasir/checkout/:id", statusCheckoutKasir);
 //pembuatan bill penjualan
 router.post("/kasir/bill", postBill);
 router.post("/kasir/bill/detail", postBillDetail);
+
+// form pengkajian awal pasien ralan
+router.get("/form/ralan/pengkajianawal", getDataPengkajianAwalRalan);
+router.get("/form/ralan/pengkajianawal/:id", getDataPengkajianAwalRalanById);
+router.post("/form/ralan/pengkajianawal/", postDataPengkajianAwalRalan);
+router.patch("/form/ralan/pengkajianawal/:id", updateDataPengkajianAwalRalan);
 
 export default router;

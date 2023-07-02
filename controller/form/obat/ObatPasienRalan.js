@@ -5,7 +5,30 @@ const prisma = new PrismaClient();
 export const getDataObatPasienRalan = async (req, res) => {
   try {
     const data = await prisma.jual_barang_detail.findMany({});
+
     res.status(200).json(data);
+  } catch (error) {
+    res.status(404).json({ msg: error.message });
+  }
+};
+
+export const getDataObatPasienRalanRacikan = async (req, res) => {
+  try {
+    const data = await prisma.jual_barang_detail.findMany({
+      where: {
+        no_registrasi: req.params.id,
+        resep: "RR",
+      },
+    });
+
+    const data_racikan = await prisma.jual_barang_detail_racikan.findMany({
+      where: {
+        no_registrasi: req.params.id,
+        resep: "RR",
+      },
+    });
+
+    res.status(200).json();
   } catch (error) {
     res.status(404).json({ msg: error.message });
   }
@@ -27,6 +50,8 @@ export const postDataObatPasienRalan = async (req, res) => {
     harga_jual,
     status_harus_bayar,
     catatan,
+    resep_ke,
+    jenis_resep,
   } = req.body;
   try {
     const postData = await prisma.jual_barang_detail.create({
@@ -34,8 +59,10 @@ export const postDataObatPasienRalan = async (req, res) => {
         no_transaksi: no_transaksi,
         no_registrasi: no_registrasi,
         resep: resep,
+        resep_ke: resep_ke,
         no_urut: no_urut,
         id_barang: id_barang,
+        jenis_resep: jenis_resep,
         racikan_jumlah: racikan_jumlah,
         racikan_jumlah_diambil: racikan_jumlah_diambil,
         racikan_kemasan: racikan_kemasan,
@@ -55,15 +82,18 @@ export const postDataObatPasienRalan = async (req, res) => {
 
 export const getDataObatPasienRalanById = async (req, res) => {
   try {
-    const data = await prisma.jual_barang_detail.findMany({
+    const dataRR = await prisma.jual_barang_detail.findMany({
       where: {
         no_registrasi: req.params.id,
+        resep: "RR",
       },
+
       select: {
         id: true,
         no_transaksi: true,
         no_registrasi: true,
         resep: true,
+        resep_ke: true,
         no_urut: true,
         data_barang: {
           select: {
@@ -80,15 +110,52 @@ export const getDataObatPasienRalanById = async (req, res) => {
         harga_jual: true,
         status_harus_bayar: true,
       },
+      orderBy: {
+        resep_ke: "asc",
+      },
+    });
+    const dataRT = await prisma.jual_barang_detail.findMany({
+      where: {
+        no_registrasi: req.params.id,
+        resep: "RT",
+      },
+
+      select: {
+        id: true,
+        no_transaksi: true,
+        no_registrasi: true,
+        resep: true,
+        resep_ke: true,
+        no_urut: true,
+        data_barang: {
+          select: {
+            id_barang: true,
+            nama_barang_lengkap: true,
+          },
+        },
+        racikan_jumlah: true,
+        racikan_jumlah_diambil: true,
+        racikan_kemasan: true,
+        qty: true,
+        satuan: true,
+        aturan_pakai: true,
+        harga_jual: true,
+        status_harus_bayar: true,
+      },
+      orderBy: {
+        resep_ke: "asc",
+      },
     });
 
-    res.status(200).json(data);
+    const mergedData = [...dataRR, ...dataRT];
+
+    res.status(200).json(mergedData);
   } catch (error) {
     res.status(404).json({ msg: error.message });
   }
 };
 
-// pengecekan no urutan obat pada resep obat umum atau general
+// pengecekan resep_ke  pada resep obat umum atau general
 export const ceknoRTObatResepUmum = async (req, res) => {
   try {
     const response = await prisma.jual_barang_detail.findFirst({
@@ -99,25 +166,38 @@ export const ceknoRTObatResepUmum = async (req, res) => {
         },
       },
       orderBy: {
-        createdAt: "desc",
+        createdAt: "asc",
       },
     });
     if (response) {
-      const regex = /^([A-Z]+)(\d+)$/;
-      const match = response.resep.match(regex);
-
-      if (match) {
-        const prefix = match[1];
-        const number = parseInt(match[2]);
-        const nextNumber = number + 1;
-
-        const newResep = `${prefix}${nextNumber}`;
-        res.status(200).json({ next_rt: newResep });
-      } else {
-        res.status(200).json({ next_rt: null });
-      }
+      const nextResepRT = Number(response.resep_ke) + 1;
+      res.status(200).json({ nextResepRT: nextResepRT });
     } else {
-      res.status(200).json({ next_rt: "RT1" });
+      res.status(200).json({ nextResepRT: 1 });
+    }
+  } catch (error) {
+    res.status(404).json({ msg: error.message });
+  }
+};
+
+// pengecekan no urutan obat pada resep obat racikan
+export const cekNoUrutResepRacikan = async (req, res) => {
+  try {
+    const response = await prisma.jual_barang_detail.findFirst({
+      where: {
+        no_registrasi: req.params.id,
+        resep_ke: Number(req.params.resepke),
+        resep: "RR",
+      },
+      orderBy: {
+        no_urut: "desc",
+      },
+    });
+    if (response) {
+      const nextUrutanRR = response.no_urut + 1;
+      res.status(200).json({ nextUrutanRR: nextUrutanRR });
+    } else {
+      res.status(200).json({ nextUrutanRR: 1 });
     }
   } catch (error) {
     res.status(404).json({ msg: error.message });
@@ -131,6 +211,45 @@ export const getDataObatGeneralPasienRalan = async (req, res) => {
         no_registrasi: req.params.id,
         resep: {
           startsWith: "RT",
+        },
+      },
+      select: {
+        id: true,
+        no_transaksi: true,
+        no_registrasi: true,
+        resep: true,
+        no_urut: true,
+        data_barang: {
+          select: {
+            id_barang: true,
+            nama_barang_lengkap: true,
+          },
+        },
+        racikan_jumlah: true,
+        racikan_jumlah_diambil: true,
+        racikan_kemasan: true,
+        catatan: true,
+        qty: true,
+        satuan: true,
+        aturan_pakai: true,
+        harga_jual: true,
+        status_harus_bayar: true,
+      },
+    });
+
+    res.status(200).json(data);
+  } catch (error) {
+    res.status(404).json({ msg: error.message });
+  }
+};
+
+export const getDataObatRacikanPasienRalan = async (req, res) => {
+  try {
+    const data = await prisma.jual_barang_detail.findMany({
+      where: {
+        no_registrasi: req.params.id,
+        resep: {
+          startsWith: "RR",
         },
       },
       select: {
