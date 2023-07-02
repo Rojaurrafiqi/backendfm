@@ -3,6 +3,9 @@
 GET http://localhost:5000/form/ralan/pengkajianawal
 
 ###
+GET http://localhost:5000/form/ralan/pengkajianawal/1
+
+###
 POST  http://localhost:5000/form/ralan/pengkajianawal
 Content-Type: application/json
 
@@ -29,26 +32,12 @@ Content-Type: application/json
 }
 
 ###
-PATCH http://localhost:5000/form/ralan/pengkajianawal/1
+PATCH http://localhost:5000/form/ralan/pengkajianawal/19
 Content-Type: application/json
 
 {
-        "no_registrasi": "2306150002",
-        "id_pasien": 222,
-        "tgl_periksa": "tgl_periksa",
-        "jam_periksa": "jam_periksa",
-        "wawancara": "wawancara",
-        "isAlergi": "isAlergi",
-        "alergi_obat": "alergi_obat",
-        "alergi_makanan": "alergi_makanan",
-        "alergi_udara": "alergi_udara",
-        "alergi_lainya": "alergi_lainya",
-        "isKawin": "isKawin",
-        "grafida": "grafida",
-        "partus": "partus",
-        "abortus": "abortus",
-        "isImunisasi": "isImunisasi",
-        "tumbuh_kembang": "tumbuh_kembang",
+
+
         "riwayat_penyakit_keluarga": "riwayat_penyakit_keluarga",
         "riwayat_penyakit_terdahulu": "riwayat_penyakit_terdahulu"
         
