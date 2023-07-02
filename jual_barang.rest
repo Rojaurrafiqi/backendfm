@@ -5,7 +5,13 @@
 GET http://localhost:5000/ralan/tangani/obat
 
 ###
-GET http://localhost:5000/ralan/tangani/obat/2306150002
+GET http://localhost:5000/ralan/tangani/obat/23062719581121122925
+
+###
+GET http://localhost:5000/ralan/tangani/obat/resepke/rt/23062719581121122925
+
+###
+GET http://localhost:5000/ralan/tangani/obat/nourut/rr/23062719581121122925/1
 
 
 ###
@@ -41,7 +47,7 @@ Content-Type: application/json
 
 # pengecekan nomor urutan resep umum pada pasien ralan
 ###
-GET http://localhost:5000/ralan/tangani/obat/cekurutan/2306150002
+GET http://localhost:5000/ralan/tangani/obat/cekurutan/rr/23062713091121122923
 
 ###
 GET http://localhost:5000/farmasi/barang/penjualan/totaltransaksi/2306150002

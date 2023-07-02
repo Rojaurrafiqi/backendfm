@@ -21,9 +21,10 @@ model rekam_medis_pasien {
   id_shift                  Int?           @map("id_shift")
   tmp_lhr                   String?        @map("tmp_lhr")
   tgl_lhr                   String?        @map("tgl_lhr")
-  id_jk                     String?        @map("id_jk")
+  gender                    gender?        @relation("gender", fields: [id_jk], references: [id_gender])
+  id_jk                     Int?           @map("id_jk")
   id_kawin                  Int?           @map("id_kawin")
-  id_agama                  String         @map("id_agama")
+  id_agama                  String?        @map("id_agama")
   gol_darah                 String?        @map("gol_darah")
   berat_lahir               String?        @map("berat_lahir")
   id_jpdd                   Int?           @map("id_jpdd")
@@ -73,12 +74,13 @@ model rekam_medis_pasien {
   isdefault                 String?        @map("isdefault")
   password                  String?        @map("password")
   sts_update                String?        @map("sts_update")
+  bill                      bill[]
+  jual_barang               jual_barang[]
   kasir                     kasir[]
   pasien_igd                pasien_igd[]
-  pasien_ranap              pasien_ralan[]
-  pasien_ralan              pasien_ranap[]
-  jual_barang               jual_barang[]
-  bill                      bill[]
+  dokterRalan               pasien_ralan[] @relation("DokterRalan")
+  pasienRalan               pasien_ralan[] @relation("PasienRalan")
+  pasien_ranap              pasien_ranap[]
 }
 
 model pekerjaan {
@@ -104,6 +106,12 @@ model pendidikan {
 model golongan_darah {
   id                  Int     @id @default(autoincrement())
   list_golongan_darah String?
+}
+
+model gender {
+  id_gender          Int                  @id @default(autoincrement())
+  jenis_kelamin      String?
+  rekam_medis_pasien     rekam_medis_pasien[]  @relation("gender")
 }
 
 model pasien_igd {
@@ -415,7 +423,6 @@ model tipe_kamar_ranap {
   updatedAt DateTime? @updatedAt
 }
 
-// tidak digunakan lagi
 model obat {
   id                   Int              @id @default(autoincrement())
   nama_obat            String?
@@ -433,7 +440,6 @@ model obat {
   stok_obat            stok_obat[]
 }
 
-// tidak digunakan lagi
 model stok_obat {
   id                 Int       @id @default(autoincrement())
   id_obat            Int?
@@ -453,7 +459,6 @@ model stok_obat {
   @@index([id_obat], map: "stok_obat_id_obat_fkey")
 }
 
-// tidak digunakan lagi
 model penjualan_obat {
   id                   Int       @id @default(autoincrement())
   id_obat              Int?
@@ -471,7 +476,6 @@ model penjualan_obat {
   @@index([id_obat], map: "penjualan_obat_id_obat_fkey")
 }
 
-// tidak digunakan lagi
 model resep {
   id                   Int       @id @default(autoincrement())
   id_obat              Int
@@ -515,77 +519,80 @@ model resep_umum {
 
 model pasien_ralan {
   id                       Int                 @id @default(autoincrement())
-  no_registrasi            String?
   id_pasien_rm             Int?
   id_pembayaran            Int?
   createdAt                DateTime?           @default(now())
   updatedAt                DateTime?           @updatedAt
   jenis_konsultasi         String?
-  jenis_pasien             String?
   no_antrian               String?
-  tipe_pasienId            Int?
   catatan                  String?
-  deposit                  String?
   asal_rujukan             String?
   cara_daftar              String?
-  isCheckout_Poli          Int?                @default(0)
-  dokter                   String?
+  dokter                   Int?
   id_sumber_pasien         String?
   isKasir                  String?             @default("0")
   isResep                  String?             @default("0")
   jam_checkout             String?
   ket_kondisi_masuk        String?
-  poliklinik               String?
+  poliklinik               Int?
   sts_pasien_checkout_poli String?
-  pasien_rm                rekam_medis_pasien? @relation(fields: [id_pasien_rm], references: [id])
-  jenis_pembayaran         pembayaran?         @relation(fields: [id_pembayaran], references: [id])
-  tipe_pasien              tipe_pasien?        @relation(fields: [tipe_pasienId], references: [id])
+  no_registrasi            String?
+  isCheckout_Poli          Int?                @default(0)
+  asuransi                 Int?
+  biaya_adm                String?
+  biaya_share_dokter       String?
+  no_asuransi              String?
+  isBB                     Int?                @default(0) // untuk kode pasien umum sudah bayar atau blm. 1 untuk bayar, 0 untuk blm.
+  pembayaranId             Int?
+  asuransi_data            tbl_mst_asuransi?   @relation(fields: [asuransi], references: [id_asuransi])
+  dokter_data              rekam_medis_pasien? @relation("DokterRalan", fields: [dokter], references: [id])
+  pasien_rm                rekam_medis_pasien? @relation("PasienRalan", fields: [id_pasien_rm], references: [id])
+  pembayaran               pembayaran?         @relation(fields: [pembayaranId], references: [id])
+  poliklinik_data          tbl_mst_ruangan?    @relation(fields: [poliklinik], references: [id_ruangan])
 
+  @@index([asuransi], map: "pasien_ralan_asuransi_fkey")
+  @@index([dokter], map: "pasien_ralan_dokter_fkey")
   @@index([id_pasien_rm], map: "pasien_ralan_id_pasien_rm_fkey")
-  @@index([id_pembayaran], map: "pasien_ralan_id_pembayaran_fkey")
-  @@index([tipe_pasienId], map: "pasien_ralan_tipe_pasienId_fkey")
+  @@index([pembayaranId], map: "pasien_ralan_pembayaranId_fkey")
+  @@index([poliklinik], map: "pasien_ralan_poliklinik_fkey")
 }
 
 model poliklinik {
-  id                Int                 @id @default(autoincrement())
-  kode_ruang        Int?
-  nama_poliklinik   String?
-  createdAt         DateTime?           @default(now())
-  updatedAt         DateTime?           @updatedAt
-  jadwal_poli       jadwal_poli[]
-  jadwal_poliklinik jadwal_poliklinik[]
+  createdAt    DateTime? @default(now())
+  updatedAt    DateTime? @updatedAt
+  id_ruangan   Int       @id @default(autoincrement())
+  ket_ruangan  String?
+  kode_bpjs    String?
+  nama_ruangan String?
+  no_ruang     Int?
 }
 
-// tidak digunakan lagi krna jadwal dokter sering berubah
 model jadwal_poliklinik {
-  id              Int         @id @default(autoincrement())
-  id_poli         Int?
-  id_hari         Int?
-  id_dokter       Int?
-  jam             String?
-  createdAt       DateTime?   @default(now())
-  updatedAt       DateTime?   @updatedAt
-  catatan         String?
-  dokter_data     dokter?     @relation(fields: [id_dokter], references: [id])
-  hari            nama_hari?  @relation(fields: [id_hari], references: [id])
-  poliklinik_data poliklinik? @relation(fields: [id_poli], references: [id])
+  id          Int        @id @default(autoincrement())
+  id_poli     Int?
+  id_hari     Int?
+  id_dokter   Int?
+  jam         String?
+  createdAt   DateTime?  @default(now())
+  updatedAt   DateTime?  @updatedAt
+  catatan     String?
+  dokter_data dokter?    @relation(fields: [id_dokter], references: [id])
+  hari        nama_hari? @relation(fields: [id_hari], references: [id])
 
   @@index([id_dokter], map: "jadwal_poliklinik_id_dokter_fkey")
   @@index([id_hari], map: "jadwal_poliklinik_id_hari_fkey")
   @@index([id_poli], map: "jadwal_poliklinik_id_poli_fkey")
 }
 
-// tidak digunakan lagi, karena jadwal dokter berubah
 model jadwal_poli {
-  id              Int         @id @default(autoincrement())
-  createdAt       DateTime?   @default(now())
-  updatedAt       DateTime?   @updatedAt
-  id_dokter       Int?
-  id_hari         Int?
-  id_poli         Int?
-  dokter_data     dokter?     @relation(fields: [id_dokter], references: [id])
-  hari            nama_hari?  @relation(fields: [id_hari], references: [id])
-  poliklinik_data poliklinik? @relation(fields: [id_poli], references: [id])
+  id          Int        @id @default(autoincrement())
+  createdAt   DateTime?  @default(now())
+  updatedAt   DateTime?  @updatedAt
+  id_dokter   Int?
+  id_hari     Int?
+  id_poli     Int?
+  dokter_data dokter?    @relation(fields: [id_dokter], references: [id])
+  hari        nama_hari? @relation(fields: [id_hari], references: [id])
 
   @@index([id_dokter], map: "jadwal_poli_id_dokter_fkey")
   @@index([id_hari], map: "jadwal_poli_id_hari_fkey")
@@ -601,11 +608,10 @@ model pembayaran {
 }
 
 model tipe_pasien {
-  id                Int            @id @default(autoincrement())
+  id                Int       @id @default(autoincrement())
   jenis_tipe_pasien String?
-  createdAt         DateTime?      @default(now())
-  updatedAt         DateTime?      @updatedAt
-  pasien_ralan      pasien_ralan[]
+  createdAt         DateTime? @default(now())
+  updatedAt         DateTime? @updatedAt
 }
 
 model nama_hari {
@@ -681,26 +687,27 @@ model kasir {
 }
 
 model tbl_mst_ruangan {
-  id_ruangan         Int       @id @default(autoincrement())
-  no_ruangan         String?   @db.Char(2)
-  kode_bpjs          String?   @db.VarChar(10)
-  grup_caller        Int?      @default(1)
-  nama_ruangan       String?   @db.VarChar(80)
-  sts_poli_eksekutif Int?      @default(0)
-  id_kelas_rawatan   Int?      @default(0)
-  id_grup_rawatan    Int?      @default(0)
+  id_ruangan         Int            @id @default(autoincrement())
+  no_ruangan         String?        @db.Char(2)
+  kode_bpjs          String?        @db.VarChar(10)
+  grup_caller        Int?           @default(1)
+  nama_ruangan       String?        @db.VarChar(80)
+  sts_poli_eksekutif Int?           @default(0)
+  id_kelas_rawatan   Int?           @default(0)
+  id_grup_rawatan    Int?           @default(0)
   id_tarif           Int?
-  ket_ruangan        String?   @default("-")
+  ket_ruangan        String?        @default("-")
   kode_tt            Int?
-  id_grup_ruangan    Int?      @default(0)
-  isdefault          Int?      @default(0)
-  isactive           Int?      @default(1)
-  isapotik           Int?      @default(0)
-  sts_sa             Int?      @default(0)
-  date_closing_sa    DateTime? @db.DateTime(0)
-  user_closing_sa    String?   @db.VarChar(30)
-  sts_poli           Int?      @default(0)
-  dicadangkan        Int?      @default(0)
+  id_grup_ruangan    Int?           @default(0)
+  isdefault          Int?           @default(0)
+  isactive           Int?           @default(1)
+  isapotik           Int?           @default(0)
+  sts_sa             Int?           @default(0)
+  date_closing_sa    DateTime?      @db.DateTime(0)
+  user_closing_sa    String?        @db.VarChar(30)
+  sts_poli           Int?           @default(0)
+  dicadangkan        Int?           @default(0)
+  pasien_ralan       pasien_ralan[]
 }
 
 model tbl_mst_ruangan_grup {
@@ -708,6 +715,26 @@ model tbl_mst_ruangan_grup {
   nama_grup_ruangan String? @db.VarChar(50)
   id_jenis_ruangan  Int?
   isdefault         Int?    @default(0) @map("isdefault")
+}
+
+model tbl_mst_asuransi {
+  id_asuransi      Int            @id @default(autoincrement())
+  nama_asuransi    String?
+  singkatan        String?
+  isjkn            Int?
+  iskapitasi       Int?
+  isfull_coverage  Int?
+  margin_jual      String?
+  adm_berobat      String?
+  sts_bayar_daftar Int?
+  sts_bayar_kartu  Int?
+  isactive         Int?
+  tgl_pks_start    String?
+  tgl_pks_end      String?
+  isclaim_resep    Int?
+  no_akun_cash     String?
+  no_akun_piutang  String?
+  pasien_ralan     pasien_ralan[]
 }
 
 model tbl_medrec_lama {
@@ -809,14 +836,13 @@ model medrec_dx_lama {
   sts_dx_claim    Int?
   status          Int?
   tbl_medrec_lama tbl_medrec_lama? @relation(fields: [no_register], references: [no_register])
+
+  @@index([no_register], map: "medrec_dx_lama_no_register_fkey")
 }
 
 model barang {
   id_barang           Int                  @id @map("id_barang")
-  grup_barang         barang_grup?         @relation(fields: [id_grup], references: [id])
-  id_grup             Int?
   id_bpjs             String               @default("-")
-  barang_kategori     barang_kategori?     @relation(fields: [id_kategori], references: [id_kategori])
   id_kategori         Int
   nama_barang         String?
   nama_alias          String               @default("-")
@@ -824,7 +850,6 @@ model barang {
   no_batch            String               @default("0")
   barcode             String               @default("-")
   sumber_brg          Int                  @default(0) @map("sumber_brg")
-  data_produsen       barang_produsen?     @relation(fields: [id_produsen], references: [id_produsen])
   id_produsen         Int
   isasset             Int                  @default(0)
   jenis_asset         Int                  @default(0)
@@ -862,9 +887,17 @@ model barang {
   sts_ada             Int                  @default(1)
   sts_obat            Int                  @default(0)
   id_gol              Int?
+  id_grup             Int?
   stok_barangId       Int?
-  stok_barang         stok_barang[]
+  grup_barang         barang_grup?         @relation(fields: [id_grup], references: [id])
+  barang_kategori     barang_kategori      @relation(fields: [id_kategori], references: [id_kategori])
+  data_produsen       barang_produsen      @relation(fields: [id_produsen], references: [id_produsen])
   jual_barang_detail  jual_barang_detail[]
+  stok_barang         stok_barang[]
+
+  @@index([id_grup], map: "barang_id_grup_fkey")
+  @@index([id_kategori], map: "barang_id_kategori_fkey")
+  @@index([id_produsen], map: "barang_id_produsen_fkey")
 }
 
 model barang_kategori {
@@ -878,10 +911,9 @@ model barang_kategori {
 
 model stok_barang {
   id            Int       @id @default(autoincrement())
-  data_barang   barang?   @relation(fields: [id_barang], references: [id_barang])
   id_barang     Int?
   stok_gudang   String?
-  stok_pinjam   String? //ini digunakan untuk stok yang belum deal dengan pasien di poli
+  stok_pinjam   String?
   stok_min      String?
   harga_pokok   String?
   harga_satuan  String?
@@ -893,6 +925,9 @@ model stok_barang {
   updatedAt     DateTime? @updatedAt
   user_created  String?
   user_modified String?
+  data_barang   barang?   @relation(fields: [id_barang], references: [id_barang])
+
+  @@index([id_barang], map: "stok_barang_id_barang_fkey")
 }
 
 model barang_grup {
@@ -908,7 +943,7 @@ model barang_produsen {
   kota          String?
   phone         String?
   email         String   @default("-")
-  isdefault     Int?     @default(0) @map("isdefault") @db.Int
+  isdefault     Int?     @default(0) @map("isdefault")
   barang        barang[]
 }
 
@@ -920,16 +955,15 @@ model icd {
   grup        String?
 }
 
-// table ini yang dipakai untuk tarif dan daftar tindakan
 model tarif_tindakan {
   id             Int              @id @default(autoincrement())
   nama_tindakan  String?
-  satuan         String?
   keterangan     String?
-  nil_js         String?
   nil_jp         String?
+  nil_js         String?
   tarif          String?
   poli           String?
+  satuan         String?
   createdAt      DateTime?        @default(now())
   updatedAt      DateTime?        @updatedAt
   user_created   String?
@@ -955,13 +989,15 @@ model tindakan_ralan {
   no_registrasi String?
   nama_pasien   String?
   nama_dokter   String?
-  tindakan      tarif_tindakan? @relation(fields: [id_tindakan], references: [id])
   id_tindakan   Int?
   catatan       String?
   tarif         String?
   poli          String?
   createdAt     DateTime?       @default(now())
   updatedAt     DateTime?       @updatedAt
+  tindakan      tarif_tindakan? @relation(fields: [id_tindakan], references: [id])
+
+  @@index([id_tindakan], map: "tindakan_ralan_id_tindakan_fkey")
 }
 
 model jual_barang_detail {
@@ -969,9 +1005,9 @@ model jual_barang_detail {
   no_transaksi           String?
   no_registrasi          String?
   resep                  String?
-  no_urut                String?
-  data_barang            barang?   @relation(fields: [id_barang], references: [id_barang])
-  id_barang              Int?
+  jenis_resep            String?
+  no_urut                Int?
+  resep_ke               Int?
   racikan_jumlah         String?   @default("-")
   racikan_jumlah_diambil String?   @default("-")
   racikan_kemasan        String?   @default("-")
@@ -980,16 +1016,20 @@ model jual_barang_detail {
   aturan_pakai           String?
   harga_jual             String?
   status_harus_bayar     String?
-  catatan                String?   @default("-")
   createdAt              DateTime? @default(now())
   updatedAt              DateTime? @updatedAt
+  id_barang              Int?
+  catatan                String?   @default("-")
+  data_barang            barang?   @relation(fields: [id_barang], references: [id_barang])
+
+  @@index([id_barang], map: "jual_barang_detail_id_barang_fkey")
 }
 
 model jual_barang {
   id                   Int                 @id @default(autoincrement())
   no_transaksi         String?             @default("-")
   no_registrasi        String?             @default("-")
-  id_ruang_sumber_obat String?             @default("-") // ruang poli yang diambil dari akun dokter
+  id_ruang_sumber_obat String?             @default("-")
   id_apotek            String?             @default("-")
   jenis_penjualan      String?             @default("-")
   id_pasien            Int?                @default(0)
@@ -997,24 +1037,24 @@ model jual_barang {
   id_apoteker          Int?                @default(0)
   nama_pasien_luar     String?             @default("-")
   nama_dokter_luar     String?             @default("-")
-  status_ambil_resep   String?             @default("-") //penuh, setengah, custom
+  status_ambil_resep   String?             @default("-")
   nilai_asuransi_bayar String?             @default("-")
   nilai_pasien_bayar   String?             @default("-")
   diskon               Int?                @default(0)
   total_transaksi      String?             @default("-")
   createdAt            DateTime?           @default(now())
   updatedAt            DateTime?           @updatedAt
-  rekam_medis_pasien   rekam_medis_pasien? @relation(fields: [rekam_medis_pasienId], references: [id])
   rekam_medis_pasienId Int?
+  rekam_medis_pasien   rekam_medis_pasien? @relation(fields: [rekam_medis_pasienId], references: [id])
+
+  @@index([rekam_medis_pasienId], map: "jual_barang_rekam_medis_pasienId_fkey")
 }
 
 model bill {
   id            Int                 @id @default(autoincrement())
   no_bill       String?
   no_registrasi String?
-  data_pasien   rekam_medis_pasien? @relation(fields: [id_pasien], references: [id])
   id_pasien     Int?
-  dokter        String?
   id_poli       Int?
   asuransi      String?
   status        String?
@@ -1023,6 +1063,10 @@ model bill {
   catatan       String?             @default("-")
   createdAt     DateTime?           @default(now())
   updatedAt     DateTime?           @updatedAt
+  dokter        String?
+  data_pasien   rekam_medis_pasien? @relation(fields: [id_pasien], references: [id])
+
+  @@index([id_pasien], map: "bill_id_pasien_fkey")
 }
 
 model bill_detail {
@@ -1031,11 +1075,52 @@ model bill_detail {
   no_registrasi String?
   id_pasien     Int?
   asuransi      String?
-  item          String?
-  js            String?
-  jp            String?
-  harga         String?
   catatan       String?   @default("-")
   createdAt     DateTime? @default(now())
   updatedAt     DateTime? @updatedAt
+  harga         String?
+  item          String?
+  jp            String?
+  js            String?
+}
+
+
+model pemeriksaan_fisik_ralan {
+  id            Int     @id @default(autoincrement())
+  no_registrasi String?
+  id_pasien     Int?
+  kesadaran     String?
+  tekanan_darah String?
+  nadi          String?
+  pernafasan    String?
+  suhu          String?
+  tb            String?
+  bb            String?
+  images        String?
+}
+
+model form_pengkajian_awal_medis_ralan {
+  id                         Int       @id @default(autoincrement())
+  no_registrasi              String?
+  id_pasien                  Int?
+  tgl_periksa                String?
+  keluhan_utama              String?
+  anamnesis                  String?
+  jam_periksa                String?
+  wawancara                  String?
+  isAlergi                   String?
+  alergi_obat                String?
+  alergi_makanan             String?
+  alergi_udara               String?
+  alergi_lainya              String?
+  isKawin                    String?
+  grafida                    String?
+  partus                     String?
+  abortus                    String?
+  isImunisasi                String?
+  tumbuh_kembang             String?
+  riwayat_penyakit_keluarga  String?
+  riwayat_penyakit_terdahulu String?
+  createdAt                  DateTime? @default(now())
+  updatedAt                  DateTime? @updatedAt
 }

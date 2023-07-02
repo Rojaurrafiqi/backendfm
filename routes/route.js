@@ -53,15 +53,7 @@ import {
   getDataPoliklinik,
   postDataPoliklinik,
 } from "../controller/ralan/poliklinik/data_poliklinik.js";
-import {
-  deleteDataJadwalPoliklinik,
-  getDataJadwalPoliklinik,
-  getDataNamaHari,
-  getJadwalPoli,
-  getNamaDokter,
-  postDataJadwalPoliklinik,
-} from "../controller/ralan/poliklinik/jadwal_poliklinik.js";
-import { getPoliById } from "../controller/ralan/poliklinik/api_jadwal_poli.js";
+
 import { getTipePembayaran } from "../controller/kasir/jenis_pembayaran.js";
 import { getTipePasien } from "../controller/JenisPasien/jenis_pasien.js";
 import {
@@ -95,10 +87,12 @@ import {
   getDataStokBarangGudangById,
 } from "../controller/gudang/stok_barang.js";
 import {
+  cekNoUrutResepRacikan,
   ceknoRTObatResepUmum,
   getDataObatGeneralPasienRalan,
   getDataObatPasienRalan,
   getDataObatPasienRalanById,
+  getDataObatRacikanPasienRalan,
   postDataObatPasienRalan,
 } from "../controller/form/obat/ObatPasienRalan.js";
 import {
@@ -115,6 +109,14 @@ import {
   getDataPasienById,
   searchDataPasien,
 } from "../controller/SearchPasien/search_pasien.js";
+import { getDokterPoli } from "../controller/ralan/dokter/pilih_dokter.js";
+import { getDataAsuransi } from "../controller/ralan/pembiayaan/pembiayaan.js";
+import {
+  getDataPengkajianAwalRalan,
+  getDataPengkajianAwalRalanById,
+  postDataPengkajianAwalRalan,
+  updateDataPengkajianAwalRalan,
+} from "../controller/form/pengkajian_awal_ralan/pengkajian_awal_ralan.js";
 
 const router = express.Router();
 
@@ -195,15 +197,11 @@ router.get("/ralan/poliklinik", getDataPoliklinik);
 router.delete("/ralan/poliklinik/:id", deleteDataPoliklinik);
 router.post("/ralan/poliklinik", postDataPoliklinik);
 
-// jadwal poliklinik
-router.get("/ralan/poliklinik/jadwal", getDataJadwalPoliklinik);
-router.get("/hari/nama", getDataNamaHari);
-router.get("/ralan/poliklinik/dokter/nama", getNamaDokter);
-router.delete("/ralan/poliklinik/jadwal/:id", deleteDataJadwalPoliklinik);
-router.post("/ralan/poliklinik/jadwal", postDataJadwalPoliklinik);
+//nama dokter berdasarkan poli yng dipilih
+router.get("/ralan/poliklinik/dokter", getDokterPoli);
 
-// api dynamic dropdown jadwal poliklinik
-router.get("/ralan/poliklinik/jadwal/:id", getPoliById);
+//nama data asuransi untuk pendaftaran ralan
+router.get("/ralan/pembayaran", getDataAsuransi);
 
 // -------------SEARCH PASIEN-----------------//
 router.get("/pasien/search", searchDataPasien);
@@ -218,9 +216,6 @@ router.get("/kasir/tagihan", getDataListTagihanPasien);
 
 //jenis pasien like : bpjs, umum, asuransi
 router.get("/pasien/tipe", getTipePasien);
-
-// tes jadwal poli
-router.get("/jadwal/poli", getJadwalPoli);
 
 // master tarif tindakan
 router.get("/master/tindakan/tarif", getDataTarifTindakan);
@@ -254,8 +249,10 @@ router.post("/ralan/tangani/obat", postDataObatPasienRalan);
 router.get("/ralan/tangani/obat/:id", getDataObatPasienRalanById);
 router.delete("/ralan/tangani/obat/:id", deleteBarangPasienRalan);
 router.get("/ralan/tangani/obat/general/:id", getDataObatGeneralPasienRalan);
+router.get("/ralan/tangani/obat/racikan/:id", getDataObatRacikanPasienRalan);
 //obat pasien ralan > pengecekan no urutan resep umum / general
-router.get("/ralan/tangani/obat/cekurutan/:id", ceknoRTObatResepUmum);
+router.get("/ralan/tangani/obat/resepke/rt/:id", ceknoRTObatResepUmum);
+router.get("/ralan/tangani/obat/nourut/rr/:id/:resepke", cekNoUrutResepRacikan);
 
 //farmasi > resep obat
 router.get("/farmasi/obat/resep/antrian", getDataAntrianResep);
@@ -269,5 +266,11 @@ router.patch("/kasir/checkout/:id", statusCheckoutKasir);
 //pembuatan bill penjualan
 router.post("/kasir/bill", postBill);
 router.post("/kasir/bill/detail", postBillDetail);
+
+// form pengkajian awal pasien ralan
+router.get("/form/ralan/pengkajianawal", getDataPengkajianAwalRalan);
+router.get("/form/ralan/pengkajianawal/:id", getDataPengkajianAwalRalanById);
+router.post("/form/ralan/pengkajianawal/", postDataPengkajianAwalRalan);
+router.patch("/form/ralan/pengkajianawal/:id", updateDataPengkajianAwalRalan);
 
 export default router;

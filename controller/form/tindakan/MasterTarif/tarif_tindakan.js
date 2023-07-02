@@ -20,13 +20,6 @@ export const getDataTarifTindakan = async (req, res) => {
 
     const dataTarif = await prisma.tarif_tindakan.findMany({
       where: searchQuery,
-      //   select: {
-      //     id: true,
-      //     no_kamar: true,
-      //     no_bad: true,
-      //     status_kamar: true,
-      //     tipe_kamar: true,
-      //   },
       skip: skipNumber,
       take: limitNumber,
     });

@@ -20,7 +20,6 @@ PATCH  http://localhost:5000/logout/2
 ###
 POST http://localhost:5000/users/
 Content-Type: application/json
-
 {
     "name": "rojaur",
     "email": "rojaurrafiqi25@gmail.com",

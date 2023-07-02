@@ -1,0 +1,8 @@
+###
+GET http://localhost:5000/ralan/poliklinik
+
+###
+GET http://localhost:5000/ralan/pembayaran
+
+###
+GET http://localhost:5000/ralan/poliklinik/dokter?ruangan=1112

@@ -23,12 +23,21 @@ export const getDataListTagihanPasien = async (req, res) => {
             // alamat_pasien_detail: true,
           },
         },
-        poliklinik: true,
+        poliklinik_data: {
+          select: {
+            id_ruangan: true,
+            nama_ruangan: true,
+          },
+        },
         dokter: true,
-        jenis_pasien: true,
         jenis_konsultasi: true,
         no_antrian: true,
-        deposit: true,
+        asuransi_data: {
+          select: {
+            id_asuransi: true,
+            singkatan: true,
+          },
+        },
       },
     });
     res.status(200).json(getData);

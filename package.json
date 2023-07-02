@@ -10,7 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@prisma/client": "^4.11.0",
+    "@prisma/client": "^4.16.0",
     "bcrypt": "^5.1.0",
     "body-parser": "^1.20.2",
     "cookie-parser": "^1.4.6",
@@ -21,6 +21,6 @@
     "socket.io": "^4.6.1"
   },
   "devDependencies": {
-    "prisma": "^4.10.1"
+    "prisma": "^4.16.0"
   }
 }
