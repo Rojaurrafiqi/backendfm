@@ -122,8 +122,34 @@ import {
   postDataPemeriksaanFisikRalan,
   updateDataPemeriksaanFisikRalan,
 } from "../controller/form/pemeriksaan_fisik/pemeriksaan_fisik.js";
+import multer from "multer";
+import {
+  addNomorAntrianDariKios,
+  filterAntrian,
+  getAllJumlahAntrian,
+  getIdAntrianFree,
+  getJumlahAntrianAsuransi,
+  getJumlahAntrianBpjs,
+  getJumlahAntrianUmum,
+  tanganiAntrian,
+} from "../controller/antrian/antrian.js";
+import {
+  getDisplayAntrianNomor,
+  getDisplayAntrianSelesai,
+} from "../controller/antrian/display_antrian.js";
 
 const router = express.Router();
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "uploads/"); // Set the destination folder where the uploaded files will be stored
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + "-" + file.originalname); // Set the filename for the uploaded files
+  },
+});
+
+const upload = multer({ storage });
 
 // ------------auth------------//
 
@@ -283,10 +309,29 @@ router.get(
   "/form/ralan/pemeriksaanfisik/:id",
   getDataPemeriksaanFisikRalanById
 );
-router.post("/form/ralan/pemeriksaanfisik/", postDataPemeriksaanFisikRalan);
+router.post(
+  "/form/ralan/pemeriksaanfisik",
+  upload.single("file"),
+  postDataPemeriksaanFisikRalan
+);
+
 router.patch(
   "/form/ralan/pemeriksaanfisik/:id",
   updateDataPemeriksaanFisikRalan
 );
+
+// nomor antrian
+router.post("/antrian/kios/nomor", addNomorAntrianDariKios);
+router.get("/antrian/jumlah/all", getAllJumlahAntrian);
+router.get("/antrian/jumlah/umum", getJumlahAntrianUmum);
+router.get("/antrian/jumlah/bpjs", getJumlahAntrianBpjs);
+router.get("/antrian/jumlah/asuransi", getJumlahAntrianAsuransi);
+router.get("/antrian/loket/", filterAntrian);
+router.patch("/antrian/tangani/:id", tanganiAntrian);
+router.get("/antrian/free", getIdAntrianFree);
+
+//display antrian
+router.get("/antrian/display/nomor", getDisplayAntrianNomor);
+router.get("/antrian/display/nomor/selesai", getDisplayAntrianSelesai);
 
 export default router;

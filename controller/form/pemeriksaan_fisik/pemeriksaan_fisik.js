@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client";
+
 const prisma = new PrismaClient();
 
 // get data
@@ -19,7 +20,6 @@ export const getDataPemeriksaanFisikRalanById = async (req, res) => {
   }
 };
 
-// post data
 export const postDataPemeriksaanFisikRalan = async (req, res) => {
   const {
     no_registrasi,
@@ -31,8 +31,8 @@ export const postDataPemeriksaanFisikRalan = async (req, res) => {
     suhu,
     tb,
     bb,
-    images,
   } = req.body;
+
   try {
     const postData = await prisma.pemeriksaan_fisik_ralan.create({
       data: {
@@ -45,9 +45,10 @@ export const postDataPemeriksaanFisikRalan = async (req, res) => {
         suhu: suhu,
         tb: tb,
         bb: bb,
-        images: images,
+        images: req.file.path,
       },
     });
+
     res.status(200).json(postData);
   } catch (error) {
     res.status(501).json({ msg: error.message });

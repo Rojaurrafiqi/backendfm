@@ -1,0 +1,26 @@
+
+###
+POST http://localhost:5000/antrian/kios/nomor
+Content-Type: application/json
+
+{
+    "huruf":"A"
+
+}
+
+###
+PATCH  http://localhost:5000/antrian/tangani/5
+Content-Type: application/json
+
+{
+    "loket":1
+
+}
+
+###
+GET  http://localhost:5000/antrian/loket?huruf=C&loket=1
+
+###
+GET  http://localhost:5000/antrian/free?huruf=c
+###
+GET  http://localhost:5000/antrian/display/nomor/selesai
