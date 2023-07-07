@@ -21,7 +21,7 @@ model rekam_medis_pasien {
   id_shift                  Int?           @map("id_shift")
   tmp_lhr                   String?        @map("tmp_lhr")
   tgl_lhr                   String?        @map("tgl_lhr")
-  gender                    gender?        @relation("gender", fields: [id_jk], references: [id_gender])
+  gender_data               gender?        @relation(fields: [id_jk], references: [id_gender])
   id_jk                     Int?           @map("id_jk")
   id_kawin                  Int?           @map("id_kawin")
   id_agama                  String?        @map("id_agama")
@@ -106,12 +106,6 @@ model pendidikan {
 model golongan_darah {
   id                  Int     @id @default(autoincrement())
   list_golongan_darah String?
-}
-
-model gender {
-  id_gender          Int                  @id @default(autoincrement())
-  jenis_kelamin      String?
-  rekam_medis_pasien     rekam_medis_pasien[]  @relation("gender")
 }
 
 model pasien_igd {
@@ -1084,6 +1078,11 @@ model bill_detail {
   js            String?
 }
 
+model gender {
+  id_gender          Int                  @id @default(autoincrement())
+  jenis_kelamin      String?
+  rekam_medis_pasien rekam_medis_pasien[]
+}
 
 model pemeriksaan_fisik_ralan {
   id            Int     @id @default(autoincrement())
@@ -1097,6 +1096,15 @@ model pemeriksaan_fisik_ralan {
   tb            String?
   bb            String?
   images        String?
+}
+
+model pemeriksaan_penunjang_ralan {
+  id            Int     @id @unique @default(autoincrement())
+  no_registrasi String?
+  id_pasien     Int?
+  hasil_lab_rutin     String?
+  pemeriksaan_penunjang_lain String?
+  ringkasan          String?
 }
 
 model form_pengkajian_awal_medis_ralan {
