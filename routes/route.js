@@ -1,4 +1,5 @@
 import express from "express";
+import path from "path";
 import {
   getDataById,
   createData,
@@ -137,6 +138,12 @@ import {
   getDisplayAntrianNomor,
   getDisplayAntrianSelesai,
 } from "../controller/antrian/display_antrian.js";
+import { getDataPasienByIdPasien } from "../controller/api2/data_pasien.js";
+import {
+  getDataPemeriksaanPenunjangRalanById,
+  postDataPemeriksaanPenunjangRalan,
+  updateDataPemeriksaanPenunjangRalan,
+} from "../controller/form/pemeriksaan_penunjang/pemeriksaan_penunjang.js";
 
 const router = express.Router();
 
@@ -321,7 +328,6 @@ router.patch(
 );
 
 // nomor antrian
-router.post("/antrian/kios/nomor", addNomorAntrianDariKios);
 router.get("/antrian/jumlah/all", getAllJumlahAntrian);
 router.get("/antrian/jumlah/umum", getJumlahAntrianUmum);
 router.get("/antrian/jumlah/bpjs", getJumlahAntrianBpjs);
@@ -333,5 +339,31 @@ router.get("/antrian/free", getIdAntrianFree);
 //display antrian
 router.get("/antrian/display/nomor", getDisplayAntrianNomor);
 router.get("/antrian/display/nomor/selesai", getDisplayAntrianSelesai);
+
+// api2
+router.get("/to/api2/pasien/:id", getDataPasienByIdPasien);
+
+// form pemeriksaan penunjang
+router.get(
+  "/form/ralan/pemeriksaanpenunjang/:id",
+  getDataPemeriksaanPenunjangRalanById
+);
+
+router.post(
+  "/form/ralan/pemeriksaanpenunjang",
+  upload.single("file"),
+  postDataPemeriksaanPenunjangRalan
+);
+
+// router.use(express.static("uploads"));
+// router.get("/image", (req, res) => {
+//   const imagePath = path.join(__dirname, "uploads/1688324447459-image.png");
+//   res.sendFile(imagePath);
+// });
+
+router.patch(
+  "/form/ralan/pemeriksaanpenunjang/:id",
+  updateDataPemeriksaanPenunjangRalan
+);
 
 export default router;

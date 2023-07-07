@@ -39,7 +39,12 @@ export const getAllPasien = async (req, res) => {
         no_mr: true,
         nama_user: true,
         no_identitas: true,
-        id_jk: true,
+        gender_data: {
+          select: {
+            id_gender: true,
+            jenis_kelamin: true,
+          },
+        },
         tgl_lhr: true,
       },
       orderBy: {

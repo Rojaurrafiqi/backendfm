@@ -1133,3 +1133,13 @@ model antrian {
   loket   Int?
   panggil Int?    @default(0)
 }
+
+model pemeriksaan_penunjang_ralan {
+  id                         Int     @id @unique @default(autoincrement())
+  no_registrasi              String?
+  id_pasien                  Int?
+  hasil_lab_rutin            String?
+  pemeriksaan_penunjang_lain String?
+  ringkasan                  String?
+  berkas                     String?
+}

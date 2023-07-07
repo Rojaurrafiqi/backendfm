@@ -45,7 +45,7 @@ export const postDataPemeriksaanFisikRalan = async (req, res) => {
         suhu: suhu,
         tb: tb,
         bb: bb,
-        images: req.file.path,
+        // images: req.file.path,
       },
     });
 
