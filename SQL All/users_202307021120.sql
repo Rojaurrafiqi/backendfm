@@ -1,0 +1,2 @@
+INSERT INTO filemedis_new.users (email,password,jabatan,status,refresh_token,createdAt,updatedAt,name,jenis_kelamin,id_finger) VALUES
+	 ('rojaurrafiqi25@gmail.com','$2b$10$LfMB3821l1pf6GSviOl8Ne1QW7Ww5lFy5pL4BR1YudhZGw2ASV/PC','1','aktif','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsIm5hbWVVc2VyIjoicm9qYXVyIiwiZW1haWxVc2VyIjoicm9qYXVycmFmaXFpMjVAZ21haWwuY29tIiwiaWF0IjoxNjg4MjcxMzAwLCJleHAiOjE2ODgzNTc3MDB9.kb20w4VhZ-m3J','2023-06-30 09:32:12.581','2023-07-02 04:15:00.129','rojaur','laki-laki',NULL);

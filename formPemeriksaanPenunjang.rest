@@ -1,0 +1,26 @@
+
+
+###
+GET http://localhost:5000/form/ralan/pemeriksaanpenunjang/2306150002
+
+###
+POST  http://localhost:5000/form/ralan/pemeriksaanpenunjang
+Content-Type: application/json
+
+{
+        "no_registrasi": "2306150002",
+        "id_pasien": 11111
+}
+
+###
+PATCH http://localhost:5000/form/ralan/pemeriksaanpenunjang/1
+Content-Type: application/json
+
+{
+
+        "no_registrasi": "2306150002",
+        "id_pasien": 11112,
+        "hasil_lab_rutin": "tidak ada",
+        "pemeriksaan_penunjang_lain": "tidak ada",
+        "ringkasan": "tidak ada"
+}
