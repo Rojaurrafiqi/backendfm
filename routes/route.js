@@ -147,16 +147,29 @@ import {
 
 const router = express.Router();
 
-const storage = multer.diskStorage({
+// upload file pemeriksaan penunjang
+const storageFisik = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "uploads/"); // Set the destination folder where the uploaded files will be stored
+    cb(null, "uploads/pemeriksaanpenunjang"); // Set the destination folder where the uploaded files will be stored
   },
   filename: (req, file, cb) => {
     cb(null, Date.now() + "-" + file.originalname); // Set the filename for the uploaded files
   },
 });
 
-const upload = multer({ storage });
+const filePemeriksaanPenunjang = multer({ storageFisik });
+
+// upload file pemeriksaan fisik
+const storagePenunjang = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "uploads/pemeriksaanfisik"); // Set the destination folder where the uploaded files will be stored
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + "-" + file.originalname); // Set the filename for the uploaded files
+  },
+});
+
+const filePemeriksaanFisik = multer({ storagePenunjang });
 
 // ------------auth------------//
 
@@ -318,7 +331,7 @@ router.get(
 );
 router.post(
   "/form/ralan/pemeriksaanfisik",
-  upload.single("file"),
+  filePemeriksaanFisik.single("file"),
   postDataPemeriksaanFisikRalan
 );
 
@@ -351,15 +364,9 @@ router.get(
 
 router.post(
   "/form/ralan/pemeriksaanpenunjang",
-  upload.single("file"),
+  filePemeriksaanPenunjang.single("file"),
   postDataPemeriksaanPenunjangRalan
 );
-
-// router.use(express.static("uploads"));
-// router.get("/image", (req, res) => {
-//   const imagePath = path.join(__dirname, "uploads/1688324447459-image.png");
-//   res.sendFile(imagePath);
-// });
 
 router.patch(
   "/form/ralan/pemeriksaanpenunjang/:id",

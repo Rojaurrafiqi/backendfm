@@ -14,16 +14,6 @@ export const getDataPemeriksaanPenunjangRalanById = async (req, res) => {
       },
     });
 
-    if (data) {
-      // Get the file path from the data object
-      const filePath = data.berkas; // Modify this line to match the correct file property
-
-      // Construct the URL for accessing the file
-      const fileURL = `http://localhost:5000/uploads/${filePath}`; // Modify `API_URL` based on your server configuration
-
-      // Attach the file URL to the data object
-      data.berkas = fileURL;
-    }
     res.status(200).json(data);
   } catch (error) {
     res.status(404).json({ msg: error.message });
@@ -47,7 +37,7 @@ export const postDataPemeriksaanPenunjangRalan = async (req, res) => {
         hasil_lab_rutin: hasil_lab_rutin,
         pemeriksaan_penunjang_lain: pemeriksaan_penunjang_lain,
         ringkasan: ringkasan,
-        berkas: req.file.path,
+        berkas: req.file?.path,
       },
     });
     res.status(200).json(postData);

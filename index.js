@@ -26,6 +26,8 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(FilemedisRoute);
 
+app.use("/uploads/", express.static("uploads"));
+
 io.on("connection", (socket) => {
   console.log("New client connected");
 });
