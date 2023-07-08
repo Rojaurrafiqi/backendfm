@@ -35,7 +35,7 @@ Content-Type: application/json
 }
 
 ###
-POST  http://localhost:5000/farmasi/barang/penjualan/2306150002
+POST  http://localhost:5000/farmasi/barang/penjualan/racikan
 Content-Type: application/json
 
 {

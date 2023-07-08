@@ -281,3 +281,83 @@ export const getDataObatRacikanPasienRalan = async (req, res) => {
     res.status(404).json({ msg: error.message });
   }
 };
+
+export const postObatRacikan = async (req, res) => {
+  const data = req.body;
+  try {
+    const postData = await Promise.all(
+      data.map(async (listItem) => {
+        const {
+          no_transaksi,
+          no_registrasi,
+          resep,
+          no_urut,
+          id_barang,
+          racikan_jumlah,
+          racikan_jumlah_diambil,
+          racikan_kemasan,
+          qty,
+          satuan,
+          aturan_pakai,
+          harga_jual,
+          status_harus_bayar,
+          catatan,
+          resep_ke,
+          jenis_resep,
+        } = listItem;
+
+        return prisma.jual_barang_detail.create({
+          data: {
+            no_transaksi,
+            no_registrasi,
+            resep,
+            no_urut,
+            id_barang,
+            racikan_jumlah,
+            racikan_jumlah_diambil,
+            racikan_kemasan,
+            qty,
+            satuan,
+            aturan_pakai,
+            harga_jual,
+            status_harus_bayar,
+            catatan,
+            resep_ke,
+            jenis_resep,
+          },
+        });
+      })
+    );
+    res.status(201).json(postData);
+  } catch (error) {
+    res.status(400).json({ msg: error.message });
+  }
+};
+
+export const deleteDataObat = async (req, res) => {
+  const { no_transaksi } = req.body;
+
+  try {
+    const resultJualBarang = await prisma.jual_barang.deleteMany({
+      where: {
+        no_transaksi: no_transaksi,
+      },
+    });
+
+    const resultJualBarangDetail = await prisma.jual_barang_detail.deleteMany({
+      where: {
+        no_transaksi: no_transaksi,
+      },
+    });
+
+    if (resultJualBarang.count > 0 || resultJualBarangDetail.count > 0) {
+      return res.status(200).json({ message: "Data berhasil dihapus" });
+    } else {
+      return res.status(404).json({ message: "Data tidak ditemukan" });
+    }
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ message: "Terjadi kesalahan dalam menghapus data" });
+  }
+};

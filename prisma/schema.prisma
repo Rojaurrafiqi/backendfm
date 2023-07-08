@@ -1013,8 +1013,9 @@ model jual_barang_detail {
   createdAt              DateTime? @default(now())
   updatedAt              DateTime? @updatedAt
   id_barang              Int?
-  catatan                String?   @default("-")
-  data_barang            barang?   @relation(fields: [id_barang], references: [id_barang])
+
+  catatan     String? @default("-")
+  data_barang barang? @relation(fields: [id_barang], references: [id_barang])
 
   @@index([id_barang], map: "jual_barang_detail_id_barang_fkey")
 }
