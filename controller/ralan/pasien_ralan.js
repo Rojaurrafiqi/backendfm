@@ -149,6 +149,102 @@ export const getAllPasienRalan = async (req, res) => {
   }
 };
 
+export const getAllPasienRalanByIdDokter = async (req, res) => {
+  const { search, page, limit } = req.query;
+  const searchQuery = search
+    ? {
+        OR: [
+          // { dokter: { nama_dokter: { contains: search } } },
+          { pasien_rm: { nama_user: { contains: search } } },
+        ],
+      }
+    : {};
+
+  const pageNumber = parseInt(page) || 1;
+  const limitNumber = parseInt(limit) || 10;
+  const skipNumber = (pageNumber - 1) * limitNumber;
+
+  try {
+    const countQuery = await prisma.pasien_ralan.count({
+      where: {
+        ...searchQuery,
+        isCheckout_Poli: 0,
+        dokter: Number(req.params.idDokter),
+      },
+    });
+
+    const totalItems = countQuery;
+    const totalPages = Math.ceil(totalItems / limitNumber);
+
+    const getData = await prisma.pasien_ralan.findMany({
+      where: {
+        ...searchQuery,
+        isCheckout_Poli: 0,
+        dokter: Number(req.params.idDokter),
+      },
+      select: {
+        id: true,
+        pasien_rm: {
+          select: {
+            id: true,
+            no_mr: true,
+            nama_user: true,
+            gender_data: {
+              select: {
+                id_gender: true,
+                jenis_kelamin: true,
+              },
+            },
+          },
+        },
+        poliklinik_data: {
+          select: {
+            id_ruangan: true,
+            nama_ruangan: true,
+          },
+        },
+        dokter_data: {
+          select: {
+            id: true,
+            gelar_dpn: true,
+            nama_user: true,
+            gelar_blk: true,
+          },
+        },
+        jenis_konsultasi: true,
+        no_antrian: true,
+        asuransi_data: {
+          select: {
+            id_asuransi: true,
+            singkatan: true,
+          },
+        },
+        no_asuransi: true,
+        biaya_adm: true,
+        biaya_share_dokter: true,
+        isBB: true,
+      },
+      skip: skipNumber,
+      take: limitNumber,
+    });
+
+    // deposit = biaya adm + biaya share ke dokter
+    const dataWithDeposit = getData.map((item) => ({
+      ...item,
+      deposit: Number(item.biaya_adm) + Number(item.biaya_share_dokter),
+    }));
+
+    res.status(200).json({
+      data: dataWithDeposit,
+      totalItems,
+      totalPages,
+      currentPage: pageNumber,
+    });
+  } catch (error) {
+    res.status(404).json({ msg: error.message });
+  }
+};
+
 //get pasien ralan by id
 export const getPasienRalanById = async (req, res) => {
   try {

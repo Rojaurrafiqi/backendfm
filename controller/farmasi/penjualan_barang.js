@@ -74,6 +74,7 @@ export const postPenjualanBarang = async (req, res) => {
         },
       });
       res.status(200).json(newData);
+      // res.status(200).json({ msg: "data tidak ditemukan" });
     }
   } catch (error) {
     res.status(501).json({ msg: error.message });

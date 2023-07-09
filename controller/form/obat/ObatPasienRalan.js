@@ -334,30 +334,33 @@ export const postObatRacikan = async (req, res) => {
   }
 };
 
-export const deleteDataObat = async (req, res) => {
-  const { no_transaksi } = req.body;
-
+export const deleteDataObatRR = async (req, res) => {
   try {
-    const resultJualBarang = await prisma.jual_barang.deleteMany({
+    const deleteData = await prisma.jual_barang_detail.deleteMany({
       where: {
-        no_transaksi: no_transaksi,
+        resep: "RR",
+        no_registrasi: req.params.noreg,
+        resep_ke: parseInt(req.params.resepke),
       },
     });
 
-    const resultJualBarangDetail = await prisma.jual_barang_detail.deleteMany({
-      where: {
-        no_transaksi: no_transaksi,
-      },
-    });
-
-    if (resultJualBarang.count > 0 || resultJualBarangDetail.count > 0) {
-      return res.status(200).json({ message: "Data berhasil dihapus" });
-    } else {
-      return res.status(404).json({ message: "Data tidak ditemukan" });
-    }
+    res.status(200).json(deleteData);
   } catch (error) {
-    return res
-      .status(500)
-      .json({ message: "Terjadi kesalahan dalam menghapus data" });
+    res.status(400).json({ msg: error.message });
+  }
+};
+
+export const deleteDataObatRT = async (req, res) => {
+  try {
+    const deleteData = await prisma.jual_barang_detail.delete({
+      where: {
+        resep: "RT",
+        id: req.params.id,
+      },
+    });
+
+    res.status(200).json(deleteData);
+  } catch (error) {
+    res.status(400).json({ msg: error.message });
   }
 };

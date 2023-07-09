@@ -41,6 +41,7 @@ import { refreshToken } from "../controller/token/RefreshToken.js";
 import {
   deletePasienRalan,
   getAllPasienRalan,
+  getAllPasienRalanByIdDokter,
   getPasienRalanById,
   pendaftaran_ralan,
   statusCheckoutPoli,
@@ -90,7 +91,7 @@ import {
 import {
   cekNoUrutResepRacikan,
   ceknoRTObatResepUmum,
-  deleteDataObat,
+  deleteDataObatRR,
   getDataObatGeneralPasienRalan,
   getDataObatPasienRalan,
   getDataObatPasienRalanById,
@@ -230,7 +231,7 @@ router.get(
 );
 
 //farmasi > post penjualan barang
-router.post("/farmasi/barang/penjualan/:id", postPenjualanBarang);
+router.patch("/farmasi/barang/penjualan/:id", postPenjualanBarang);
 router.post(
   "/farmasi/barang/penjualan/racikan",
   postPenjualabBarangObatRacikan
@@ -243,6 +244,7 @@ router.post("/ralan/pasien/daftar", pendaftaran_ralan);
 
 //ralan > get all data
 router.get("/ralan/pasien/all", getAllPasienRalan);
+router.get("/ralan/pasien/all/:idDokter", getAllPasienRalanByIdDokter);
 
 // ralan > get data by id
 router.get("/ralan/pasien/:id", getPasienRalanById);
@@ -307,7 +309,7 @@ router.post("/ralan/tangani/obat", postDataObatPasienRalan);
 router.post("/ralan/tangani/obat/racikan", postObatRacikan);
 router.get("/ralan/tangani/obat/:id", getDataObatPasienRalanById);
 router.delete("/ralan/tangani/obat/:id", deleteBarangPasienRalan);
-router.delete("/ralan/tangani/obat/delete/:notransaksi", deleteDataObat);
+router.delete("/ralan/tangani/obat/delete/:noreg/:resepke", deleteDataObatRR);
 router.get("/ralan/tangani/obat/general/:id", getDataObatGeneralPasienRalan);
 router.get("/ralan/tangani/obat/racikan/:id", getDataObatRacikanPasienRalan);
 //obat pasien ralan > pengecekan no urutan resep umum / general

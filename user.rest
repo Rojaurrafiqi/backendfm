@@ -22,13 +22,15 @@ POST http://localhost:5000/users/
 Content-Type: application/json
 
 {
-    "name": "rojaur",
-    "email": "rojaurrafiqi25@gmail.com",
+    "name": "humaira",
+    "email": "humaira@gmail.com",
     "password": "12345678",
     "confPassword": "12345678",
-    "jabatan":"1",
+    "jabatan":"2",
     "jenis_kelamin":"laki-laki",
-    "status":"aktif"
+    "status":"aktif",
+    "id_rm": 1118010049
+
 }
 
 

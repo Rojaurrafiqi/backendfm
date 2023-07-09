@@ -45,6 +45,16 @@ Content-Type: application/json
     
 }
 
+###
+PATCH   http://localhost:5000/farmasi/barang/penjualan/23070517221121122929
+Content-Type: application/json
+
+{
+    
+        "total_transaksi": "90000"
+    
+}
+
 # pengecekan nomor urutan resep umum pada pasien ralan
 ###
 GET http://localhost:5000/ralan/tangani/obat/cekurutan/rr/23062713091121122923
@@ -60,4 +70,4 @@ GET http://localhost:5000/pembayaran/totaltagihan/2306150002
 
 # hapus data
 ###
-DELETE  http://localhost:5000/ralan/tangani/obat/58
+DELETE  http://localhost:5000/ralan/tangani/obat/delete/23070517221121122929/1

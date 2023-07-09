@@ -12,6 +12,7 @@ export const register = async (req, res) => {
     jabatan,
     status,
     jenis_kelamin,
+    id_rm,
   } = req.body;
 
   if (password !== confPassword)
@@ -32,6 +33,7 @@ export const register = async (req, res) => {
         jabatan: jabatan,
         jenis_kelamin: jenis_kelamin,
         status: status,
+        id_rm: id_rm,
       },
     });
     res.json({ msg: "register berhasil" });
@@ -146,7 +148,7 @@ export const login = async (req, res) => {
       process.env.ACCESS_TOKEN_SECRET,
       {
         // expiresIn: "20s", dinon aktifkan sementara, untuk proses developmen, nnti ketika deploy harus pakai ini lagi
-        expiresIn: "1d",
+        expiresIn: "20s",
       }
     );
     const refreshToken = jwt.sign(
@@ -252,6 +254,7 @@ export const getUserById = async (req, res) => {
         email: true,
         jabatan: true,
         jenis_kelamin: true,
+        id_rm: true,
       },
     });
     res.status(200).json(data);
