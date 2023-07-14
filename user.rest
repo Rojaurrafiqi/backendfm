@@ -27,7 +27,7 @@ Content-Type: application/json
     "password": "12345678",
     "confPassword": "12345678",
     "jabatan":"2",
-    "jenis_kelamin":"laki-laki",
+    "jenis_kelamin":"perempuan",
     "status":"aktif",
     "id_rm": 1118010049
 

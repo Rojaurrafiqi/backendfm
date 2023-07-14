@@ -179,23 +179,23 @@ const filePemeriksaanFisik = multer({ storagePenunjang });
 
 router.get("/users", verifyToken, getUser);
 // router.get("/users", getUser);
-router.get("/users/all", getAllUser);
+router.get("/users/all", verifyToken, getAllUser);
 router.get("/token", refreshToken);
 router.post("/users", register);
 router.get("/users/jabatan", getJabatan); //dipakai untuk select jabatan pada form register user
 router.post("/login", login);
 router.patch("/logout/:id", logout);
-router.get("/users/:id", getUserById);
-router.delete("/users/:id", deleteUser);
+router.get("/users/:id", verifyToken, getUserById);
+router.delete("/users/:id", verifyToken, deleteUser);
 router.get("/user/detail/dokter/:id", getDetailUserDokter); // parse pakai id user bukan id dokter
 router.post("/user/detail/dokter", postDetailUserDokter);
 
 // ------pendaftaran pasien baru ----------//
-router.get("/pasien/data/all", getAllPasien);
-router.get("/rm/:id", getDataById);
-router.post("/rm", createData);
-router.patch("/rm/:id", updateData);
-router.delete("/rm/:id", deleteData);
+router.get("/pasien/data/all", verifyToken, getAllPasien);
+router.get("/rm/:id", verifyToken, getDataById);
+router.post("/rm", verifyToken, createData);
+router.patch("/rm/:id", verifyToken, updateData);
+router.delete("/rm/:id", verifyToken, deleteData);
 
 // list nama pekerjaan
 router.get("/pekerjaan", listPekerjaan);
@@ -359,6 +359,7 @@ router.get("/antrian/jumlah/asuransi", getJumlahAntrianAsuransi);
 router.get("/antrian/loket/", filterAntrian);
 router.patch("/antrian/tangani/:id", tanganiAntrian);
 router.get("/antrian/free", getIdAntrianFree);
+router.post("/antrian/kios/nomor", addNomorAntrianDariKios);
 
 //display antrian
 router.get("/antrian/display/nomor", getDisplayAntrianNomor);
