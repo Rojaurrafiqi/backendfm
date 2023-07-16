@@ -31,7 +31,7 @@ GET http://localhost:5000/ralan/poliklinik/jadwal?
 GET http://localhost:5000/ralan/poliklinik/jadwal?hari=3
 
 ###
-GET http://localhost:5000/ralan/pasien/2
+GET http://localhost:5000/ralan/pasien/all
 
 ###
 PATCH  http://localhost:5000/ralan/tangani/checkout/2
