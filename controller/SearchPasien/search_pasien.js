@@ -52,7 +52,12 @@ export const searchDataPasien = async (req, res) => {
         nama_user: true,
         no_identitas: true,
         tgl_lhr: true,
-        id_jk: true,
+        gender_data: {
+          select: {
+            id_gender: true,
+            jenis_kelamin: true,
+          },
+        },
       },
       orderBy: {
         id: "desc",

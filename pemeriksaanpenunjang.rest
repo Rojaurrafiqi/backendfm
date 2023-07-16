@@ -1,0 +1,13 @@
+###
+POST  http://localhost:5000/form/ralan/pemeriksaanpenunjang
+Content-Type: application/json
+
+{
+  
+        "no_registrasi": "111",
+        "id_pasien": 222,
+        "hasil_lab_rutin": "hasil_lab_rutin",
+        "pemeriksaan_penunjang_lain": "pemeriksaan_penunjang_lain",
+        "ringkasan": "ringkasan"
+
+}

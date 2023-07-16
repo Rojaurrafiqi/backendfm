@@ -81,6 +81,7 @@ model rekam_medis_pasien {
   dokterRalan               pasien_ralan[] @relation("DokterRalan")
   pasienRalan               pasien_ralan[] @relation("PasienRalan")
   pasien_ranap              pasien_ranap[]
+  users                     users[]
 }
 
 model pekerjaan {
@@ -618,18 +619,19 @@ model nama_hari {
 }
 
 model users {
-  id            Int       @id @default(autoincrement())
+  id            Int                 @id @default(autoincrement())
+  id_rm         Int?
+  pasien_rm     rekam_medis_pasien? @relation(fields: [id_rm], references: [id])
   email         String?
   password      String?
   jabatan       String?
   status        String?
   refresh_token String?
-  createdAt     DateTime? @default(now())
-  updatedAt     DateTime? @updatedAt
+  createdAt     DateTime?           @default(now())
+  updatedAt     DateTime?           @updatedAt
   name          String?
   jenis_kelamin String?
   id_finger     String?
-  dokter        dokter[]
 }
 
 model jabatan {
@@ -653,7 +655,6 @@ model dokter {
   sub_spesialis     String?
   tempat_lahir      String?
   id_user           Int?
-  user_data         users?              @relation(fields: [id_user], references: [id])
   jadwal_poli       jadwal_poli[]
   jadwal_poliklinik jadwal_poliklinik[]
   resep             resep[]
@@ -1013,8 +1014,9 @@ model jual_barang_detail {
   createdAt              DateTime? @default(now())
   updatedAt              DateTime? @updatedAt
   id_barang              Int?
-  catatan                String?   @default("-")
-  data_barang            barang?   @relation(fields: [id_barang], references: [id_barang])
+
+  catatan     String? @default("-")
+  data_barang barang? @relation(fields: [id_barang], references: [id_barang])
 
   @@index([id_barang], map: "jual_barang_detail_id_barang_fkey")
 }
@@ -1098,14 +1100,14 @@ model pemeriksaan_fisik_ralan {
   images        String?
 }
 
-model pemeriksaan_penunjang_ralan {
-  id            Int     @id @unique @default(autoincrement())
-  no_registrasi String?
-  id_pasien     Int?
-  hasil_lab_rutin     String?
-  pemeriksaan_penunjang_lain String?
-  ringkasan          String?
-}
+// model pemeriksaan_penunjang_ralan {
+//   id                         Int     @id @unique @default(autoincrement())
+//   no_registrasi              String?
+//   id_pasien                  Int?
+//   hasil_lab_rutin            String?
+//   pemeriksaan_penunjang_lain String?
+//   ringkasan                  String?
+// }
 
 model form_pengkajian_awal_medis_ralan {
   id                         Int       @id @default(autoincrement())
@@ -1131,4 +1133,24 @@ model form_pengkajian_awal_medis_ralan {
   riwayat_penyakit_terdahulu String?
   createdAt                  DateTime? @default(now())
   updatedAt                  DateTime? @updatedAt
+}
+
+model antrian {
+  id      Int     @id @default(autoincrement())
+  tanggal String?
+  waktu   String?
+  nomor   String?
+  huruf   String?
+  loket   Int?
+  panggil Int?    @default(0)
+}
+
+model pemeriksaan_penunjang_ralan {
+  id                         Int     @id @unique @default(autoincrement())
+  no_registrasi              String?
+  id_pasien                  Int?
+  hasil_lab_rutin            String?
+  pemeriksaan_penunjang_lain String?
+  ringkasan                  String?
+  berkas                     String?
 }

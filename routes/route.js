@@ -1,4 +1,5 @@
 import express from "express";
+import path from "path";
 import {
   getDataById,
   createData,
@@ -40,6 +41,7 @@ import { refreshToken } from "../controller/token/RefreshToken.js";
 import {
   deletePasienRalan,
   getAllPasienRalan,
+  getAllPasienRalanByIdDokter,
   getPasienRalanById,
   pendaftaran_ralan,
   statusCheckoutPoli,
@@ -89,15 +91,20 @@ import {
 import {
   cekNoUrutResepRacikan,
   ceknoRTObatResepUmum,
+  deleteDataObatRR,
   getDataObatGeneralPasienRalan,
   getDataObatPasienRalan,
   getDataObatPasienRalanById,
   getDataObatRacikanPasienRalan,
+  getObatPasienRalanByIdForEdit,
   postDataObatPasienRalan,
+  postObatRacikan,
+  updateDataObatPasienRalanByIdAfterEdit,
 } from "../controller/form/obat/ObatPasienRalan.js";
 import {
   deleteBarangPasienRalan,
   hitungTotalTransaksi,
+  postPenjualabBarangObatRacikan,
   postPenjualanBarang,
 } from "../controller/farmasi/penjualan_barang.js";
 import {
@@ -122,6 +129,22 @@ import {
   postDataPemeriksaanFisikRalan,
   updateDataPemeriksaanFisikRalan,
 } from "../controller/form/pemeriksaan_fisik/pemeriksaan_fisik.js";
+import multer from "multer";
+import {
+  addNomorAntrianDariKios,
+  filterAntrian,
+  getAllJumlahAntrian,
+  getIdAntrianFree,
+  getJumlahAntrianAsuransi,
+  getJumlahAntrianBpjs,
+  getJumlahAntrianUmum,
+  tanganiAntrian,
+} from "../controller/antrian/antrian.js";
+import {
+  getDisplayAntrianNomor,
+  getDisplayAntrianSelesai,
+} from "../controller/antrian/display_antrian.js";
+import { getDataPasienByIdPasien } from "../controller/api2/data_pasien.js";
 import {
   getDataPemeriksaanPenunjangRalanById,
   postDataPemeriksaanPenunjangRalan,
@@ -130,9 +153,33 @@ import {
 
 const router = express.Router();
 
+// upload file pemeriksaan penunjang
+const storageFisik = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "uploads/pemeriksaanpenunjang"); // Set the destination folder where the uploaded files will be stored
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + "-" + file.originalname); // Set the filename for the uploaded files
+  },
+});
+
+const filePemeriksaanPenunjang = multer({ storageFisik });
+
+// upload file pemeriksaan fisik
+const storagePenunjang = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "uploads/pemeriksaanfisik"); // Set the destination folder where the uploaded files will be stored
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + "-" + file.originalname); // Set the filename for the uploaded files
+  },
+});
+
+const filePemeriksaanFisik = multer({ storagePenunjang });
+
 // ------------auth------------//
 
-router.get("/users", verifyToken, getUser);
+router.get("/users", getUser);
 // router.get("/users", getUser);
 router.get("/users/all", getAllUser);
 router.get("/token", refreshToken);
@@ -175,7 +222,11 @@ router.post("/pendidikan", createListPendidikan);
 // form default ralan
 router.get("/form/default/ralan", form_default_ralan);
 router.patch("/form/default/ralan", form_default_post_ralan);
-router.delete("/form/default/ralan/:id", delete_form_default_ralan);
+router.delete(
+  "/form/default/ralan/:id",
+
+  delete_form_default_ralan
+);
 
 // ---------------farmasi -------------------//
 
@@ -186,7 +237,12 @@ router.get(
 );
 
 //farmasi > post penjualan barang
-router.post("/farmasi/barang/penjualan/:id", postPenjualanBarang);
+router.patch("/farmasi/barang/penjualan/:id", postPenjualanBarang);
+router.post(
+  "/farmasi/barang/penjualan/racikan",
+
+  postPenjualabBarangObatRacikan
+);
 
 // ------rawat jalan------------//
 
@@ -195,6 +251,11 @@ router.post("/ralan/pasien/daftar", pendaftaran_ralan);
 
 //ralan > get all data
 router.get("/ralan/pasien/all", getAllPasienRalan);
+router.get(
+  "/ralan/pasien/all/:idDokter",
+
+  getAllPasienRalanByIdDokter
+);
 
 // ralan > get data by id
 router.get("/ralan/pasien/:id", getPasienRalanById);
@@ -256,13 +317,40 @@ router.get("/gudang/barang/stok/:id", getDataStokBarangGudangById);
 //obat pasien ralan
 router.get("/ralan/tangani/obat", getDataObatPasienRalan);
 router.post("/ralan/tangani/obat", postDataObatPasienRalan);
+router.post("/ralan/tangani/obat/racikan", postObatRacikan);
 router.get("/ralan/tangani/obat/:id", getDataObatPasienRalanById);
+router.get("/ralan/tangani/obat/edit/:id", getObatPasienRalanByIdForEdit);
+router.patch(
+  "/ralan/tangani/obat/update/:id",
+  updateDataObatPasienRalanByIdAfterEdit
+);
 router.delete("/ralan/tangani/obat/:id", deleteBarangPasienRalan);
-router.get("/ralan/tangani/obat/general/:id", getDataObatGeneralPasienRalan);
-router.get("/ralan/tangani/obat/racikan/:id", getDataObatRacikanPasienRalan);
+router.delete(
+  "/ralan/tangani/obat/delete/:noreg/:resepke",
+
+  deleteDataObatRR
+);
+router.get(
+  "/ralan/tangani/obat/general/:id",
+
+  getDataObatGeneralPasienRalan
+);
+router.get(
+  "/ralan/tangani/obat/racikan/:id",
+
+  getDataObatRacikanPasienRalan
+);
 //obat pasien ralan > pengecekan no urutan resep umum / general
-router.get("/ralan/tangani/obat/resepke/rt/:id", ceknoRTObatResepUmum);
-router.get("/ralan/tangani/obat/nourut/rr/:id/:resepke", cekNoUrutResepRacikan);
+router.get(
+  "/ralan/tangani/obat/resepke/rt/:id",
+
+  ceknoRTObatResepUmum
+);
+router.get(
+  "/ralan/tangani/obat/nourut/rr/:id/:resepke",
+
+  cekNoUrutResepRacikan
+);
 
 //farmasi > resep obat
 router.get("/farmasi/obat/resep/antrian", getDataAntrianResep);
@@ -278,30 +366,81 @@ router.post("/kasir/bill", postBill);
 router.post("/kasir/bill/detail", postBillDetail);
 
 // form pengkajian awal pasien ralan
-router.get("/form/ralan/pengkajianawal", getDataPengkajianAwalRalan);
-router.get("/form/ralan/pengkajianawal/:id", getDataPengkajianAwalRalanById);
-router.post("/form/ralan/pengkajianawal/", postDataPengkajianAwalRalan);
-router.patch("/form/ralan/pengkajianawal/:id", updateDataPengkajianAwalRalan);
+router.get(
+  "/form/ralan/pengkajianawal",
+
+  getDataPengkajianAwalRalan
+);
+router.get(
+  "/form/ralan/pengkajianawal/:id",
+
+  getDataPengkajianAwalRalanById
+);
+router.post(
+  "/form/ralan/pengkajianawal/",
+
+  postDataPengkajianAwalRalan
+);
+router.patch(
+  "/form/ralan/pengkajianawal/:id",
+
+  updateDataPengkajianAwalRalan
+);
 
 // form pemeriksaan fisik pasien ralan
 router.get(
   "/form/ralan/pemeriksaanfisik/:id",
   getDataPemeriksaanFisikRalanById
 );
-router.post("/form/ralan/pemeriksaanfisik/", postDataPemeriksaanFisikRalan);
+router.post(
+  "/form/ralan/pemeriksaanfisik",
+  filePemeriksaanFisik.single("file"),
+  postDataPemeriksaanFisikRalan
+);
+
 router.patch(
   "/form/ralan/pemeriksaanfisik/:id",
   updateDataPemeriksaanFisikRalan
 );
 
-// form pemeriksaan penunjang pasien ralan
+// nomor antrian
+router.get("/antrian/jumlah/all", getAllJumlahAntrian);
+router.get("/antrian/jumlah/umum", getJumlahAntrianUmum);
+router.get("/antrian/jumlah/bpjs", getJumlahAntrianBpjs);
+router.get("/antrian/jumlah/asuransi", getJumlahAntrianAsuransi);
+router.get("/antrian/loket/", filterAntrian);
+router.patch("/antrian/tangani/:id", tanganiAntrian);
+router.get("/antrian/free", getIdAntrianFree);
+router.post("/antrian/kios/nomor", addNomorAntrianDariKios);
+
+//display antrian
+router.get("/antrian/display/nomor", getDisplayAntrianNomor);
+router.get(
+  "/antrian/display/nomor/selesai",
+
+  getDisplayAntrianSelesai
+);
+
+// api2
+router.get("/to/api2/pasien/:id", getDataPasienByIdPasien);
+
+// form pemeriksaan penunjang
 router.get(
   "/form/ralan/pemeriksaanpenunjang/:id",
+
   getDataPemeriksaanPenunjangRalanById
 );
-router.post("/form/ralan/pemeriksaanpenunjang/", postDataPemeriksaanPenunjangRalan);
+
+router.post(
+  "/form/ralan/pemeriksaanpenunjang",
+
+  filePemeriksaanPenunjang.single("file"),
+  postDataPemeriksaanPenunjangRalan
+);
+
 router.patch(
   "/form/ralan/pemeriksaanpenunjang/:id",
+
   updateDataPemeriksaanPenunjangRalan
 );
 

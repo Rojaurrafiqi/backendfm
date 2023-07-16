@@ -74,6 +74,7 @@ export const postPenjualanBarang = async (req, res) => {
         },
       });
       res.status(200).json(newData);
+      // res.status(200).json({ msg: "data tidak ditemukan" });
     }
   } catch (error) {
     res.status(501).json({ msg: error.message });
@@ -106,6 +107,50 @@ export const deleteBarangPasienRalan = async (req, res) => {
       },
     });
     res.status(200).json(deleteData);
+  } catch (error) {
+    res.status(404).json({ msg: error.message });
+  }
+};
+
+export const postPenjualabBarangObatRacikan = async (req, res) => {
+  const {
+    no_transaksi,
+    no_registrasi,
+    id_ruang_sumber_obat,
+    id_apotek,
+    jenis_penjualan,
+    id_pasien,
+    id_dokter,
+    id_apoteker,
+    nama_pasien_luar,
+    nama_dokter_luar,
+    status_ambil_resep,
+    nilai_asuransi_bayar,
+    diskon,
+    total_transaksi,
+    nilai_pasien_bayar,
+  } = req.body;
+  try {
+    const postData = await prisma.jual_barang.create({
+      data: {
+        no_transaksi: no_transaksi,
+        no_registrasi: no_registrasi,
+        id_ruang_sumber_obat: id_ruang_sumber_obat,
+        id_apotek: id_apotek,
+        jenis_penjualan: jenis_penjualan,
+        id_pasien: id_pasien,
+        id_dokter: id_dokter,
+        id_apoteker: id_apoteker,
+        nama_pasien_luar: nama_pasien_luar,
+        nama_dokter_luar: nama_dokter_luar,
+        status_ambil_resep: status_ambil_resep,
+        nilai_asuransi_bayar: nilai_asuransi_bayar,
+        nilai_pasien_bayar: nilai_pasien_bayar,
+        diskon: diskon,
+        total_transaksi: total_transaksi,
+      },
+    });
+    res.status(200).json(postData);
   } catch (error) {
     res.status(404).json({ msg: error.message });
   }

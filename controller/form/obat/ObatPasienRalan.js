@@ -12,6 +12,56 @@ export const getDataObatPasienRalan = async (req, res) => {
   }
 };
 
+export const getObatPasienRalanByIdForEdit = async (req, res) => {
+  try {
+    const data = await prisma.jual_barang_detail.findUnique({
+      where: {
+        id: Number(req.params.id),
+      },
+      select: {
+        id: true,
+
+        resep: true,
+        data_barang: {
+          select: {
+            id_barang: true,
+            nama_barang_lengkap: true,
+          },
+        },
+        racikan_jumlah: true,
+        racikan_jumlah_diambil: true,
+        racikan_kemasan: true,
+        qty: true,
+        satuan: true,
+        aturan_pakai: true,
+        harga_jual: true,
+        status_harus_bayar: true,
+      },
+    });
+    res.status(200).json(data);
+  } catch (error) {
+    res.status(404).json({ msg: error.message });
+  }
+};
+
+export const updateDataObatPasienRalanByIdAfterEdit = async (req, res) => {
+  const { qty, status_harus_bayar } = req.body;
+  try {
+    const updateData = await prisma.jual_barang_detail.update({
+      where: {
+        id: Number(req.params.id),
+      },
+      data: {
+        qty: qty,
+        status_harus_bayar: status_harus_bayar,
+      },
+    });
+    res.status(200).json(updateData);
+  } catch (error) {
+    res.status(501).json({ msg: error.message });
+  }
+};
+
 export const getDataObatPasienRalanRacikan = async (req, res) => {
   try {
     const data = await prisma.jual_barang_detail.findMany({
@@ -279,5 +329,90 @@ export const getDataObatRacikanPasienRalan = async (req, res) => {
     res.status(200).json(data);
   } catch (error) {
     res.status(404).json({ msg: error.message });
+  }
+};
+
+export const postObatRacikan = async (req, res) => {
+  const data = req.body;
+  data.sort((a, b) => a.no_urut - b.no_urut);
+  try {
+    const postData = await Promise.all(
+      data.map(async (listItem) => {
+        const {
+          no_transaksi,
+          no_registrasi,
+          resep,
+          no_urut,
+          id_barang,
+          racikan_jumlah,
+          racikan_jumlah_diambil,
+          racikan_kemasan,
+          qty,
+          satuan,
+          aturan_pakai,
+          harga_jual,
+          status_harus_bayar,
+          catatan,
+          resep_ke,
+          jenis_resep,
+        } = listItem;
+
+        return prisma.jual_barang_detail.create({
+          data: {
+            no_transaksi,
+            no_registrasi,
+            resep,
+            no_urut,
+            id_barang,
+            racikan_jumlah,
+            racikan_jumlah_diambil,
+            racikan_kemasan,
+            qty,
+            satuan,
+            aturan_pakai,
+            harga_jual,
+            status_harus_bayar,
+            catatan,
+            resep_ke,
+            jenis_resep,
+          },
+        });
+      })
+    );
+
+    res.status(201).json(postData);
+  } catch (error) {
+    res.status(400).json({ msg: error.message });
+  }
+};
+
+export const deleteDataObatRR = async (req, res) => {
+  try {
+    const deleteData = await prisma.jual_barang_detail.deleteMany({
+      where: {
+        resep: "RR",
+        no_registrasi: req.params.noreg,
+        resep_ke: parseInt(req.params.resepke),
+      },
+    });
+
+    res.status(200).json(deleteData);
+  } catch (error) {
+    res.status(400).json({ msg: error.message });
+  }
+};
+
+export const deleteDataObatRT = async (req, res) => {
+  try {
+    const deleteData = await prisma.jual_barang_detail.delete({
+      where: {
+        resep: "RT",
+        id: req.params.id,
+      },
+    });
+
+    res.status(200).json(deleteData);
+  } catch (error) {
+    res.status(400).json({ msg: error.message });
   }
 };

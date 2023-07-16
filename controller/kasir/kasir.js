@@ -29,7 +29,15 @@ export const getDataListTagihanPasien = async (req, res) => {
             nama_ruangan: true,
           },
         },
-        dokter: true,
+        // dokter: true,
+        dokter_data: {
+          select: {
+            id: true,
+            gelar_dpn: true,
+            nama_user: true,
+            gelar_blk: true,
+          },
+        },
         jenis_konsultasi: true,
         no_antrian: true,
         asuransi_data: {

@@ -60,7 +60,13 @@ export const refreshToken = async (req, res) => {
 
         // Generate akses token baru
         const accessToken = jwt.sign(
-          { userId: user.id, nameUser: user.name, emailUser: user.email },
+          {
+            userId: user.id,
+            nameUser: user.name,
+            emailUser: user.email,
+            jabatan: user.jabatan,
+            id_rm: user.id_rm,
+          },
           process.env.ACCESS_TOKEN_SECRET,
           { expiresIn: "15s" }
         );

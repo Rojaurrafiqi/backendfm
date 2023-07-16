@@ -68,11 +68,15 @@ export const getDataPengkajianAwalRalan = async (req, res) => {
 // get data
 export const getDataPengkajianAwalRalanById = async (req, res) => {
   try {
-    const data = await prisma.form_pengkajian_awal_medis_ralan.findMany({
+    const data = await prisma.form_pengkajian_awal_medis_ralan.findFirst({
       where: {
         no_registrasi: req.params.id,
       },
+      orderBy: {
+        id: "desc",
+      },
     });
+
     res.status(200).json(data);
   } catch (error) {
     res.status(404).json({ msg: error.message });
