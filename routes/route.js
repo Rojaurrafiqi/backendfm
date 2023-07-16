@@ -96,8 +96,10 @@ import {
   getDataObatPasienRalan,
   getDataObatPasienRalanById,
   getDataObatRacikanPasienRalan,
+  getObatPasienRalanByIdForEdit,
   postDataObatPasienRalan,
   postObatRacikan,
+  updateDataObatPasienRalanByIdAfterEdit,
 } from "../controller/form/obat/ObatPasienRalan.js";
 import {
   deleteBarangPasienRalan,
@@ -177,25 +179,25 @@ const filePemeriksaanFisik = multer({ storagePenunjang });
 
 // ------------auth------------//
 
-router.get("/users", verifyToken, getUser);
+router.get("/users", getUser);
 // router.get("/users", getUser);
-router.get("/users/all", verifyToken, getAllUser);
+router.get("/users/all", getAllUser);
 router.get("/token", refreshToken);
 router.post("/users", register);
 router.get("/users/jabatan", getJabatan); //dipakai untuk select jabatan pada form register user
 router.post("/login", login);
 router.patch("/logout/:id", logout);
-router.get("/users/:id", verifyToken, getUserById);
-router.delete("/users/:id", verifyToken, deleteUser);
+router.get("/users/:id", getUserById);
+router.delete("/users/:id", deleteUser);
 router.get("/user/detail/dokter/:id", getDetailUserDokter); // parse pakai id user bukan id dokter
 router.post("/user/detail/dokter", postDetailUserDokter);
 
 // ------pendaftaran pasien baru ----------//
-router.get("/pasien/data/all", verifyToken, getAllPasien);
-router.get("/rm/:id", verifyToken, getDataById);
-router.post("/rm", verifyToken, createData);
-router.patch("/rm/:id", verifyToken, updateData);
-router.delete("/rm/:id", verifyToken, deleteData);
+router.get("/pasien/data/all", getAllPasien);
+router.get("/rm/:id", getDataById);
+router.post("/rm", createData);
+router.patch("/rm/:id", updateData);
+router.delete("/rm/:id", deleteData);
 
 // list nama pekerjaan
 router.get("/pekerjaan", listPekerjaan);
@@ -220,7 +222,11 @@ router.post("/pendidikan", createListPendidikan);
 // form default ralan
 router.get("/form/default/ralan", form_default_ralan);
 router.patch("/form/default/ralan", form_default_post_ralan);
-router.delete("/form/default/ralan/:id", delete_form_default_ralan);
+router.delete(
+  "/form/default/ralan/:id",
+
+  delete_form_default_ralan
+);
 
 // ---------------farmasi -------------------//
 
@@ -234,6 +240,7 @@ router.get(
 router.patch("/farmasi/barang/penjualan/:id", postPenjualanBarang);
 router.post(
   "/farmasi/barang/penjualan/racikan",
+
   postPenjualabBarangObatRacikan
 );
 
@@ -244,7 +251,11 @@ router.post("/ralan/pasien/daftar", pendaftaran_ralan);
 
 //ralan > get all data
 router.get("/ralan/pasien/all", getAllPasienRalan);
-router.get("/ralan/pasien/all/:idDokter", getAllPasienRalanByIdDokter);
+router.get(
+  "/ralan/pasien/all/:idDokter",
+
+  getAllPasienRalanByIdDokter
+);
 
 // ralan > get data by id
 router.get("/ralan/pasien/:id", getPasienRalanById);
@@ -308,13 +319,38 @@ router.get("/ralan/tangani/obat", getDataObatPasienRalan);
 router.post("/ralan/tangani/obat", postDataObatPasienRalan);
 router.post("/ralan/tangani/obat/racikan", postObatRacikan);
 router.get("/ralan/tangani/obat/:id", getDataObatPasienRalanById);
+router.get("/ralan/tangani/obat/edit/:id", getObatPasienRalanByIdForEdit);
+router.patch(
+  "/ralan/tangani/obat/update/:id",
+  updateDataObatPasienRalanByIdAfterEdit
+);
 router.delete("/ralan/tangani/obat/:id", deleteBarangPasienRalan);
-router.delete("/ralan/tangani/obat/delete/:noreg/:resepke", deleteDataObatRR);
-router.get("/ralan/tangani/obat/general/:id", getDataObatGeneralPasienRalan);
-router.get("/ralan/tangani/obat/racikan/:id", getDataObatRacikanPasienRalan);
+router.delete(
+  "/ralan/tangani/obat/delete/:noreg/:resepke",
+
+  deleteDataObatRR
+);
+router.get(
+  "/ralan/tangani/obat/general/:id",
+
+  getDataObatGeneralPasienRalan
+);
+router.get(
+  "/ralan/tangani/obat/racikan/:id",
+
+  getDataObatRacikanPasienRalan
+);
 //obat pasien ralan > pengecekan no urutan resep umum / general
-router.get("/ralan/tangani/obat/resepke/rt/:id", ceknoRTObatResepUmum);
-router.get("/ralan/tangani/obat/nourut/rr/:id/:resepke", cekNoUrutResepRacikan);
+router.get(
+  "/ralan/tangani/obat/resepke/rt/:id",
+
+  ceknoRTObatResepUmum
+);
+router.get(
+  "/ralan/tangani/obat/nourut/rr/:id/:resepke",
+
+  cekNoUrutResepRacikan
+);
 
 //farmasi > resep obat
 router.get("/farmasi/obat/resep/antrian", getDataAntrianResep);
@@ -330,10 +366,26 @@ router.post("/kasir/bill", postBill);
 router.post("/kasir/bill/detail", postBillDetail);
 
 // form pengkajian awal pasien ralan
-router.get("/form/ralan/pengkajianawal", getDataPengkajianAwalRalan);
-router.get("/form/ralan/pengkajianawal/:id", getDataPengkajianAwalRalanById);
-router.post("/form/ralan/pengkajianawal/", postDataPengkajianAwalRalan);
-router.patch("/form/ralan/pengkajianawal/:id", updateDataPengkajianAwalRalan);
+router.get(
+  "/form/ralan/pengkajianawal",
+
+  getDataPengkajianAwalRalan
+);
+router.get(
+  "/form/ralan/pengkajianawal/:id",
+
+  getDataPengkajianAwalRalanById
+);
+router.post(
+  "/form/ralan/pengkajianawal/",
+
+  postDataPengkajianAwalRalan
+);
+router.patch(
+  "/form/ralan/pengkajianawal/:id",
+
+  updateDataPengkajianAwalRalan
+);
 
 // form pemeriksaan fisik pasien ralan
 router.get(
@@ -363,7 +415,11 @@ router.post("/antrian/kios/nomor", addNomorAntrianDariKios);
 
 //display antrian
 router.get("/antrian/display/nomor", getDisplayAntrianNomor);
-router.get("/antrian/display/nomor/selesai", getDisplayAntrianSelesai);
+router.get(
+  "/antrian/display/nomor/selesai",
+
+  getDisplayAntrianSelesai
+);
 
 // api2
 router.get("/to/api2/pasien/:id", getDataPasienByIdPasien);
@@ -371,17 +427,20 @@ router.get("/to/api2/pasien/:id", getDataPasienByIdPasien);
 // form pemeriksaan penunjang
 router.get(
   "/form/ralan/pemeriksaanpenunjang/:id",
+
   getDataPemeriksaanPenunjangRalanById
 );
 
 router.post(
   "/form/ralan/pemeriksaanpenunjang",
+
   filePemeriksaanPenunjang.single("file"),
   postDataPemeriksaanPenunjangRalan
 );
 
 router.patch(
   "/form/ralan/pemeriksaanpenunjang/:id",
+
   updateDataPemeriksaanPenunjangRalan
 );
 

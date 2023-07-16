@@ -12,6 +12,56 @@ export const getDataObatPasienRalan = async (req, res) => {
   }
 };
 
+export const getObatPasienRalanByIdForEdit = async (req, res) => {
+  try {
+    const data = await prisma.jual_barang_detail.findUnique({
+      where: {
+        id: Number(req.params.id),
+      },
+      select: {
+        id: true,
+
+        resep: true,
+        data_barang: {
+          select: {
+            id_barang: true,
+            nama_barang_lengkap: true,
+          },
+        },
+        racikan_jumlah: true,
+        racikan_jumlah_diambil: true,
+        racikan_kemasan: true,
+        qty: true,
+        satuan: true,
+        aturan_pakai: true,
+        harga_jual: true,
+        status_harus_bayar: true,
+      },
+    });
+    res.status(200).json(data);
+  } catch (error) {
+    res.status(404).json({ msg: error.message });
+  }
+};
+
+export const updateDataObatPasienRalanByIdAfterEdit = async (req, res) => {
+  const { qty, status_harus_bayar } = req.body;
+  try {
+    const updateData = await prisma.jual_barang_detail.update({
+      where: {
+        id: Number(req.params.id),
+      },
+      data: {
+        qty: qty,
+        status_harus_bayar: status_harus_bayar,
+      },
+    });
+    res.status(200).json(updateData);
+  } catch (error) {
+    res.status(501).json({ msg: error.message });
+  }
+};
+
 export const getDataObatPasienRalanRacikan = async (req, res) => {
   try {
     const data = await prisma.jual_barang_detail.findMany({
@@ -284,6 +334,7 @@ export const getDataObatRacikanPasienRalan = async (req, res) => {
 
 export const postObatRacikan = async (req, res) => {
   const data = req.body;
+  data.sort((a, b) => a.no_urut - b.no_urut);
   try {
     const postData = await Promise.all(
       data.map(async (listItem) => {
@@ -328,6 +379,7 @@ export const postObatRacikan = async (req, res) => {
         });
       })
     );
+
     res.status(201).json(postData);
   } catch (error) {
     res.status(400).json({ msg: error.message });
