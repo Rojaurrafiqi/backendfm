@@ -26,9 +26,9 @@ export const addNomorAntrianDariKios = async (req, res) => {
     if (cekNomor) {
       const lastNomor = parseInt(cekNomor.nomor);
       const nextNomor = lastNomor + 1;
-      nomor = nextNomor.toString().padStart(4, "0");
+      nomor = nextNomor.toString().padStart(1, "0");
     } else {
-      nomor = "0001";
+      nomor = "1";
     }
 
     const newData = await prisma.antrian.create({
