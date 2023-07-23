@@ -26,7 +26,7 @@ Content-Type: application/json
     "email": "humaira@gmail.com",
     "password": "12345678",
     "confPassword": "12345678",
-    "jabatan":"2",
+    "jabatan":"1",
     "jenis_kelamin":"perempuan",
     "status":"aktif",
     "id_rm": 1118010049
@@ -43,7 +43,7 @@ POST http://localhost:5000/login
 Content-Type: application/json
 
 {
-    "email": "rojaurrafiqi25@gmail.com",
+    "email": "humaira@gmail.com",
     "password": "12345678"
 
 }
