@@ -42,7 +42,9 @@ import {
   deletePasienRalan,
   getAllPasienRalan,
   getAllPasienRalanByIdDokter,
+  getAllPasienRalanParams,
   getPasienRalanById,
+  pasienRalan,
   pendaftaran_ralan,
   statusCheckoutPoli,
 } from "../controller/ralan/pasien_ralan.js";
@@ -440,8 +442,10 @@ router.post(
 
 router.patch(
   "/form/ralan/pemeriksaanpenunjang/:id",
-
   updateDataPemeriksaanPenunjangRalan
 );
+
+router.get("/sse/ralan/all", pasienRalan);
+router.get("/sse/ralan/all/params", getAllPasienRalanParams);
 
 export default router;

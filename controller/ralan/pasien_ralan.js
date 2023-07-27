@@ -373,3 +373,142 @@ export const statusCheckoutPoli = async (req, res) => {
     res.status(404).json({ msg: error.message });
   }
 };
+
+export const pasienRalan = async (req, res) => {
+  res.setHeader("Content-Type", "text/event-stream");
+  res.setHeader("Cache-Control", "no-cache");
+  res.setHeader("Connection", "keep-alive");
+
+  // Function to send data to the client
+  const sendData = (data) => {
+    res.write(`data: ${JSON.stringify(data)}\n\n`);
+  };
+
+  // Start the SSE loop (you can modify this according to your needs)
+  const interval = setInterval(async () => {
+    try {
+      const data = await prisma.pasien_ralan.findMany({});
+      sendData(data);
+    } catch (error) {
+      // Handle errors
+      console.error("Error:", error.message);
+    }
+  }, 5000); // Adjust the interval as per your requirements
+
+  // When the client closes the connection, stop the SSE loop
+  res.on("close", () => {
+    clearInterval(interval);
+    res.end();
+  });
+};
+
+export const getAllPasienRalanParams = async (req, res) => {
+  res.setHeader("Content-Type", "text/event-stream");
+  res.setHeader("Cache-Control", "no-cache");
+  res.setHeader("Connection", "keep-alive");
+
+  const { search, page, limit } = req.query;
+  const searchQuery = search
+    ? {
+        OR: [
+          // { dokter: { nama_dokter: { contains: search } } },
+          { pasien_rm: { nama_user: { contains: search } } },
+        ],
+      }
+    : {};
+
+  const pageNumber = parseInt(page) || 1;
+  const limitNumber = parseInt(limit) || 10;
+  const skipNumber = (pageNumber - 1) * limitNumber;
+
+  const countQuery = await prisma.pasien_ralan.count({
+    where: {
+      ...searchQuery,
+      isCheckout_Poli: 0,
+    },
+  });
+
+  const totalItems = countQuery;
+  const totalPages = Math.ceil(totalItems / limitNumber);
+
+  // Function to send data to the client
+  const sendData = (data) => {
+    res.write(`data: ${JSON.stringify(data)}\n\n`);
+  };
+
+  const interval = setInterval(async () => {
+    try {
+      const getData = await prisma.pasien_ralan.findMany({
+        where: {
+          ...searchQuery,
+          isCheckout_Poli: 0,
+        },
+        select: {
+          id: true,
+          pasien_rm: {
+            select: {
+              id: true,
+              no_mr: true,
+              nama_user: true,
+              gender_data: {
+                select: {
+                  id_gender: true,
+                  jenis_kelamin: true,
+                },
+              },
+            },
+          },
+          poliklinik_data: {
+            select: {
+              id_ruangan: true,
+              nama_ruangan: true,
+            },
+          },
+          dokter_data: {
+            select: {
+              id: true,
+              gelar_dpn: true,
+              nama_user: true,
+              gelar_blk: true,
+            },
+          },
+          jenis_konsultasi: true,
+          no_antrian: true,
+          asuransi_data: {
+            select: {
+              id_asuransi: true,
+              singkatan: true,
+            },
+          },
+          no_asuransi: true,
+          biaya_adm: true,
+          biaya_share_dokter: true,
+          isBB: true,
+        },
+        skip: skipNumber,
+        take: limitNumber,
+      });
+
+      // deposit = biaya adm + biaya share ke dokter
+      const dataWithDeposit = getData.map((item) => ({
+        ...item,
+        deposit: Number(item.biaya_adm) + Number(item.biaya_share_dokter),
+      }));
+
+      sendData({
+        data: dataWithDeposit,
+        totalItems,
+        totalPages,
+        currentPage: pageNumber,
+      });
+    } catch (error) {
+      // Handle errors
+      console.error("Error:", error.message);
+    }
+  }, 5000); // Adjust the interval as per your requirements
+
+  res.on("close", () => {
+    clearInterval(interval);
+    res.end();
+  });
+};

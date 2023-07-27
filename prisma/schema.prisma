@@ -1110,15 +1110,6 @@ model pemeriksaan_penunjang_ralan {
   berkas                     String?
 }
 
-// model pemeriksaan_penunjangralan {
-//   id                         Int     @id @unique @default(autoincrement())
-//   no_registrasi              String?
-//   id_pasien                  Int?
-//   hasil_lab_rutin            String?
-//   pemeriksaan_penunjang_lain String?
-//   ringkasan                  String?
-//   berkas                     String?
-// }
 
 model form_pengkajian_awal_medis_ralan {
   id                         Int       @id @default(autoincrement())
@@ -1156,12 +1147,3 @@ model antrian {
   panggil Int?    @default(0)
 }
 
-// model pemeriksaan_penunjangralan {
-//   id                         Int     @id @unique @default(autoincrement())
-//   no_registrasi              String?
-//   id_pasien                  Int?
-//   hasil_lab_rutin            String?
-//   pemeriksaan_penunjang_lain String?
-//   ringkasan                  String?
-//   berkas                     String?
-// }
